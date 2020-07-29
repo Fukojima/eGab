@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <div class='font-title'>Perfil
+
+    <ion-icon name="close-outline" (click)="dismiss()" class="user-icon"></ion-icon></div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-item>
+     
+    <img class="user-picture" src="https://egab.app/api/img/{{documento_perfil}}">
+ 
+    <ion-label class="fontt-label" > Apoio</ion-label>
+  </ion-item>
+  <ion-item>
+    <label class ="font-label {{sendImgp}}"for="upload-photop">Imagem selecionada</label>
+    <label class ="font-label {{inputImgp}}"for="upload-photop">Selecione uma nova imagem de perfil...</label>
+   
+    <ion-input class="input" type="file" name="imageperfil"  id="upload-photop" [(ngModel)] = 'image'  (change)="selectedFile($event)"> </ion-input>
+<ion-button class=" b" (click)="onClick()" ><p>Atualizar</p></ion-button>
+  </ion-item>
+  <ion-item>
+ 
+    <ion-label class="font-label" ><b>Nome:</b><br> {{nome_apoio}} </ion-label>
+    <ion-icon (click)="popupNovoNomeApoio()" name="create-outline"  class="user-icon"></ion-icon>
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="font-label" ><b>CPF:  </b><br><br>{{cpf_cnpj_apoio}}</ion-label>
+ 
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="font-label" ><b>Email: </b><br>{{email_apoio}} </ion-label>
+    <ion-icon (click)="popupNovoEmailApoio()" name="create-outline"  class="user-icon"></ion-icon>
+  </ion-item>
+  <ion-item>
+    <ion-label class="font-label" ><b>Telefone: </b><br>{{telefone_apoio}} </ion-label>
+    <ion-icon name="{{wpp}}"  class="user-icon"></ion-icon>
+    <ion-icon (click)="popupNovoTelefoneApoio()" name="create-outline"  class="user-icon"></ion-icon>
+  </ion-item>
+
+
+
+ 
+  <ion-item>  
+    <ion-button (click)="newPass()"> Redefinir senha</ion-button>
+  </ion-item>
+
+
+
+
+
+
+
+  </ion-card>
+
+</ion-content>

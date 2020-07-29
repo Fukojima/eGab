@@ -1,0 +1,76 @@
+  
+  @font-face {
+    font-family: 'Caveat';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../../../assets/fonts/Caveat-Regular.ttf');
+  }
+
+    
+  @font-face {
+    font-family: 'Exo';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../../../assets/fonts/Exo.ttf');
+  }
+
+
+
+
+
+ion-item{
+    --background: #fff;
+    --color: #1d1e1f;
+    margin-top: 10px;
+}
+
+ion-button{
+     margin-top: 20px;
+    --background: #0f2546;
+}
+
+ion-content{
+  --background:  #fff url('../../../assets/img/bg.jpg') no-repeat center center / cover;
+  background-color: transparent;
+}
+
+:host{
+
+  --ion-background-color:transparent;
+}
+
+
+
+
+
+.logo{
+  margin-top: 50px;
+}
+
+.xc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ion-card{
+
+    --ion-background-color:white;
+
+  }
+
+
+
+  .cardLogin{
+  
+    display: block;
+    vertical-align: middle;
+
+  }
+
+  .forgot{
+     font-family: Exo;
+    color:black;
+    font-size: 10px;
+   
+  }

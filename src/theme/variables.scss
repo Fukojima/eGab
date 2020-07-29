@@ -4,6 +4,7 @@
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
+ 
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
@@ -150,7 +151,14 @@
   /*
    * iOS Dark Theme
    * -------------------------------------------
-   */
+   */ion-color-medium{
+
+  --ion-color-base:transparent;
+}
+
+inner-scroll{
+  background: transparent;
+}
 
   .ios body {
     --ion-background-color: #000000;
@@ -183,7 +191,24 @@
 
     --ion-item-background: #000000;
   }
+  /*
+   *Fonts
+   * -------------------------------------
+   */
 
+   @font-face {
+    font-family: 'Caveat';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../assets/fonts/Caveat-Regular.ttf');
+  }
+
+  @font-face {
+    font-family: 'Exo';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../assets/fonts/Exo.ttf');
+  }
 
   /*
    * Material Design Dark Theme
