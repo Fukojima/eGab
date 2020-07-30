@@ -1,0 +1,37 @@
+
+
+<ion-content  >
+  <div class="xc" text-center>
+    
+    <img class="logo" src="../../../assets/icon/logo.png"> 
+  </div>
+  <ion-card class="cardLogin">
+  <form  #form="ngForm" >
+    <ion-grid>
+      <ion-row color="primary" class="xc">
+        <ion-col  size-md="6" size-lg="5" size-xs="12" >
+
+          <div padding >
+            <ion-item>
+            
+              <ion-input  name="login" type="text" placeholder="CPF"  [(ngModel)]="login" ngModel required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input name="senha" type="password" placeholder="Senha"   [(ngModel)]="senha"  ngModel required></ion-input>
+            </ion-item>
+          </div>
+          <div padding>
+            <ion-button  size="large" type="submit" [disabled]="form.invalid" (click)="tryLogin()" expand="block">Entrar</ion-button>
+          </div>
+       
+            <div padding class="forgot"><a (click)="forgot()" class="forgot">ESQUECI MINHA SENHA</a></div>
+    
+     
+
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-card>
+</ion-content>

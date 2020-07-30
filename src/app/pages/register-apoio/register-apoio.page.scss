@@ -1,0 +1,36 @@
+
+  ion-content{
+    --background:  #fff url('../../../assets/img/bg3.jpg') no-repeat center center / cover;
+    background-color: transparent;
+  }
+
+.uppercase{
+
+    text-transform: uppercase;
+}
+
+.user-icon{
+  width: 20px;
+  height: 20px;
+  margin-right:20px;
+  float:right;
+}
+
+
+.font-title{
+
+font-size: 15px;
+  font-family: Exo;
+}
+
+
+
+.font-label{
+  font-size: 12px;
+  font-family: Exo;
+}
+
+ion-button{
+  font-family: Exo;
+  --background: #0f2546;
+}

@@ -1,0 +1,46 @@
+<ion-header>
+
+  <ion-toolbar>
+  <div class="font-title">Enviar mensagem
+  <ion-icon name="close-outline" (click)="openHome()" class="user-icon"></ion-icon></div>
+</ion-toolbar>
+</ion-header>
+
+<ion-content >
+<div class="xc" text-center>
+  <h3></h3>
+</div>
+<ion-card class="cardLogin">
+
+  <ion-grid>
+    <ion-row color="primary" class="xc">
+      <ion-col  size-md="6" size-lg="5" size-xs="12" >
+
+        <div padding >
+          <ion-list>
+          <ion-item class="flex">
+            <ion-label class="fonht-label">Digite sua mensagem:</ion-label>
+            
+            
+          </ion-item>
+          <ion-label class="font-label">Limite de 50 caracteres:</ion-label>
+          <ion-label class='input-msg'><ion-textarea  name="msg" type="text"  ngModel  [(ngModel)]="mensagem" ></ion-textarea></ion-label>
+          <ion-item>
+
+            <input type="file" id="filePicker" (change)="handleFileSelect($event)">
+       
+          </ion-item>
+          <ion-item>
+            <label class ="font-label {{sendImgp}}"for="filePicker">Imagem selecionada</label>
+            <label class ="font-label {{inputImgp}}"for="filePicker">Selecione uma  imagem...</label>
+           
+            <ion-input class="input" type="file" id="filePicker" (change)="handleFileSelect($event)" > </ion-input>
+        <ion-button (click)="verImg()"  class={{imgk}}> <ion-icon class='image-icon' name="image-outline"></ion-icon>Ver Imagem </ion-button>
+          </ion-item>
+          <div padding>
+            <ion-button  size="medium"  (click)="send()" expand="block">Enviar</ion-button>
+          </div>
+
+      
+        
+        

@@ -1,0 +1,7 @@
+{
+  "name": "SejaFiliado",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
