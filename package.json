@@ -35,6 +35,7 @@
     "cordova-ios": "5.1.1",
     "goog-webfont-dl": "^1.0.3",
     "ionic-input-mask": "^1.0.1",
+    "ionic-selectable": "^4.5.0",
     "moment": "^2.27.0",
     "ngx-mask-ionic": "^1.1.2",
     "rxjs": "~6.5.1",

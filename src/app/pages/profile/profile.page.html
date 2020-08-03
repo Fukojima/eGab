@@ -54,20 +54,26 @@
   </ion-item>
   <ion-item>
     <ion-label class="font-label" ><b>CEP: </b><br>{{cep}} </ion-label>
+    <ion-icon name="create-outline" (click)='popupNovoCEPFiliado()' class="user-icon nm"></ion-icon>
     <ion-item class="">
       <ion-button   (click)="openComprovante()"><ion-icon class='image-icon' name="image-outline"></ion-icon>Comprovante</ion-button > <br>
  
    </ion-item>
   </ion-item>
   <ion-item>
+    <ion-label class="font-label" ><b>Cidade: </b><br>{{cidade}} </ion-label>
+    
+
+  </ion-item>
+  <ion-item>
     <ion-label class="font-label" ><b>Endereço: </b><br>{{endereco}} </ion-label>
     
-    <ion-icon (click)="popupNovoEnderecoFiliado()" name="create-outline"  class="user-icon"></ion-icon>
+
   </ion-item>
   <ion-item>
     <ion-label class="font-label" ><b>Bairro: </b><br>{{bairro}} </ion-label>
-    <ion-icon name="create-outline"  class="user-icon"></ion-icon>
-    <ion-label class="font-label" ><b>Número: </b><br>{{numero}} </ion-label>
+    
+    <ion-label class="font-label num" ><b>Número: </b><br>{{numero}} </ion-label>
     <ion-icon name="create-outline"  class="user-icon"></ion-icon>
 
 
@@ -80,6 +86,43 @@
      <ion-button   (click)="openFrente()"><ion-icon class='image-icon' name="image-outline"></ion-icon>Frente</ion-button > <br>
     <ion-button  (click)="openVerso()"><ion-icon class='image-icon' name="image-outline"></ion-icon>Verso</ion-button>
   </ion-item>
+  <ion-item>
+    <ion-label class="font-label" ><b>Título de eleitor: </b><br><br>{{nr_titulo}}</ion-label>
+ 
+  </ion-item>
+  <ion-item>
+    <ion-label class="font-label" ><b>Zona: </b><br>{{nr_zona}} </ion-label>
+    <ion-icon name="create-outline" (click)="openNovaZona()"  class="user-icon"></ion-icon>
+    <ion-label class="font-label" ><b>Seção: </b><br>{{nr_secao}} </ion-label>
+   
+
+
+
+  </ion-item >
+  <ion-item class={{zonaClass}} >
+           
+    <ion-label class="font-label" >Selecione a nova zona...</ion-label>
+    <ion-select class="font-label" ngModel required [(ngModel)]="id_zona" cancelText="Cancelar" name="zona" >
+
+    <ion-select-option value="{{zona.id_zona}}" *ngFor="let zona of zonas"  name="zona-option" class="font-label"  >{{zona.nr_zona}}  </ion-select-option>
+   
+    </ion-select>
+    <ion-button (click)='loadSecao()'> Carregar seções</ion-button>
+  </ion-item>
+  <ion-item class={{zonaClass}}>
+             
+    <ion-label class="font-label" > Seção Eleitoral </ion-label>
+   
+    <ion-select class="font-label" cancelText="Cancelar" name="secao" ngModel required [(ngModel)]="id_secao">
+      
+    <ion-select-option value="{{secao.id_secao}}" *ngFor="let secao of secoes"  name="secao-option" class="font-label"  >{{secao.nr_secao}}  </ion-select-option>
+
+  </ion-select>
+</ion-item>
+<ion-item class={{zonaClass}}> <ion-button (click)='editZonaFiliado()' >Salvar</ion-button></ion-item>
+  
+
+
 
   <ion-item>
     <ion-label class="font-label">Imagem do título de eleitor:</ion-label>
@@ -92,7 +135,7 @@
 
 
  
-
+<ion-item class="dis"><ion-button (click)='popupDeletarFiliado()'> Apagar filiado</ion-button></ion-item>
 
 
 

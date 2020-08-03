@@ -30,7 +30,7 @@
             </ion-item>
             <ion-item>
               <ion-label class="font-label ">Data de nascimento:</ion-label>
-              <ion-input class="font-label " name="data" type="date"  ngModel required [(ngModel)]="data_nascimento" ></ion-input>
+              <ion-input class="font-label " name="data" type="text"  ngModel required [(ngModel)]="data_nascimento" ></ion-input>
             </ion-item>
             <ion-item>
               <ion-label class="font-label">Email:</ion-label>
@@ -83,24 +83,26 @@
           
             <ion-item>
               <ion-label class="font-label">Título de eleitor:</ion-label>
-              <ion-input class="font-label" name="titulo" type="text" ngModel required [(ngModel)]="nr_titulo"></ion-input>
+              <ion-input class="font-label" (ionBlur)="paleativeTitle()" name="titulo" type="text" ngModel required [(ngModel)]="nr_titulo"></ion-input>
             </ion-item>
             
             <ion-item >
            
               <ion-label class="font-label" > Zona</ion-label>
-              <ion-select class="font-label" ngModel required [(ngModel)]="nr_zona" cancelText="Cancelar" name="zona" >
+              <ion-select class="font-label" ngModel required [(ngModel)]="id_zona" cancelText="Cancelar" name="zona" >
   
-              <ion-select-option value="{{zona.nr_zona}}" *ngFor="let zona of zonas"  name="zona-option" class="font-label"  >{{zona.nr_zona}}  </ion-select-option>
+              <ion-select-option value="{{zona.id_zona}}" *ngFor="let zona of zonas"  name="zona-option" class="font-label"  >{{zona.nr_zona}}  </ion-select-option>
              
               </ion-select>
               <ion-button (click)='loadSecao()'> Carregar seções</ion-button>
             </ion-item>
             <ion-item>
-              <ion-label class="font-label" > Seção Eleitoral</ion-label>
-              <ion-select class="font-label" cancelText="Cancelar" name="secao" [(ngModel)]="id_secao">
-  
-              <ion-select-option value="{{secao.nr_secao}}" *ngFor="let secao of secoes"  name="secao-option" class="font-label"  >{{secao.nr_secao}}  </ion-select-option>
+             
+              <ion-label class="font-label" > Seção Eleitoral </ion-label>
+             
+              <ion-select class="font-label" cancelText="Cancelar" name="secao" ngModel required [(ngModel)]="id_secao">
+                
+              <ion-select-option value="{{secao.id_secao}}" *ngFor="let secao of secoes"  name="secao-option" class="font-label"  >{{secao.nr_secao}}  </ion-select-option>
 
             </ion-select>
           </ion-item>

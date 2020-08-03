@@ -17,7 +17,8 @@ import * as moment from 'moment';
 export class ProfilePage implements OnInit {
   cpf_cnpj_filiado : string
   nome_filiado : string	
-  
+  zonaClass: string = "zona-none"
+ 
   email_filiado 	: string
   telefone_filiado 	: string
   endereco : string 	
@@ -73,6 +74,10 @@ export class ProfilePage implements OnInit {
   secoes: any = []
   inputImgp: string = 'displayimgp'
   sendImgp: string = 'noneImgp'
+  nr_zona: any;
+  nr_secao: any;
+  id_municipio: any;
+  id_grupo_usuario: any;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -109,6 +114,8 @@ export class ProfilePage implements OnInit {
        this.datastorage = res;
        this.id_lideranca = this.datastorage.id_filiador_lid;
        this.us_alteracao = this.datastorage.nome;
+       this.id_municipio = this.datastorage.id_municipio;
+       this.id_grupo_usuario = this.datastorage.id_grupo_usuario;
      
        console.log(this.x);
        this.start =0;
@@ -126,6 +133,30 @@ export class ProfilePage implements OnInit {
 
 
    }
+
+   async loadZonaSecao(zona,secao){
+ 
+
+
+      return new Promise(resolve => {
+        let body={
+        aksi: 'proses_consulta_zona_secao',
+        zonaConsulta : zona,
+        secaoConsulta : secao
+ 
+
+        }
+        this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+               this.nr_zona = res.result[0].nr_zona;
+               this.nr_secao = res[0][0].nr_secao;
+           resolve(true);
+        },(err)=>{
+
+             
+        })
+
+      });
+    }
 
   async loadUsers(){
  
@@ -164,7 +195,13 @@ export class ProfilePage implements OnInit {
                  this.data_nascimento = moment(res.result[0].data_nascimento).format("DD/MM/YYYY");
                  this.cep = res.result[0].cep;
                  this.us_aprovacao = res.result[0].us_aprovacao;
+                 this.nr_titulo = res.result[0].nr_titulo;
 
+                 
+                 this.id_zona = res.result[0].id_zona;
+                 this.id_secao = res.result[0].id_secao;
+                 this.loadZonaSecao(this.id_zona, this.id_secao);
+                 
 
                  if(res.result[0].dt_alteracao != null){
                   this.dt_alteracao = moment(res.result[0].dt_alteracao).format("DD/MM/YYYY HH:mm:ss");
@@ -195,6 +232,7 @@ export class ProfilePage implements OnInit {
 
     });
   }
+
 
    async openFrente(){
     const alert = await this.alertController.create({
@@ -275,8 +313,8 @@ export class ProfilePage implements OnInit {
   }
   
   openHome(){
-        
-    this.router.navigate(['/home'])    
+        if (this.id_grupo_usuario == 3){this.router.navigate(['/home'])}
+        else if (this.id_grupo_usuario == 2){this.router.navigate(['/home-filiador'])}
       }
 
      async popupNovoNomeFiliado(){
@@ -623,7 +661,7 @@ export class ProfilePage implements OnInit {
         return new Promise(resolve => {
           let body={
           aksi: 'proses_update_telefone_filiado',
-          novo_email_filiado : a,
+          novo_telefone_filiado : a,
           us_alteracao: this.us_alteracao,
           id_filiado: this.id_filiado,
           data_atual: this.dtAtual
@@ -794,5 +832,313 @@ export class ProfilePage implements OnInit {
     
           });
         }
+
+        openNovaZona(){
+
+          this.zonaClass = 'zona-on';
+          this.loadZona();
+        }
+
+      
+
+  
+  
+  
+       async editZonaFiliado(){
+          const loader = await this.loadingCtrl.create({
+            message : 'Aguarde...',
+          })
+          loader.present();
+          this.dt = new Date().getDate();
+          this.ms = new Date().getMonth()+1;
+          this.ano = new Date().getFullYear();
+          this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+       
+          return new Promise(resolve => {
+            let body={
+            aksi: 'proses_update_zona_secao',
+            novo_id_zona : this.id_zona,
+            novo_id_secao: this.id_secao,
+            us_alteracao: this.us_alteracao,
+            id_filiado: this.id_filiado,
+            data_atual: this.dtAtual
+  
+            }
+            this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+               if(res.success == true){
+                 loader.dismiss();
+                 this.presentToast('Atualizado com sucesso');
+                 this.ionViewDidEnter();
+                 this.zonaClass = 'zona-none';
+  
+               }else{
+                loader.dismiss();
+                this.presentToast('Erro na atualização');
+             
+               }
+            },(err)=>{
+              loader.dismiss();
+              this.presentToast(err);
+            })
+    
+          });
+        }
+        async loadZona(){
+ 
+          const loader = await this.loadingCtrl.create({
+            message : 'Aguarde...',
+            duration:1000
+          })
+          loader.present();
+      
+            return new Promise(resolve => {
+              let body={
+              aksi: 'proses_consulta_zonas',
+              id_municipio: this.id_municipio,
+              start: this.start,
+              limit: this.limit
+              
+       
+      
+              }
+              this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+  
+                 for(let datas of res.result){
+                   this.zonas.push(datas);
+      
+                 }
+                 resolve(true);
+              },(err)=>{
+      
+              
+              })
+      
+            });
+          }
+
+          async loadSecao(){
+         
+            
+            while(this.secoes.length > 0) {
+              this.secoes.pop();
+             }
+            const loader = await this.loadingCtrl.create({
+              message : 'Aguarde...',
+              duration:1000
+            })
+            loader.present();
+        
+              return new Promise(resolve => {
+                let body={
+                aksi: 'proses_consulta_secao',
+                id_con_zona: this.id_zona
+    
+                
+         
+        
+                }
+                this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+                   for(let datas of res.result){
+      
+                     this.secoes.push(datas);
+  
+                     
+        
+                   }
+                   resolve(true);
+                   
+                },(err)=>{
+        
+                
+                })
+        
+              });
+            }
+
+            async pegaCep(a){
+              const loader = await this.loadingCtrl.create({
+                message : 'Aguarde...',
+              })
+              loader.present();
+          
+              //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+          
+              return new Promise(resolve => {
+                let body={
+                aksi: 'proses_cep',
+                cep: a
+          
+                }
+                this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+                   if(res.success == true){
+                     loader.dismiss();
+                   
+                 
+                  
+
+                     this.dt = new Date().getDate();
+                     this.ms = new Date().getMonth()+1;
+                     this.ano = new Date().getFullYear();
+                     var hrs = new Date().getHours();
+                     var min = new Date().getMinutes();
+                     var sec = new Date().getSeconds();
+                     //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+                    this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+                  
+                     return new Promise(resolve => {
+                       let body={
+                       aksi: 'proses_update_cep_filiado',
+                       novo_cep_filiado : a,
+                       nova_cidade : res.result.cidade,
+                       novo_uf : res.result.uf,
+                       novo_bairro : res.result.bairro,
+                       novo_endereco : res.result.logradouro,
+                       us_alteracao: this.us_alteracao,
+                       id_filiado: this.id_filiado,
+                       data_atual: this.dtAtual
+             
+                       }
+                       this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+                          if(res.success == true){
+                            loader.dismiss();
+                            this.presentToast('Atualizado com sucesso');
+                            this.ionViewDidEnter();
+             
+                          }else{
+                           loader.dismiss();
+                           this.presentToast('CEP inválido');
+                        
+                          }
+                       },(err)=>{
+                         loader.dismiss();
+                         this.presentToast(err);
+                       })
+               
+                     });
+
+
+
+
+
+
+          
+                   }else{
+                    loader.dismiss();
+          
+                 
+                   }
+                },(err)=>{
+                  loader.dismiss();
+                  this.presentToast(err);
+                })
+          
+              });
+            }
+          
+
+
+
+            async popupNovoCEPFiliado(){
+              const alert = await this.alertController.create({
+               
+               
+                message: 'Editar CEP:',
+                inputs:[{name:'novoNome', placeholder:'Digite o novo CEP...'  }],
+                buttons: [
+                  {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    
+                  }, {
+                    text: 'Confirmar',
+                    handler: (alertData) => {
+                  
+                    
+                    this.pegaCep(alertData.novoNome);
+                    }
+                  }
+                ]
+              });
+          
+              await alert.present();
+            }
+      
+      
+            async popupDeletarFiliado(){
+              const alert = await this.alertController.create({
+               
+                subHeader: 'Essa é uma ação permanente',
+                message: 'Deseja realmente apagar o registro desse usuário?',
+           
+                buttons: [
+                  {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    
+                  }, {
+                    text: 'Confirmar',
+                    handler: () => {
+                  
+                    
+                    this.deletFiliado();
+                    }
+                  }
+                ]
+              });
+          
+              await alert.present();
+            }
+      
+      
+      
+           async deletFiliado(){
+              const loader = await this.loadingCtrl.create({
+                message : 'Aguarde...',
+              })
+              loader.present();
+              this.dt = new Date().getDate();
+              this.ms = new Date().getMonth()+1;
+              this.ano = new Date().getFullYear();
+              var hrs = new Date().getHours();
+              var min = new Date().getMinutes();
+              var sec = new Date().getSeconds();
+              //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+             this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+           
+              return new Promise(resolve => {
+                let body={
+                aksi: 'proses_delet_filiado',
+                nome_filiado:this.nome_filiado,
+                cpf:this.cpf_cnpj_filiado,
+                us_exclusao: this.us_alteracao,
+                id_filiado: this.id_filiado,
+                data_atual: this.dtAtual
+      
+                }
+                this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+                   if(res.success == true){
+                     loader.dismiss();
+                     this.presentToast('Excluido com sucesso');
+                    this.dismiss();
+                   
+                    
+         
+      
+                   }else{
+                    loader.dismiss();
+                    this.presentToast('Erro na exclusão');
+                 
+                   }
+                },(err)=>{
+                  loader.dismiss();
+                  this.presentToast(err);
+                })
+        
+              });
+            }
+      
+          
   
 }

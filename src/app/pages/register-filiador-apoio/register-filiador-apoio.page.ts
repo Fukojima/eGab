@@ -5,6 +5,7 @@ import { AcessProviders} from '../../providers/access-providers';
 import { Storage } from '@ionic/storage';
 import { LoginPage} from '../login/login.page';
 import { HttpClient } from '@angular/common/http';
+import { utf8Encode } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -41,11 +42,11 @@ export class RegisterFiliadorApoioPage implements OnInit {
    caminho_documento: string
    b: any
    disabledButton;
-   documento_verso: string = ""
-   documento_frente: string =""
-   documento_verso_titulo: string =""
-   documento_frente_titulo: string =""
-   documento_comprovante: string =""
+   documento_verso: string = "N.png"
+   documento_frente: string ="N.png"
+   documento_verso_titulo: string ="N.png"
+   documento_frente_titulo: string ="N.png"
+   documento_comprovante: string ="N.png"
 
    documento_perfil: string = 'user.png'
    iff: string = ''
@@ -148,6 +149,38 @@ export class RegisterFiliadorApoioPage implements OnInit {
        
     });
    }
+   paleativeTitle(){
+    var tempTitle = this.nr_titulo;
+    var split = this.nr_titulo.split('');
+
+   if (this.nr_titulo.length == 1){
+        this.nr_titulo = '00000000000' + tempTitle;
+     }
+     else if (this.nr_titulo.length == 2){
+      this.nr_titulo = '0000000000' + tempTitle;
+   } else if (this.nr_titulo.length == 3){
+    this.nr_titulo = '000000000' + tempTitle;
+ }else if (this.nr_titulo.length == 4){
+  this.nr_titulo = '00000000' + tempTitle;
+}else if (this.nr_titulo.length == 5){
+this.nr_titulo = '0000000' + tempTitle;
+ }else if (this.nr_titulo.length == 6){
+  this.nr_titulo = '000000' + tempTitle;
+}else if (this.nr_titulo.length == 7){
+this.nr_titulo = '00000' + tempTitle;
+}else if (this.nr_titulo.length == 8){
+this.nr_titulo = '0000' + tempTitle;
+       }else if (this.nr_titulo.length == 9){
+        this.nr_titulo = '000' + tempTitle;
+     }else if (this.nr_titulo.length == 10){
+      this.nr_titulo = '00' + tempTitle;
+   }else if (this.nr_titulo.length == 11){
+    this.nr_titulo = '0' + tempTitle;
+ }
+
+   
+}
+
  async tryRegister(){
     console.log('1',this.cpf_cnpj_filiado);
     console.log('2',this.cpf_cnpj_filiado.replace('.','').replace('.','').replace('-',''));
@@ -186,7 +219,7 @@ export class RegisterFiliadorApoioPage implements OnInit {
         let body={
         aksi: 'proses_register',
         cpf_cnpj_filiado : this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.',''),
-        nome_filiado : this.nome_filiado.toUpperCase(),
+        nome_filiado :  this.nome_filiado.toUpperCase(),
         email_filiado 	: this.email_filiado.toLowerCase(),
         telefone_filiado 	: this.telefone_filiado.replace('(','').replace(')','').replace('-',''),
         endereco : this.endereco.toUpperCase(),
@@ -209,7 +242,9 @@ export class RegisterFiliadorApoioPage implements OnInit {
         documento_frente_titulo : this.documento_frente_titulo,
         documento_verso_titulo : this.documento_verso_titulo,
         data_nascimento: this.data_nascimento,
-        documento_comprovante: this.documento_comprovante
+        documento_comprovante: this.documento_comprovante,
+        id_zona: this.id_zona,
+        id_secao: this.id_secao
 
 
         
@@ -221,7 +256,7 @@ export class RegisterFiliadorApoioPage implements OnInit {
              loader.dismiss();
           
              this.presentToast(res.msg);
-             this.openCad();
+             this.openHome();
 
 
             
@@ -540,7 +575,7 @@ export class RegisterFiliadorApoioPage implements OnInit {
             return new Promise(resolve => {
               let body={
               aksi: 'proses_consulta_secao',
-              nr_zona: this.nr_zona
+              id_con_zona: this.id_zona
   
               
        

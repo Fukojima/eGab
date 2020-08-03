@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -22,6 +23,7 @@ export class RegisterPage implements OnInit {
    numero : string	
    complemento : string	= ""
    bairro: string 	
+   secoesI = []
    cidade: string 	
    uf 	: string
    cep 	: string
@@ -204,7 +206,10 @@ export class RegisterPage implements OnInit {
         documento_frente_titulo : this.documento_frente_titulo,
         documento_verso_titulo : this.documento_verso_titulo,
         data_nascimento: this.data_nascimento,
-        documento_comprovante: this.documento_comprovante
+        documento_comprovante: this.documento_comprovante,
+        id_zona : this.id_zona,
+        id_secao: this.id_secao
+     
 
 
         
@@ -487,6 +492,41 @@ export class RegisterPage implements OnInit {
           this.enviarp = 'displayedp'
           this.enviadop = 'nonep'}
       }
+      unCheckFocus() {
+        console.log("Input box is Deactive");
+    }
+
+    paleativeTitle(){
+              var tempTitle = this.nr_titulo;
+              var split = this.nr_titulo.split('');
+
+             if (this.nr_titulo.length == 1){
+                  this.nr_titulo = '00000000000' + tempTitle;
+               }
+               else if (this.nr_titulo.length == 2){
+                this.nr_titulo = '0000000000' + tempTitle;
+             } else if (this.nr_titulo.length == 3){
+              this.nr_titulo = '000000000' + tempTitle;
+           }else if (this.nr_titulo.length == 4){
+            this.nr_titulo = '00000000' + tempTitle;
+         }else if (this.nr_titulo.length == 5){
+          this.nr_titulo = '0000000' + tempTitle;
+           }else if (this.nr_titulo.length == 6){
+            this.nr_titulo = '000000' + tempTitle;
+         }else if (this.nr_titulo.length == 7){
+          this.nr_titulo = '00000' + tempTitle;
+       }else if (this.nr_titulo.length == 8){
+        this.nr_titulo = '0000' + tempTitle;
+                 }else if (this.nr_titulo.length == 9){
+                  this.nr_titulo = '000' + tempTitle;
+               }else if (this.nr_titulo.length == 10){
+                this.nr_titulo = '00' + tempTitle;
+             }else if (this.nr_titulo.length == 11){
+              this.nr_titulo = '0' + tempTitle;
+           }
+
+             
+    }
   
       async loadZona(){
  
@@ -521,8 +561,14 @@ export class RegisterPage implements OnInit {
           });
         }
 
+        sortfunction(a, b){
+          return (a - b) //faz com que o array seja ordenado numericamente e de ordem crescente.
+        }
+
+
         async loadSecao(){
- 
+         
+            
           while(this.secoes.length > 0) {
             this.secoes.pop();
            }
@@ -535,7 +581,7 @@ export class RegisterPage implements OnInit {
             return new Promise(resolve => {
               let body={
               aksi: 'proses_consulta_secao',
-              nr_zona: this.nr_zona
+              id_con_zona: this.id_zona
   
               
        
@@ -545,9 +591,12 @@ export class RegisterPage implements OnInit {
                  for(let datas of res.result){
     
                    this.secoes.push(datas);
+
+                   
       
                  }
                  resolve(true);
+                 
               },(err)=>{
       
               
@@ -555,6 +604,25 @@ export class RegisterPage implements OnInit {
       
             });
           }
+          searchCountry(searchbar) {
+            // reset countries list with initial call
+            this.secoes = this.secoesI
+    
+            // set q to the value of the searchbar
+            var q = searchbar.value;
+    
+            // if the value is an empty string don't filter the items
+            if (q.trim() == '') {
+                return;
+            }
+    
+            this.secoes = this.secoes.filter((v) => {
+                if (v.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+                    return true;
+                }
+                return false;
+            })
+        }
 
 
 

@@ -73,6 +73,8 @@ export class ModalApoioPage implements OnInit {
   inputImgp: string = 'displayimgp'
   sendImgp: string = 'noneImgp'
   us_reprovacao;
+  nr_secao: any;
+  nr_zona: any;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -161,6 +163,10 @@ export class ModalApoioPage implements OnInit {
                  this.documento_verso_titulo = res.result[0].documento_verso_titulo
                  this.documento_comprovante = res.result[0].documento_comprovante;  
                  this.uf = res.result[0].uf;
+                 this.cep = res.result[0].cep;
+                 this.id_zona = res.result[0].id_zona;
+                 this.id_secao = res.result[0].id_secao;
+                 this.loadZonaSecao(this.id_zona, this.id_secao);
                  this.data_nascimento = res.result[0].data_nascimento;
                  if(res.result[0].dt_alteracao == null || ""){
                           this.dt_alteracao = 'Não houve alterações'
@@ -191,6 +197,29 @@ export class ModalApoioPage implements OnInit {
       },(err)=>{
 
       
+      })
+
+    });
+  }
+  async loadZonaSecao(zona,secao){
+ 
+
+
+    return new Promise(resolve => {
+      let body={
+      aksi: 'proses_consulta_zona_secao',
+      zonaConsulta : zona,
+      secaoConsulta : secao
+
+
+      }
+      this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+             this.nr_zona = res.result[0].nr_zona;
+             this.nr_secao = res[0][0].nr_secao;
+         resolve(true);
+      },(err)=>{
+
+           
       })
 
     });

@@ -16,7 +16,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule,NgxMaskIonicModule.forRoot(), IonicModule.forRoot(), AppRoutingModule,IonicStorageModule.forRoot(),HttpClientModule],
+  imports: [BrowserModule,NgxMaskIonicModule.forRoot(),  IonicModule.forRoot(), AppRoutingModule,IonicStorageModule.forRoot(),HttpClientModule],
   providers: [
     AcessProviders,
     StatusBar,

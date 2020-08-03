@@ -133,14 +133,17 @@ export class ModalFiliadosPage implements OnInit {
     const modal = await this.modalController.create({
       component: ProfilePage,
       cssClass: 'my-custom-class',
+     
       componentProps: {
         'id_filiado': a
       }
     });
     console.log('a:',a);
+  
+  
     return await modal.present();
  
-    this.dismiss();
+   
 
    }
 
