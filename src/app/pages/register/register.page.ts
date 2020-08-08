@@ -182,6 +182,7 @@ export class RegisterPage implements OnInit {
       return new Promise(resolve => {
         let body={
         aksi: 'proses_register',
+        id_filiador: this.id_filiador,
         cpf_cnpj_filiado : this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.',''),
         nome_filiado : this.nome_filiado.toUpperCase(),
         email_filiado 	: this.email_filiado.toLowerCase(),

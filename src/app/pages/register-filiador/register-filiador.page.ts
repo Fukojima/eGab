@@ -19,6 +19,8 @@ export class RegisterFiliadorPage implements OnInit {
    sn_validar_cadastro : string
    data_nascimento;
    disabledButton;
+   i;
+   msg_padrao_aniversario;
 
   constructor(
 
@@ -62,13 +64,14 @@ export class RegisterFiliadorPage implements OnInit {
       return new Promise(resolve => {
         let body={
         aksi: 'proses_register_filiador',
-        cpf_cnpj_filiador : this.cpf_cnpj_filiador,
-        nome_filiador : this.nome_filiador,
+        cpf_cnpj_filiador : this.cpf_cnpj_filiador.replace('.','').replace('-','').replace('.',''),
+        nome_filiador : this.nome_filiador.toUpperCase(),
         email_filiador 	: this.email_filiador,
-        telefone_filiador 	: this.telefone_filiador,
+        telefone_filiador 	: this.telefone_filiador.replace('(','').replace(')','').replace('-',''),
         id_municipio : this.id_municipio,
         sn_whatsapp : this.sn_whatsapp,
-        sn_validar_cadastro : this.sn_validar_cadastro
+        sn_validar_cadastro : this.sn_validar_cadastro,
+        msg_padrao_aniversario: this.msg_padrao_aniversario
     
          
 
@@ -113,9 +116,9 @@ export class RegisterFiliadorPage implements OnInit {
         this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
     }else if(this.sn_validar_cadastro  ==""){
         this.presentToast('É nescessário informar se o filiador deseja validar ou não os cadastros dos filiados.');
-    }else if(this.cpf_cnpj_filiador.length < 11){
-      this.presentToast('CPF em formato incorreto.');
-  }else{
+    }else if(this.testaCPF(this.cpf_cnpj_filiador.replace('.','').replace('-','').replace('.','')) == false){ 
+      this.presentToast('CPF inválido.');}
+    else{
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
@@ -124,13 +127,14 @@ export class RegisterFiliadorPage implements OnInit {
       return new Promise(resolve => {
         let body={
         aksi: 'proses_register_filiador',
-        cpf_cnpj_filiador : this.cpf_cnpj_filiador,
-        nome_filiador : this.nome_filiador,
-        email_filiador 	: this.email_filiador,
-        telefone_filiador 	: this.telefone_filiador,
+        cpf_cnpj_filiador : this.cpf_cnpj_filiador.replace('.','').replace('-','').replace('.',''),
+        nome_filiador : this.nome_filiador.toUpperCase(),
+        email_filiador 	: this.email_filiador.toLowerCase(),
+        telefone_filiador 	: this.telefone_filiador.replace('(','').replace(')','').replace('-',''),
         id_municipio : this.id_municipio,
         sn_whatsapp : this.sn_whatsapp,
-        sn_validar_cadastro : this.sn_validar_cadastro
+        sn_validar_cadastro : this.sn_validar_cadastro,
+        msg_padrao_aniversario: this.msg_padrao_aniversario
     
          
 
@@ -174,8 +178,32 @@ export class RegisterFiliadorPage implements OnInit {
       });
     }
 
+    
+
 
   }
+
+  testaCPF(strCPF) {
+    var Soma;
+    var Resto;
+    Soma = 0;
+  if (strCPF == "00000000000") return false;
+     
+  for (this.i=1; this.i<=9; this.i++) Soma = Soma + parseInt(strCPF.substring(this.i-1, this.i)) * (11 - this.i);
+  Resto = (Soma * 10) % 11;
+   
+    if ((Resto == 10) || (Resto == 11))  Resto = 0;
+    if (Resto != parseInt(strCPF.substring(9, 10)) ) return false;
+   
+  Soma = 0;
+    for (this.i = 1; this.i <= 10; this.i++) Soma = Soma + parseInt(strCPF.substring(this.i-1, this.i)) * (12 - this.i);
+    Resto = (Soma * 10) % 11;
+   
+    if ((Resto == 10) || (Resto == 11))  Resto = 0;
+    if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
+    return true;
+  
+}
   async presentToast(a){
     const toast = await this.toastCtrl.create({
      message:a,

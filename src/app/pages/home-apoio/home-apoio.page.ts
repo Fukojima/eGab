@@ -111,6 +111,10 @@ export class HomeApoioPage implements OnInit {
          
         
   }
+   sendMessage(){
+
+    this.router.navigate(['/mensagem'])
+   }
 
 
    async logout(){

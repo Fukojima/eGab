@@ -158,6 +158,76 @@ export class ProfilePage implements OnInit {
       });
     }
 
+    async popupNovoNumeroFiliado(){
+      const alert = await this.alertController.create({
+       
+       
+        message: 'Editar número:',
+        inputs:[{name:'novoNome', placeholder:'Digite o novo numero...'  }],
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            
+          }, {
+            text: 'Confirmar',
+            handler: (alertData) => {
+          
+            
+            this.editNumeroFiliado(alertData.novoNome);
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
+    }
+
+
+
+   async editNumeroFiliado(a){
+      const loader = await this.loadingCtrl.create({
+        message : 'Aguarde...',
+      })
+      loader.present();
+      this.dt = new Date().getDate();
+      this.ms = new Date().getMonth()+1;
+      this.ano = new Date().getFullYear();
+      var hrs = new Date().getHours();
+      var min = new Date().getMinutes();
+      var sec = new Date().getSeconds();
+      //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+     this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+   
+      return new Promise(resolve => {
+        let body={
+        aksi: 'proses_update_numero_filiado',
+        novo_numero_filiado : a,
+        us_alteracao: this.us_alteracao,
+        id_filiado: this.id_filiado,
+        data_atual: this.dtAtual
+
+        }
+        this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+           if(res.success == true){
+             loader.dismiss();
+             this.presentToast('Atualizado com sucesso');
+             this.ionViewDidEnter();
+
+           }else{
+            loader.dismiss();
+            this.presentToast('Erro na atualização');
+         
+           }
+        },(err)=>{
+          loader.dismiss();
+          this.presentToast(err);
+        })
+
+      });
+    }
+
   async loadUsers(){
  
 

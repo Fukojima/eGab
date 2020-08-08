@@ -3,8 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
 import { Storage } from '@ionic/storage';
-import { Base64 } from '@ionic-native/base64/ngx';
-import { toBase64String } from '@angular/compiler/src/output/source_map';
+
 
 
 @Component({
@@ -24,9 +23,13 @@ export class MensagemPage implements OnInit {
   mensagem: any = "";
   img: any ="";
   base64textString: string;
-  id_lideranca: any;
+  id_lideranca: any = "";
   inputImgp: string = 'displayimgp'
   sendImgp: string = 'noneImgp'
+  id_origem: any ="";
+  id_apoio: any="";
+  id_filiador: any ="";
+  id_grupo: any;
   constructor(
 
     private router : Router,
@@ -37,7 +40,7 @@ export class MensagemPage implements OnInit {
     private alertCtrl : AlertController,
     private accsPrvdrs: AcessProviders,
     private navCtrl: NavController,
-    private base64: Base64
+
 
   ) { }
 
@@ -47,10 +50,22 @@ export class MensagemPage implements OnInit {
   ionViewDidEnter(){
     this.storage.get('storage_xxx').then((res)=>{
         this.id_lideranca = res.id_filiador_lid;
-        console.log(res.id_filiador_lid)
- 
+        this.id_apoio = res.id_filiador_apoio;
+        this.id_filiador = res.id_filiador;
+        this.id_grupo = res.id_grupo_usuario;
+   
+
+        if (res.id_grupo_usuario == 3){
+          this.id_origem = res.id_filiador_lid;
+          
+         } else if (res.id_grupo_usuario == 4){
+          this.id_origem = res.id_filiador_apoio;
+         } 
+         else{
+          this.id_origem = res.id_filiador;
+         }
     
-      
+      console.log(this.id_origem);
       
       
    });
@@ -118,7 +133,10 @@ _handleReaderLoaded(readerEvt) {
         aksi: 'proses_mensagem',
         mensagem: this.mensagem,
         img: this.base64textString,
-        id_lideranca: this.id_lideranca
+        id_lideranca: this.id_lideranca,
+        id_apoio: this.id_apoio,
+        id_filiador: this.id_filiador,
+        id_origem: this.id_origem
        
     
     
@@ -166,8 +184,16 @@ _handleReaderLoaded(readerEvt) {
   }
 
   openHome(){
+    if (this.id_grupo == 2){
+      this.router.navigate(['/home-filiador'])
+    }else if (this.id_grupo == 3){
+      this.router.navigate(['/home'])
+    }else if (this.id_grupo == 4){
+      this.router.navigate(['/home-apoio'])
+    }
 
-    this.router.navigate(['/home'])
+
+   
    }
 
 

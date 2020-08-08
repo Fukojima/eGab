@@ -16,6 +16,7 @@ export class HomeFiliadorPage implements OnInit {
   senhaPadrao: string;
   perfil;
   verificado;
+  id_origem: any;
   constructor(    private router : Router,
     private toastCtrl : ToastController,
     private loadingCtrl : LoadingController,
@@ -77,6 +78,8 @@ export class HomeFiliadorPage implements OnInit {
        this.name = this.datastorage.nome;
        this.senhaPadrao = this.datastorage.sn_ainda_senha_padrao;
        this.perfil = this.datastorage.perfil_filiador;
+       
+       
 
        if (this.senhaPadrao == "S"){
 
@@ -133,6 +136,10 @@ export class HomeFiliadorPage implements OnInit {
          
         
   }
+  sendMessage(){
+
+    this.router.navigate(['/mensagem'])
+   }
   
   openCadastroPendente(){
          

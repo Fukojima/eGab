@@ -10,8 +10,8 @@ import {NgxMaskIonicModule} from 'ngx-mask-ionic'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage';
-import { Base64 } from '@ionic-native/base64/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,8 +20,6 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
   providers: [
     AcessProviders,
     StatusBar,
-    PhotoViewer,
-    Base64,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

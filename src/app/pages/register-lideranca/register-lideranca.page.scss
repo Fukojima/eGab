@@ -16,6 +16,17 @@
   float:right;
 }
 
+.input{
+color: red;
+
+}
+
+.sec{
+  display: none;
+}
+
+
+
 
 .font-title{
 
@@ -32,3 +43,118 @@ ion-button{
   font-family: Exo;
   --background: #0f2546;
 }
+
+#upload-photof {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photov {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photop {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photoft {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photovt {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photoc {
+  position: absolute;
+  opacity: 0;
+}
+
+.b{
+
+  z-index: 9999;
+}
+
+.butf{
+
+  --background: green;pointer-events: none;
+  cursor: default;
+ 
+}
+.butv{
+
+  --background: green;   pointer-events: none;
+  cursor: default;
+ 
+}
+.butp{
+
+  --background: green;pointer-events: none;
+  cursor: default;
+ 
+}
+
+
+
+
+
+.displayedf{}
+
+.nonef{display:none;}
+
+.displayedv{}
+
+.nonev{display:none;}
+
+
+.displayedp{}
+
+.nonep{display:none;}
+
+.displayedft{}
+
+.noneft{display:none;}
+
+.displayedvt{}
+
+.nonevt{display:none;}
+
+
+.displayedc{}
+
+.nonec{display:none;}
+
+
+
+
+
+.displayImg{ opacity: 0.8; margin-right:50px ; color:green; }
+
+.noneImg{display:none;}
+
+.displayImgv{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgv{display:none;}
+
+.displayImgp{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgp{display:none;}
+
+
+
+.displayImgft{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgft{display:none;}
+
+.displayImgvt{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgvt{display:none;}
+
+.displayImgc{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgc{display:none;}
+
