@@ -112,6 +112,10 @@ const routes: Routes = [
     path: 'register-filiador-apoio',
     loadChildren: () => import('./pages/register-filiador-apoio/register-filiador-apoio.module').then( m => m.RegisterFiliadorApoioPageModule)
   },
+  {
+    path: 'consulta-cadastro-lideranca',
+    loadChildren: () => import('./pages/consulta-cadastro-lideranca/consulta-cadastro-lideranca.module').then( m => m.ConsultaCadastroLiderancaPageModule)
+  },
 ];
 
 @NgModule({

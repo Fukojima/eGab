@@ -161,7 +161,7 @@ export class PerfilLiderancaPage implements OnInit {
                  this.documento_verso = res.result[0].documento_verso;
                  this.cidade = res.result[0].cidade;
                  this.uf = res.result[0].uf;
-                 this.data_nascimento = res.result[0].data_nascimento;
+               
                   
                   this.nome_mae = res.result[0].nome_mae;
                         
@@ -477,7 +477,7 @@ export class PerfilLiderancaPage implements OnInit {
         const alert = await this.alertController.create({
          
          
-          message: 'Editar númro:',
+          message: 'Editar número:',
           inputs:[{name:'novoNome', placeholder:'Digite o novo numero...'  }],
           buttons: [
             {

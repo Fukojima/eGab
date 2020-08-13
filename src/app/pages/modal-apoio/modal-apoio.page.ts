@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
 import { HttpClient } from '@angular/common/http';
+import * as moment from 'moment';
 
 
 
@@ -166,8 +167,9 @@ export class ModalApoioPage implements OnInit {
                  this.cep = res.result[0].cep;
                  this.id_zona = res.result[0].id_zona;
                  this.id_secao = res.result[0].id_secao;
+                 this.nr_titulo = res.result[0].nr_titulo;
                  this.loadZonaSecao(this.id_zona, this.id_secao);
-                 this.data_nascimento = res.result[0].data_nascimento;
+                 this.data_nascimento = moment(res.result[0].data_nascimento).format("DD/MM/YYYY");
                  if(res.result[0].dt_alteracao == null || ""){
                           this.dt_alteracao = 'Não houve alterações'
 

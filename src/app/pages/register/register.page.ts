@@ -68,7 +68,7 @@ export class RegisterPage implements OnInit {
 
    enviarvt :string ='displayedvt'
    enviadovt:string = 'nonevt'
-
+   obs;
 
    enviarpt :string ='displayedpt'
    enviadopt:string = 'nonept'
@@ -209,7 +209,8 @@ export class RegisterPage implements OnInit {
         data_nascimento: this.data_nascimento,
         documento_comprovante: this.documento_comprovante,
         id_zona : this.id_zona,
-        id_secao: this.id_secao
+        id_secao: this.id_secao,
+        obs: this.obs
      
 
 

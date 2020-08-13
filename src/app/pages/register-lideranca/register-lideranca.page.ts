@@ -103,6 +103,7 @@ export class RegisterLiderancaPage implements OnInit {
    ic: string = ''
    enviarc :string ='displayedc'
    enviadoc:string = 'nonec'
+  obs: any;
 
 
   constructor(
@@ -256,8 +257,8 @@ selectedFile(event,a){
         documento_comprovante: this.documento_comprovante,
         id_zona: this.id_zona,
         id_secao: this.id_secao,
-        id_filiador: this.id_filiador
-
+        id_filiador: this.id_filiador,
+        obs: this.obs
     
          
 

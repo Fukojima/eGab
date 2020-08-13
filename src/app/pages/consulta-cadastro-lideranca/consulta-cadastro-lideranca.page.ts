@@ -5,15 +5,15 @@ import { ToastController, LoadingController, AlertController, NavController, Mod
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
-
+import { ProfilePage } from './../profile/profile.page';
 
 
 @Component({
-  selector: 'app-consulta-cadastro',
-  templateUrl: './consulta-cadastro.page.html',
-  styleUrls: ['./consulta-cadastro.page.scss'],
+  selector: 'app-consulta-cadastro-lideranca',
+  templateUrl: './consulta-cadastro-lideranca.page.html',
+  styleUrls: ['./consulta-cadastro-lideranca.page.scss'],
 })
-export class ConsultaCadastroPage implements OnInit {
+export class ConsultaCadastroLiderancaPage implements OnInit {
    
   public datastorage:any;
   users: any=[];
@@ -31,6 +31,7 @@ export class ConsultaCadastroPage implements OnInit {
   secoes: any=[];
   lideres: any=[];
   modal;
+  list:any = 'N';
 
   nr_zona: any;
   nr_secao: any;
@@ -56,9 +57,11 @@ export class ConsultaCadastroPage implements OnInit {
     this.storage.get('storage_xxx').then((res)=>{
        console.log(res);
        this.datastorage = res;
-       
+       this.modal = '';
+       this.list = 'N'
        this.id_filiador = res.id_filiador;
-     this.loadUsers();
+       this.loadZona();
+       this.loadLider();
        this.start =0;
        this.users = [];
       
@@ -94,11 +97,78 @@ export class ConsultaCadastroPage implements OnInit {
     },500)
    }
 
+   async search(){
+  
+    
+   const loader = await this.loadingCtrl.create({
+      message : 'Aguarde...',
+      duration:1000
+    })
+    loader.present();
+
+      return new Promise(resolve => {
+        let body={
+        aksi: 'proses_pesquisa',
+        id_zona: this.id_zona,
+        id_secao: this.id_secao,
+        id_lideranca: this.id_lideranca,
+        start: this.start,
+        limit: this.limit
+        
  
 
+        }
+        this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+          if(res.sucess == true){
+            this.modal = 'N'
+           this.list = ''
+           this.count = res.count;
+           for(let datas of res.result){
+             this.users.push(datas);
+             resolve(true);
+           
+             
+           }
+           
+          }else if(res.sucess == false){
+            this.emptyFiliados();
+           }
+        },(err)=>{
+
+        
+        })
+
+      });
+    
+    }
+
+    async openFiliado(a){
+      const loader = await this.loadingCtrl.create({
+        message: 'Por favor aguarde...',
+        duration:1500
+      });
+      loader.present();
+      const modal = await this.modalController.create({
+        component: ProfilePage,
+        cssClass: 'my-custom-class',
+       
+        componentProps: {
+          'id_filiado': a
+        }
+      });
+      console.log('a:',a);
+    
+    
+      return await modal.present();
+   
+     
+  
+     }
 
    async loadUsers(){
- 
+    while(this.users.length > 0) {
+      this.users.pop();
+     }
     const loader = await this.loadingCtrl.create({
       message : 'Aguarde...',
       duration:1000
@@ -108,7 +178,7 @@ export class ConsultaCadastroPage implements OnInit {
       return new Promise(resolve => {
         let body={
         aksi: 'proses_consulta',
-        id_filiador: this.id_filiador,
+       
         start: this.start,
         limit: this.limit
         
@@ -116,11 +186,15 @@ export class ConsultaCadastroPage implements OnInit {
 
         }
         this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+          
            for(let datas of res.result){
              this.users.push(datas);
              
            }
            resolve(true);
+           
+        
+          
         },(err)=>{
 
         
@@ -167,8 +241,54 @@ export class ConsultaCadastroPage implements OnInit {
         });
       }
 
+      async searchAll(){
+  
+        
+       const loader = await this.loadingCtrl.create({
+          message : 'Aguarde...',
+          duration:1000
+        })
+        loader.present();
+    
+          return new Promise(resolve => {
+            let body={
+            aksi: 'proses_pesquisa_filiados_fil',
+            
+            id_filiador: this.id_filiador,
+            start: this.start,
+            limit: this.limit
+            
+     
+    
+            }
+            this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+              if(res.sucess == true){
+                this.modal = 'N'
+               this.list = ''
+               this.count = res.count;
+               for(let datas of res.result){
+                 this.users.push(datas);
+                 resolve(true);
+               
+                 
+               }
+               
+              }else if(res.sucess == false){
+                this.emptyFiliados();
+               }
+            },(err)=>{
+    
+            
+            })
+    
+          });
+        
+        }
+
     async loadZona(){
- 
+      while(this.zonas.length > 0) {
+        this.zonas.pop();
+       }
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
         duration:1000
@@ -197,8 +317,20 @@ export class ConsultaCadastroPage implements OnInit {
   
         });
       }
+
+      async presentToast(a){
+        const toast = await this.toastCtrl.create({
+         message:a,
+         duration:5000,
+         position:'top'
+    
+        });
+        toast.present();
+      }
       async loadLider(){
- 
+        while(this.lideres.length > 0) {
+          this.lideres.pop();
+         }
         const loader = await this.loadingCtrl.create({
           message : 'Aguarde...',
           duration:1000
@@ -228,7 +360,14 @@ export class ConsultaCadastroPage implements OnInit {
           });
         }
 
-  
+  backSearch(){
+
+    this.modal = ''
+    this.list = 'N'
+    this.ionViewDidEnter()
+     
+    
+  }
 
 
    openProfile(a){
@@ -237,6 +376,19 @@ export class ConsultaCadastroPage implements OnInit {
    }
 
 
+   async emptyFiliados() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Cadastro vazio',
+      
+      message: 'Não existem filiados cadastrados nessa configuração. Selecione outros dados.',
+      buttons: [ 'Ok']
+      
+    });
+
+    await alert.present();
+    
+  }
 
 
 
@@ -275,3 +427,4 @@ export class ConsultaCadastroPage implements OnInit {
         
   }
 }
+
