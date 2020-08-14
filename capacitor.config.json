@@ -1,5 +1,5 @@
 {
-  "appId": "io.ionic.egab",
+  "appId": "com.redlake.egab",
   "appName": "eGab",
   "bundledWebRuntime": false,
   "npmClient": "npm",
