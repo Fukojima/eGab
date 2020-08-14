@@ -18,7 +18,9 @@
 
   <ion-list class='list-view'>
     <div class="{{modal}} a">
+      <div class="o">
       <ion-list-header class="font-label">Filtro de pesquisa</ion-list-header>
+      <ion-button class="h" (click)='clean()' > Limpar</ion-button></div>
       
    
            <ion-item class="q">
@@ -42,9 +44,9 @@
       <ion-select-option value="{{zona.id_zona}} " *ngFor="let zona of zonas"  name="zona-option" class="font-label"  >{{zona.nr_zona}}  </ion-select-option>
      
       </ion-select>
-   
+      <ion-button class="k" (click)='loadSecao()' > Carregar<br> seções</ion-button>
     </ion-item>
-    <ion-button class="d" (click)='loadSecao()' > Carregar seções</ion-button>
+   
     <ion-item>
              
       <ion-label class="font-label" > Seção Eleitoral </ion-label>
@@ -57,7 +59,9 @@
 
   </ion-item>
   <ion-item>
-  <ion-button class="k" (click)='search()' > Pesquisar<br> com filtro</ion-button><ion-button class="k" (click)='searchAll()' > Pesquisar todos</ion-button></ion-item>
+  <ion-button  (click)='search()' ><ion-icon class='image-icon' name="search-outline"></ion-icon> Pesquisar</ion-button></ion-item>
+  <ion-item>
+  <ion-button  (click)='searchAll()' ><ion-icon class='image-icon' name="search-outline"></ion-icon> Pesquisar todos</ion-button></ion-item>
 </div>
 <div class={{list}}>
   <div>

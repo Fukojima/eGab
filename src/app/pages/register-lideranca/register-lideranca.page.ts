@@ -219,9 +219,21 @@ selectedFile(event,a){
         this.presentToast('O campo "Telefone" precisa ser preenchido');
     }else if(this.sn_whatsapp ==null){
         this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
-    }else if(this.cpf_cnpj_lideranca.length < 11){
-      this.presentToast('CPF em formato incorreto.');
-  }else{
+    }else if(this.testaCPF(this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.','')) == false){ 
+      this.presentToast('CPF inválido.');
+  }else if(this.validarTitulo(this.nr_titulo) == false){
+    this.presentToast('Título inválido');
+}else if(this.telefone_lideranca ==null){
+        this.presentToast('O campo "Telefone" precisa ser preenchido');
+    }else if(this.endereco ==null){
+        this.presentToast('O campo "Endereço" precisa ser preenchido');
+    }else if(this.numero ==null){
+        this.presentToast('O campo "Número" precisa ser preenchido');
+    }else if(this.bairro ==null){
+        this.presentToast('O campo "Bairro" precisa ser preenchido');
+    }else if(this.cidade ==null){
+        this.presentToast('O campo "Cidade" precisa ser preenchido');
+    }else{
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
@@ -279,7 +291,7 @@ selectedFile(event,a){
               }else{
                loader.dismiss();
                this.disabledButton = false;
-               this.presentToast(res.msg);
+              
             
               }
            },(err)=>{

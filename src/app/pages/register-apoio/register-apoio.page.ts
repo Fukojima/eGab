@@ -49,11 +49,12 @@ export class RegisterApoioPage implements OnInit {
    caminho_documento: string
    b: any
 
-   documento_verso: string = ""
-   documento_frente: string =""
-   documento_verso_titulo: string =""
-   documento_frente_titulo: string =""
-   documento_comprovante: string =""
+   documento_verso: string = "N.png"
+   documento_frente: string ="N.png"
+   documento_verso_titulo: string ="N.png"
+   documento_frente_titulo: string ="N.png"
+   documento_comprovante: string ="N.png"
+
 
    documento_perfil: string = 'user.png'
    iff: string = ''
@@ -155,7 +156,19 @@ export class RegisterApoioPage implements OnInit {
         this.presentToast('O campo "Telefone" precisa ser preenchido');
     }else if(this.sn_whatsapp ==null){
         this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
-    }else{
+    }else if(this.validarTitulo(this.nr_titulo) == false){
+      this.presentToast('Título inválido');
+  }else if(this.telefone_filiado ==null){
+          this.presentToast('O campo "Telefone" precisa ser preenchido');
+      }else if(this.endereco ==null){
+          this.presentToast('O campo "Endereço" precisa ser preenchido');
+      }else if(this.numero ==null){
+          this.presentToast('O campo "Número" precisa ser preenchido');
+      }else if(this.bairro ==null){
+          this.presentToast('O campo "Bairro" precisa ser preenchido');
+      }else if(this.cidade ==null){
+          this.presentToast('O campo "Cidade" precisa ser preenchido');
+      }else{
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
@@ -226,7 +239,7 @@ export class RegisterApoioPage implements OnInit {
           }else{
            loader.dismiss();
            this.disabledButton = false;
-           this.presentToast(res.msg);
+          
         
           }
        },(err)=>{

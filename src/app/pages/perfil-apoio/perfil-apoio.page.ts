@@ -84,6 +84,7 @@ export class PerfilApoioPage implements OnInit {
   documento_frente_titulo: any;
   documento_verso_titulo: any;
   documento_comprovante: any;
+  obs: any;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -170,7 +171,7 @@ export class PerfilApoioPage implements OnInit {
                 this.uf = res.result[0].uf;
                 this.data_nascimento = moment(res.result[0].data_nascimento).format("DD/MM/YYYY");
                 this.cep = res.result[0].cep;
-             
+                this.obs = res.result[0].obs;
                 this.nr_titulo = res.result[0].nr_titulo;
 this.endereco = res.result[0].endereco;
                 this.numero = res.result[0].numero;

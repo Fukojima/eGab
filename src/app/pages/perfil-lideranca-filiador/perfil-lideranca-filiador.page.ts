@@ -82,6 +82,7 @@ export class PerfilLiderancaFiliadorPage implements OnInit {
   documento_frente_titulo: any;
   documento_verso_titulo: any;
   documento_comprovante: any;
+  obs: any;
   constructor(    private router : Router,
     private http: HttpClient,
     private toastCtrl : ToastController,
@@ -163,7 +164,7 @@ export class PerfilLiderancaFiliadorPage implements OnInit {
                   this.cidade = res.result[0].cidade;
                   this.uf = res.result[0].uf;
                   this.data_nascimento = res.result[0].data_nascimento;
-                   
+                  this.obs = res.result[0].obs;
                    this.nome_mae = res.result[0].nome_mae;
                          
                   this.cidade = res.result[0].cidade;

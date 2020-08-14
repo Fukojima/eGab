@@ -81,6 +81,7 @@ export class PerfilLiderancaPage implements OnInit {
   documento_frente_titulo: any;
   documento_verso_titulo: any;
   documento_comprovante: any;
+  obs: any;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -161,7 +162,7 @@ export class PerfilLiderancaPage implements OnInit {
                  this.documento_verso = res.result[0].documento_verso;
                  this.cidade = res.result[0].cidade;
                  this.uf = res.result[0].uf;
-               
+                 this.obs = res.result[0].obs;
                   
                   this.nome_mae = res.result[0].nome_mae;
                         

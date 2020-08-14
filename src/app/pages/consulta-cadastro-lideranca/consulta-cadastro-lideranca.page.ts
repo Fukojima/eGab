@@ -120,6 +120,9 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
         }
         this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
           if(res.sucess == true){
+           if(res.count == null){
+              this.emptyFiliados();
+             }else{
             this.modal = 'N'
            this.list = ''
            this.count = res.count;
@@ -127,10 +130,12 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
              this.users.push(datas);
              resolve(true);
            
-             
+           }
            }
            
           }else if(res.sucess == false){
+            this.emptyFiliados();
+           }else if(res.count == null){
             this.emptyFiliados();
            }
         },(err)=>{
@@ -201,6 +206,15 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
         })
 
       });
+    }
+
+
+    clean(){
+        this.id_zona = null;
+        this.id_secao = null;
+        this.id_lideranca = null;
+
+
     }
     async loadSecao(){
          

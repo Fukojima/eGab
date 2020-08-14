@@ -9,15 +9,23 @@
   }
   .k{
     height: 100%;
+    width: 50%;
   }
-  
+  .h{
+    --background: red;
+    width: 50%;
+    
+  }
+  .o{
+    display: flex;
+  }
   .N{
     display: none;
   }
   ion-button{
     font-family: Exo;
     --background: #0f2546;
-  
+    width: 100%;
   
   }
   .user-icon{

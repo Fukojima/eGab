@@ -76,6 +76,7 @@ export class ModalApoioPage implements OnInit {
   us_reprovacao;
   nr_secao: any;
   nr_zona: any;
+  obs: any;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -168,6 +169,7 @@ export class ModalApoioPage implements OnInit {
                  this.id_zona = res.result[0].id_zona;
                  this.id_secao = res.result[0].id_secao;
                  this.nr_titulo = res.result[0].nr_titulo;
+                 this.obs = res.result[0].obs;
                  this.loadZonaSecao(this.id_zona, this.id_secao);
                  this.data_nascimento = moment(res.result[0].data_nascimento).format("DD/MM/YYYY");
                  if(res.result[0].dt_alteracao == null || ""){

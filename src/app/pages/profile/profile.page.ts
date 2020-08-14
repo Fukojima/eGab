@@ -78,6 +78,7 @@ export class ProfilePage implements OnInit {
   nr_secao: any;
   id_municipio: any;
   id_grupo_usuario: any;
+  obs: any;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -266,6 +267,7 @@ export class ProfilePage implements OnInit {
                  this.cep = res.result[0].cep;
                  this.us_aprovacao = res.result[0].us_aprovacao;
                  this.nr_titulo = res.result[0].nr_titulo;
+                 this.obs = res.result[0].obs;
 
                  
                  this.id_zona = res.result[0].id_zona;
