@@ -43,11 +43,11 @@ export class RegisterPage implements OnInit {
    caminho_documento: string
    b: any
    disabledButton;
-   documento_verso: string = ""
-   documento_frente: string =""
-   documento_verso_titulo: string =""
-   documento_frente_titulo: string =""
-   documento_comprovante: string =""
+   documento_verso: string = "N.png"
+   documento_frente: string ="N.png"
+   documento_verso_titulo: string ="N.png"
+   documento_frente_titulo: string ="N.png"
+   documento_comprovante: string ="N.png"
 
    documento_perfil: string = 'user.png'
    iff: string = ''
@@ -68,7 +68,7 @@ export class RegisterPage implements OnInit {
 
    enviarvt :string ='displayedvt'
    enviadovt:string = 'nonevt'
-
+   obs;
 
    enviarpt :string ='displayedpt'
    enviadopt:string = 'nonept'
@@ -156,9 +156,7 @@ export class RegisterPage implements OnInit {
       this.presentToast('CPF inválido.');
   }else if(this.validarTitulo(this.nr_titulo) == false){
     this.presentToast('Título inválido');
-}else if(this.email_filiado  == null){
-        this.presentToast('O campo "Email" precisa ser preenchido');
-    }else if(this.telefone_filiado ==null){
+}else if(this.telefone_filiado ==null){
         this.presentToast('O campo "Telefone" precisa ser preenchido');
     }else if(this.endereco ==null){
         this.presentToast('O campo "Endereço" precisa ser preenchido');
@@ -209,7 +207,8 @@ export class RegisterPage implements OnInit {
         data_nascimento: this.data_nascimento,
         documento_comprovante: this.documento_comprovante,
         id_zona : this.id_zona,
-        id_secao: this.id_secao
+        id_secao: this.id_secao,
+        obs: this.obs
      
 
 
@@ -220,16 +219,16 @@ export class RegisterPage implements OnInit {
         this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
            if(res.success == true){
              loader.dismiss();
-          
-             this.presentToast(res.msg);
-             this.openCad();
+            
+             this.presentToast('Cadastro realizado com sucesso.');
+             this.openHome();
 
 
             
            }else{
             loader.dismiss();
             this.disabledButton = false;
-            this.presentToast(res.msg);
+            this.presentToast("Erro no cadastro");
          
            }
         },(err)=>{
@@ -420,10 +419,7 @@ export class RegisterPage implements OnInit {
      }
   }
 
-  openCad(){
-        
-    this.router.navigate(['/consulta-cadastro'])    
-      }
+
 
   openHome(){
         

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
 import { HttpClient } from '@angular/common/http';
+import * as moment from 'moment';
 
 
 
@@ -70,6 +71,20 @@ export class PerfilApoioPage implements OnInit {
   inputImgp: string = 'displayimgp'
   sendImgp: string = 'noneImgp'
   y: boolean = false
+ 
+   zonaClass: string = "zona-none"
+ 
+  email_filiado 	: string
+  telefone_filiado 	: string
+
+  nr_zona: any;
+  nr_secao: any;
+  id_municipio: any;
+  id_grupo_usuario: any;
+  documento_frente_titulo: any;
+  documento_verso_titulo: any;
+  documento_comprovante: any;
+  obs: any;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -94,6 +109,7 @@ export class PerfilApoioPage implements OnInit {
        this.datastorage = res;
        this.id_lideranca = this.datastorage.id_filiador_lid;
        this.us_alteracao = this.datastorage.nome;
+       this.id_municipio = this.datastorage.id_municipio_filiador;
 
        if(this.id_apoio == null){
          this.id_apoio = this.datastorage.id_apoio;
@@ -147,7 +163,23 @@ export class PerfilApoioPage implements OnInit {
                  this.documento_verso = res.result[0].documento_verso;
                  this.cidade = res.result[0].cidade;
                  this.uf = res.result[0].uf;
-                 this.data_nascimento = res.result[0].data_nascimento;
+           
+                  
+                 this.nome_mae = res.result[0].nome_mae;
+                       
+                this.cidade = res.result[0].cidade;
+                this.uf = res.result[0].uf;
+                this.data_nascimento = moment(res.result[0].data_nascimento).format("DD/MM/YYYY");
+                this.cep = res.result[0].cep;
+                this.obs = res.result[0].obs;
+                this.nr_titulo = res.result[0].nr_titulo;
+this.endereco = res.result[0].endereco;
+                this.numero = res.result[0].numero;
+                this.bairro = res.result[0].bairro;
+              this.id_zona = res.result[0].id_zona;
+                this.id_secao = res.result[0].id_secao;
+                this.loadZonaSecao(this.id_zona, this.id_secao);
+         
                  if(res.result[0].dt_alteracao == null || ""){
                           this.dt_alteracao = 'Não houve alterações'
 
@@ -181,7 +213,29 @@ export class PerfilApoioPage implements OnInit {
 
     });
   }
+  async loadZonaSecao(zona,secao){
+ 
 
+
+    return new Promise(resolve => {
+      let body={
+      aksi: 'proses_consulta_zona_secao',
+      zonaConsulta : zona,
+      secaoConsulta : secao
+
+
+      }
+      this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+             this.nr_zona = res.result[0].nr_zona;
+             this.nr_secao = res[0][0].nr_secao;
+         resolve(true);
+      },(err)=>{
+
+           
+      })
+
+    });
+  }
   selectedFile(event){
   this.image = event.target.files[0];
  this.changeTextInput();
@@ -240,10 +294,7 @@ export class PerfilApoioPage implements OnInit {
     });}
   }
   
-  openHome(){
-        
-    this.router.navigate(['/home-lideranca'])    
-      }
+
 
      async popupNovoNomeApoio(){
         const alert = await this.alertController.create({
@@ -386,7 +437,7 @@ export class PerfilApoioPage implements OnInit {
         return new Promise(resolve => {
           let body={
           aksi: 'proses_update_email_apoio',
-          novo_email_lideranca : a.toLowerCase(),
+          novo_email_apoio : a.toLowerCase(),
  
           id_apoio: this.id_apoio,
           data_atual: this.dtAtual
@@ -456,7 +507,7 @@ export class PerfilApoioPage implements OnInit {
         return new Promise(resolve => {
           let body={
           aksi: 'proses_update_telefone_apoio',
-          novo_telefone_lideranca: a,
+          novo_telefone_apoio: a,
      
           id_apoio: this.id_apoio,
           data_atual: this.dtAtual
@@ -552,13 +603,437 @@ export class PerfilApoioPage implements OnInit {
   }
 
 
-  changeBut(){
 
-        this.ip = 'butp';
-        this.enviarp = 'nonep'
-        this.enviadop = 'displayedp'
+
+    changeBut(){
+
+      this.ip = 'butp';
+      this.enviarp = 'nonep'
+      this.enviadop = 'displayedp'
+  }
+
+
+  openNovaZona(){
+
+    this.zonaClass = 'zona-on';
+    this.loadZona();
+  }
+
+  
+
+
+
+   async openFrenteTitulo(){
+    const alert = await this.alertController.create({
+      cssClass: 'documento',
+      header: 'Frente do Título de eleitor',
+
+      message:  `<img src="https://egab.app/api/img/${this.documento_frente_titulo}">`,
+      buttons: ['Fechar']
+    });
+
+    await alert.present();
+
+
+   }
+
+
+   async openVersoTitulo(){
+    const alert = await this.alertController.create({
+      cssClass: 'documento',
+      header: 'Frente do Título de eleitor',
+
+      message:  `<img class=""img-doc" src="https://egab.app/api/img/${this.documento_verso_titulo}">`,
+      buttons: ['Fechar']
+    });
+
+    await alert.present();
+
+
+   }
+   async openComprovante(){
+    const alert = await this.alertController.create({
+      cssClass: 'documento',
+      header: 'Comprovante de resiência',
+
+      message:  `<img src="https://egab.app/api/img/${this.documento_comprovante}">`,
+      buttons: ['Fechar']
+    });
+
+    await alert.present();
+
+
+   }
+
+   
+
+
+
+
+ async editZonaApoio(){
+    const loader = await this.loadingCtrl.create({
+      message : 'Aguarde...',
+    })
+    loader.present();
+    this.dt = new Date().getDate();
+    this.ms = new Date().getMonth()+1;
+    this.ano = new Date().getFullYear();
+    var hrs = new Date().getHours();
+    var min = new Date().getMinutes();
+    var sec = new Date().getSeconds();
+    //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+   this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+ 
+    return new Promise(resolve => {
+      let body={
+      aksi: 'proses_update_zona_secao_apoio',
+      novo_id_zona : this.id_zona,
+      novo_id_secao: this.id_secao,
+      us_alteracao: this.us_alteracao,
+      id_apoio: this.id_apoio,
+      data_atual: this.dtAtual
+
+      }
+      this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+         if(res.success == true){
+           loader.dismiss();
+           this.presentToast('Atualizado com sucesso');
+           this.ionViewDidEnter();
+           this.zonaClass = 'zona-none';
+
+         }else{
+          loader.dismiss();
+          this.presentToast('Erro na atualização');
+       
+         }
+      },(err)=>{
+        loader.dismiss();
+        this.presentToast(err);
+      })
+
+    });
+  }
+  async loadZona(){
+
+    const loader = await this.loadingCtrl.create({
+      message : 'Aguarde...',
+      duration:1000
+    })
+    loader.present();
+
+      return new Promise(resolve => {
+        let body={
+        aksi: 'proses_consulta_zonas',
+        id_municipio: this.id_municipio,
+        start: this.start,
+        limit: this.limit
+        
+ 
+
+        }
+        this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+
+           for(let datas of res.result){
+             this.zonas.push(datas);
+
+           }
+           resolve(true);
+        },(err)=>{
+
+        
+        })
+
+      });
+    }
+
+    async loadSecao(){
+   
+      
+      while(this.secoes.length > 0) {
+        this.secoes.pop();
+       }
+      const loader = await this.loadingCtrl.create({
+        message : 'Aguarde...',
+        duration:1000
+      })
+      loader.present();
+  
+        return new Promise(resolve => {
+          let body={
+          aksi: 'proses_consulta_secao',
+          id_con_zona: this.id_zona
+
+          
+   
+  
+          }
+          this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+             for(let datas of res.result){
+
+               this.secoes.push(datas);
+
+               
+  
+             }
+             resolve(true);
+             
+          },(err)=>{
+  
+          
+          })
+  
+        });
+      }
+
+      async pegaCep(a){
+        const loader = await this.loadingCtrl.create({
+          message : 'Aguarde...',
+        })
+        loader.present();
+    
+        //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+    
+        return new Promise(resolve => {
+          let body={
+          aksi: 'proses_cep',
+          cep: a
+    
+          }
+          this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+             if(res.success == true){
+               loader.dismiss();
+             
+           
+            
+
+               this.dt = new Date().getDate();
+               this.ms = new Date().getMonth()+1;
+               this.ano = new Date().getFullYear();
+               var hrs = new Date().getHours();
+               var min = new Date().getMinutes();
+               var sec = new Date().getSeconds();
+               //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+              this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+            
+               return new Promise(resolve => {
+                 let body={
+                 aksi: 'proses_update_cep_apoio',
+                 novo_cep_apoio : a,
+                 nova_cidade : res.result.cidade,
+                 novo_uf : res.result.uf,
+                 novo_bairro : res.result.bairro,
+                 novo_endereco : res.result.logradouro,
+                 us_alteracao: this.us_alteracao,
+                 id_apoio: this.id_apoio,
+                 data_atual: this.dtAtual
+       
+                 }
+                 this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+                    if(res.success == true){
+                      loader.dismiss();
+                      this.presentToast('Atualizado com sucesso');
+                      this.ionViewDidEnter();
+       
+                    }else{
+                     loader.dismiss();
+                     this.presentToast('CEP inválido');
+                  
+                    }
+                 },(err)=>{
+                   loader.dismiss();
+                   this.presentToast(err);
+                 })
+         
+               });
+
+
+
+
+
+
+    
+             }else{
+              loader.dismiss();
+    
+           
+             }
+          },(err)=>{
+            loader.dismiss();
+            this.presentToast(err);
+          })
+    
+        });
+      }
+    
+
+
+
+      async popupNovoCEPApoio(){
+        const alert = await this.alertController.create({
+         
+         
+          message: 'Editar CEP:',
+          inputs:[{name:'novoNome', placeholder:'Digite o novo CEP...'  }],
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary',
+              
+            }, {
+              text: 'Confirmar',
+              handler: (alertData) => {
+            
+              
+              this.pegaCep(alertData.novoNome);
+              }
+            }
+          ]
+        });
+    
+        await alert.present();
+      }
+
+
+      
+    async popupNovoNomeMaeApoio(){
+      const alert = await this.alertController.create({
+       
+       
+        message: 'Editar nome da mãe:',
+        inputs:[{name:'novoNomeMae', placeholder:'Digite o novo nome...'  }],
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            
+          }, {
+            text: 'Confirmar',
+            handler: (alertData) => {
+          
+            
+            this.editNomeMaeApoio(alertData.novoNomeMae);
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
     }
 
 
+
+   async editNomeMaeApoio(a){
+      const loader = await this.loadingCtrl.create({
+        message : 'Aguarde...',
+      })
+      loader.present();
+      this.dt = new Date().getDate();
+      this.ms = new Date().getMonth()+1;
+      this.ano = new Date().getFullYear();
+      var hrs = new Date().getHours();
+      var min = new Date().getMinutes();
+      var sec = new Date().getSeconds();
+      //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+     this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+      console.log('data:', this.dtAtual);
+      return new Promise(resolve => {
+        let body={
+        aksi: 'proses_update_nome_mae_apoio',
+        novo_nome_mae_apoio : a.toUpperCase(),
+        us_alteracao: this.us_alteracao,
+        id_apoio: this.id_apoio,
+        data_atual: this.dtAtual
+
+        }
+        this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+           if(res.success == true){
+             loader.dismiss();
+             this.presentToast('Atualizado com sucesso');
+             this.ionViewDidEnter();
+
+           }else{
+            loader.dismiss();
+            this.presentToast('Erro na atualização');
+         
+           }
+        },(err)=>{
+          loader.dismiss();
+          this.presentToast(err);
+        })
+
+      });
+    }
+
+    async popupNovoNumeroApoio(){
+      const alert = await this.alertController.create({
+       
+       
+        message: 'Editar número:',
+        inputs:[{name:'novoNome', placeholder:'Digite o novo numero...'  }],
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            
+          }, {
+            text: 'Confirmar',
+            handler: (alertData) => {
+          
+            
+            this.editNumeroApoio(alertData.novoNome);
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
+    }
+
+
+
+   async editNumeroApoio(a){
+      const loader = await this.loadingCtrl.create({
+        message : 'Aguarde...',
+      })
+      loader.present();
+      this.dt = new Date().getDate();
+      this.ms = new Date().getMonth()+1;
+      this.ano = new Date().getFullYear();
+      var hrs = new Date().getHours();
+      var min = new Date().getMinutes();
+      var sec = new Date().getSeconds();
+      //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+     this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+   
+      return new Promise(resolve => {
+        let body={
+        aksi: 'proses_update_numero_apoio',
+        novo_numero_apoio : a,
+        us_alteracao: this.us_alteracao,
+        id_apoio: this.id_apoio,
+        data_atual: this.dtAtual
+
+        }
+        this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+           if(res.success == true){
+             loader.dismiss();
+             this.presentToast('Atualizado com sucesso');
+             this.ionViewDidEnter();
+
+           }else{
+            loader.dismiss();
+            this.presentToast('Erro na atualização');
+         
+           }
+        },(err)=>{
+          loader.dismiss();
+          this.presentToast(err);
+        })
+
+      });
+    }
 
 }

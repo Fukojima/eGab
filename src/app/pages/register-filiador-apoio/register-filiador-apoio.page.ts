@@ -255,7 +255,7 @@ this.nr_titulo = '0000' + tempTitle;
            if(res.success == true){
              loader.dismiss();
           
-             this.presentToast(res.msg);
+             this.presentToast('Cadastrado com sucesso');
              this.openHome();
 
 
@@ -263,7 +263,7 @@ this.nr_titulo = '0000' + tempTitle;
            }else{
             loader.dismiss();
             this.disabledButton = false;
-            this.presentToast(res.msg);
+            this.presentToast('Erro no cadastro');
          
            }
         },(err)=>{

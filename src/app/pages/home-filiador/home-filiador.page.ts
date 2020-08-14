@@ -100,6 +100,9 @@ export class HomeFiliadorPage implements OnInit {
       
      
   }  
+
+
+  
   openConsulta(){
          
      this.router.navigate(['/consulta-cadastro'])   
@@ -144,6 +147,13 @@ export class HomeFiliadorPage implements OnInit {
   openCadastroPendente(){
          
     this.router.navigate(['/cadastro-pendente'])   
+         
+        
+  }
+
+  openConsultaFiliado(){
+         
+    this.router.navigate(['/consulta-cadastro-lideranca'])   
          
         
   }
