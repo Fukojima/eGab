@@ -394,7 +394,7 @@ this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':'
 
     
 
-      async editMsgPadraoAniversario(a){
+      async editMsgPadraoAniversario(){
         const loader = await this.loadingCtrl.create({
           message : 'Aguarde...',
         })
