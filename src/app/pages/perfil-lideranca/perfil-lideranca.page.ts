@@ -5,7 +5,12 @@ import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import { Plugins, CameraResultType, CameraSource, FilesystemDirectory} from '@capacitor/core';
+import { FormGroup } from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
+const { Camera, FileSystem} = Plugins;
 
 
 @Component({
@@ -70,10 +75,10 @@ export class PerfilLiderancaPage implements OnInit {
   inputImgp: string = 'displayimgp'
   sendImgp: string = 'noneImgp'
    zonaClass: string = "zona-none"
- 
+  sn_validar_cadastro;
   email_filiado 	: string
   telefone_filiado 	: string
-
+  
   nr_zona: any;
   nr_secao: any;
   id_municipio: any;
@@ -82,6 +87,7 @@ export class PerfilLiderancaPage implements OnInit {
   documento_verso_titulo: any;
   documento_comprovante: any;
   obs: any;
+  base64Image: string;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -128,7 +134,18 @@ export class PerfilLiderancaPage implements OnInit {
     this.router.navigate(['/mudar-senha']);   
     this.dismiss();
   }
-
+  async photo(){
+    const image = await Camera.getPhoto({
+      quality:100,
+      allowEditing: false,
+      resultType:CameraResultType.Base64,
+      source:CameraSource.Camera
+    });
+          this.base64Image = image.base64String;
+  
+          this.persistImg(this.base64Image);
+        
+  }
   async loadUsers(){
  
 
@@ -261,7 +278,7 @@ export class PerfilLiderancaPage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente}">`,
       buttons: ['Fechar']
     });
 
@@ -276,7 +293,7 @@ export class PerfilLiderancaPage implements OnInit {
       cssClass: 'documento',
       header: 'Verso do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_verso}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_verso}">`,
       buttons: ['Fechar']
     });
 
@@ -708,7 +725,7 @@ export class PerfilLiderancaPage implements OnInit {
         cssClass: 'documento',
         header: 'Frente do Título de eleitor',
   
-        message:  `<img src="https://egab.app/api/img/${this.documento_frente_titulo}">`,
+        message:  `<img src="data:image/jpeg;base64,${this.documento_frente_titulo}">`,
         buttons: ['Fechar']
       });
   
@@ -723,7 +740,7 @@ export class PerfilLiderancaPage implements OnInit {
         cssClass: 'documento',
         header: 'Frente do Título de eleitor',
   
-        message:  `<img class=""img-doc" src="https://egab.app/api/img/${this.documento_verso_titulo}">`,
+        message:  `<img class=""img-doc" src="data:image/jpeg;base64,${this.documento_verso_titulo}">`,
         buttons: ['Fechar']
       });
   
@@ -736,7 +753,7 @@ export class PerfilLiderancaPage implements OnInit {
         cssClass: 'documento',
         header: 'Comprovante de resiência',
   
-        message:  `<img src="https://egab.app/api/img/${this.documento_comprovante}">`,
+        message:  `<img src="data:image/jpeg;base64,${this.documento_comprovante}">`,
         buttons: ['Fechar']
       });
   

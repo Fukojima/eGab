@@ -13,11 +13,11 @@
     background-color: black;
     height:200%;
   }
-
+  .nonept{display:none;}
   .flex{
     display: flex;
 }
-
+.displayImg{ opacity: 0.8; font-family: Exo; font-size: 12px; font-style: italic; margin-left: 10px; color:green; }
 .uppercase{
 
     text-transform: uppercase;

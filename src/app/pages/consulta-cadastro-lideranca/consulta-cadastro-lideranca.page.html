@@ -24,11 +24,11 @@
       
    
            <ion-item class="q">
-            <ion-label class="font-label" > Lider
+            <ion-label class="font-label" > Liderança
             </ion-label>
    
   
-        <ion-select class="font-label" ngModel required [(ngModel)]="id_lideranca" cancelText="Cancelar" name="lideranca" >
+        <ion-select class="font-label"  ngModel required [(ngModel)]="id_lideranca" cancelText="Cancelar" name="lideranca" >
   
         <ion-select-option value="{{lider.id_lideranca}} "  *ngFor="let lider of lideres"  name="zona-option" >{{lider.nome_lideranca}}</ion-select-option>
        
@@ -41,7 +41,7 @@
       <ion-label class="font-label" > Zona</ion-label>
       <ion-select class="font-label" ngModel required [(ngModel)]="id_zona" cancelText="Cancelar" name="zona" >
 
-      <ion-select-option value="{{zona.id_zona}} " *ngFor="let zona of zonas"  name="zona-option" class="font-label"  >{{zona.nr_zona}}  </ion-select-option>
+      <ion-select-option [value]="{id_zona: zona.id_zona, nr_zona_filtro:zona.nr_zona} "  *ngFor="let zona of zonas"  name="zona-option" class="font-label"  >{{zona.nr_zona}}  </ion-select-option>
      
       </ion-select>
       <ion-button class="k" (click)='loadSecao()' > Carregar<br> seções</ion-button>
@@ -53,7 +53,7 @@
      
       <ion-select class="font-label" cancelText="Cancelar" name="secao" ngModel required [(ngModel)]="id_secao">
         
-      <ion-select-option value="{{secao.id_secao}}" *ngFor="let secao of secoes"  name="secao-option" class="font-label"  >{{secao.nr_secao}}  </ion-select-option>
+      <ion-select-option [value]="{id_secao: secao.id_secao, nr_secao_filtro:secao.nr_secao}" *ngFor="let secao of secoes"  name="secao-option" class="font-label"  >{{secao.nr_secao}}  </ion-select-option>
 
     </ion-select>
 
@@ -65,8 +65,10 @@
 </div>
 <div class={{list}}>
   <div>
-  <ion-label  class="font-label">Total :{{count}}</ion-label>
+
   <ion-icon name="return-up-back-outline" (click)="backSearch()" class="user-icon"></ion-icon></div>
+  <ion-label  class="font-label"><b>Filtros Aplicados :</b><br>{{filtro1}}<br>{{filtro2}}<br>{{filtro3}}<br></ion-label>
+  <ion-label  class="font-label">Total :{{count}}</ion-label>
     <ion-list-header class="font-label">Listagem por ordem alfabética</ion-list-header>
     
  
@@ -74,14 +76,18 @@
       <ion-item-sliding *ngFor="let user of users" >
             <ion-item>
            
-              <img class="user-picture" src="https://egab.app/api/img/{{user.perfil}}">
-              <ion-label class="font-label" (click)="openFiliado(user.id_filiado)">{{user.nome}} </ion-label>
+              <img class="user-picture" src="data:image/jpeg;base64,{{user.perfil}}">
+              <ion-label class="font-label " (click)="openFiliado(user.id_filiado)"><b>{{user.nome}} </b><br> <p class="{{ff}}">Liderança:{{user.nome_lideranca}} <br><p class="{{ff}} {{user.situacao_cadastro}}"><i>Aguardando aprovação</i></p>
+              
+              </ion-label>
+
 
               <a class='{{user.sn_whatsapp}}' href="https://api.whatsapp.com/send?phone=55{{user.telefone_lideranca}}"><img src="../../../assets/icon/{{user.sn_whatsapp}}.png" alt="HTML tutorial" style="width:42px;height:42px;"></a>
             </ion-item>
            
         
       </ion-item-sliding>
+      <ion-button (click)="createPDF()">Gerar PDF</ion-button>
     </div>
   </ion-list>
 

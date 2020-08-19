@@ -6,7 +6,12 @@ import { AcessProviders} from '../../providers/access-providers';
 import { HttpClient } from '@angular/common/http';
 import { ModalFiliadosPage } from './../modal-filiados/modal-filiados.page';
 import * as moment from 'moment';
+import { Plugins, CameraResultType, CameraSource, FilesystemDirectory} from '@capacitor/core';
+import { FormGroup } from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
+const { Camera, FileSystem} = Plugins;
 
 @Component({
   selector: 'app-perfil-lideranca-filiador',
@@ -83,6 +88,7 @@ export class PerfilLiderancaFiliadorPage implements OnInit {
   documento_verso_titulo: any;
   documento_comprovante: any;
   obs: any;
+  base64Image: string;
   constructor(    private router : Router,
     private http: HttpClient,
     private toastCtrl : ToastController,
@@ -252,7 +258,7 @@ export class PerfilLiderancaFiliadorPage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do Título de eleitor',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente_titulo}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente_titulo}">`,
       buttons: ['Fechar']
     });
 
@@ -267,7 +273,7 @@ export class PerfilLiderancaFiliadorPage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do Título de eleitor',
 
-      message:  `<img class=""img-doc" src="https://egab.app/api/img/${this.documento_verso_titulo}">`,
+      message:  `<img class=""img-doc" src="data:image/jpeg;base64,${this.documento_verso_titulo}">`,
       buttons: ['Fechar']
     });
 
@@ -607,7 +613,7 @@ export class PerfilLiderancaFiliadorPage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente}">`,
       buttons: ['Fechar']
     });
 
@@ -622,7 +628,7 @@ export class PerfilLiderancaFiliadorPage implements OnInit {
       cssClass: 'documento',
       header: 'Verso do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_verso}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_verso}">`,
       buttons: ['Fechar']
     });
 
@@ -1024,17 +1030,28 @@ export class PerfilLiderancaFiliadorPage implements OnInit {
         this.enviadop = 'displayedp'
     }
 
-
-    async filiadosList(a,b) {
+    async photo(){
+      const image = await Camera.getPhoto({
+        quality:100,
+        allowEditing: false,
+        resultType:CameraResultType.Base64,
+        source:CameraSource.Camera
+      });
+            this.base64Image = image.base64String;
+    
+            this.persistImg(this.base64Image);
+        
+    }
+    async filiadosList() {
       const modal = await this.modalController.create({
         component: ModalFiliadosPage,
         cssClass: 'my-custom-class',
         componentProps: {
-          'id_lideranca_pass': a,
-          'nome_lideranca':b
+          'id_lideranca_pass': this.id_lideranca,
+          
         }
       });
-      console.log('a:',a);
+
       return await modal.present();
      
     }

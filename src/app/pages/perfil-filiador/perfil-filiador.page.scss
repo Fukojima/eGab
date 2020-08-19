@@ -19,6 +19,11 @@
   margin-left: 5px;
 }
 
+.input-msg{
+  height: 150px;
+}
+
+
 .user-icon{
   width: 20px;
   height: 20px;
@@ -38,6 +43,10 @@
 
   }
 
+  .quebra{
+
+    white-space: normal;
+  }
 
 
   .sc-ion-alert-md-h{
@@ -75,6 +84,12 @@ ion-button{
 
   margin-right: 3px;
 }
+
+
+.butt{
+  width:100%;
+}
+
 
 .but{
   float: right;

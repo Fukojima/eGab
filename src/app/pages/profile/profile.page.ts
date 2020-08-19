@@ -311,7 +311,7 @@ export class ProfilePage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente}">`,
       buttons: ['Fechar']
     });
 
@@ -324,7 +324,7 @@ export class ProfilePage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do Título de eleitor',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente_titulo}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente_titulo}">`,
       buttons: ['Fechar']
     });
 
@@ -339,7 +339,7 @@ export class ProfilePage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do Título de eleitor',
 
-      message:  `<img class=""img-doc" src="https://egab.app/api/img/${this.documento_verso_titulo}">`,
+      message:  `<img class=""img-doc" src="data:image/jpeg;base64,${this.documento_verso_titulo}">`,
       buttons: ['Fechar']
     });
 
@@ -352,7 +352,7 @@ export class ProfilePage implements OnInit {
       cssClass: 'documento',
       header: 'Comprovante de resiência',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_comprovante}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_comprovante}">`,
       buttons: ['Fechar']
     });
 
@@ -367,7 +367,7 @@ export class ProfilePage implements OnInit {
       cssClass: 'documento',
       header: 'Verso do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_verso}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_verso}">`,
       buttons: ['Fechar']
     });
 

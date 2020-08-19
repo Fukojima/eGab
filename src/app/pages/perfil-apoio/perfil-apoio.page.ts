@@ -5,7 +5,12 @@ import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import { Plugins, CameraResultType, CameraSource, FilesystemDirectory} from '@capacitor/core';
+import { FormGroup } from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
+const { Camera, FileSystem} = Plugins;
 
 
 @Component({
@@ -85,6 +90,7 @@ export class PerfilApoioPage implements OnInit {
   documento_verso_titulo: any;
   documento_comprovante: any;
   obs: any;
+  base64Image: string;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -249,6 +255,18 @@ this.endereco = res.result[0].endereco;
     
  }
 
+ async photo(){
+  const image = await Camera.getPhoto({
+    quality:100,
+    allowEditing: false,
+    resultType:CameraResultType.Base64,
+    source:CameraSource.Camera
+  });
+        this.base64Image = image.base64String;
+
+        this.persistImg(this.base64Image);
+    
+}
 
 
 
@@ -258,7 +276,7 @@ this.endereco = res.result[0].endereco;
       cssClass: 'documento',
       header: 'Frente do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente}">`,
       buttons: ['Fechar']
     });
 
@@ -273,7 +291,7 @@ this.endereco = res.result[0].endereco;
       cssClass: 'documento',
       header: 'Verso do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_verso}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_verso}">`,
       buttons: ['Fechar']
     });
 
@@ -628,7 +646,7 @@ this.endereco = res.result[0].endereco;
       cssClass: 'documento',
       header: 'Frente do Título de eleitor',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente_titulo}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente_titulo}">`,
       buttons: ['Fechar']
     });
 
@@ -643,7 +661,7 @@ this.endereco = res.result[0].endereco;
       cssClass: 'documento',
       header: 'Frente do Título de eleitor',
 
-      message:  `<img class=""img-doc" src="https://egab.app/api/img/${this.documento_verso_titulo}">`,
+      message:  `<img class=""img-doc" src="data:image/jpeg;base64,${this.documento_verso_titulo}">`,
       buttons: ['Fechar']
     });
 

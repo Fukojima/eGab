@@ -30,17 +30,21 @@
             <input type="file" id="filePicker" (change)="handleFileSelect($event)">
        
           </ion-item>
-          <ion-item>
-            <label class ="font-label {{sendImgp}}"for="filePicker">Imagem selecionada</label>
-            <label class ="font-label {{inputImgp}}"for="filePicker">Selecione uma  imagem...</label>
-           
-            <ion-input class="input" type="file" id="filePicker" (change)="handleFileSelect($event)" > </ion-input>
-        <ion-button (click)="verImg()"  class={{imgk}}> <ion-icon class='image-icon' name="image-outline"></ion-icon>Ver Imagem </ion-button>
-          </ion-item>
-          <div padding>
-            <ion-button  size="medium"  (click)="send()" expand="block">Enviar</ion-button>
-          </div>
+ 
+
+         
 </ion-list>
+<ion-item>
+
+  <div padding>
+    <ion-button    (click)="photo()" expand="block">Selecionar<br> Imagem</ion-button>
+  </div>
+
+<ion-button (click)="verImg()"size="small" expand="block" class="{{imgk}}" > <ion-icon class='image-icon' name="image-outline"></ion-icon>Ver Imagem </ion-button>
+</ion-item>
+<div padding>
+  <ion-button  size="medium"  (click)="send()" expand="block">Enviar</ion-button>
+</div>
         </div>
         
         

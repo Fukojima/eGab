@@ -42,10 +42,14 @@
    
   }
 
-
+.verimg{
+  --background: green;
+}
 
   ion-button{
     --background: #0f2546;
+    font-family: Exo;
+   
 }
   
   :host{

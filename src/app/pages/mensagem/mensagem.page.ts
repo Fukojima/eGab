@@ -3,7 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
 import { Storage } from '@ionic/storage';
-
+import { FormGroup } from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Plugins, CameraResultType, CameraSource, FilesystemDirectory} from '@capacitor/core';
+const { Camera, FileSystem} = Plugins;
 
 
 @Component({
@@ -30,6 +34,7 @@ export class MensagemPage implements OnInit {
   id_apoio: any="";
   id_filiador: any ="";
   id_grupo: any;
+  base64Image: string;
   constructor(
 
     private router : Router,
@@ -111,7 +116,7 @@ _handleReaderLoaded(readerEvt) {
       cssClass: 'documento',
       header: 'Preview da imagem',
 
-      message:  `<img src="data:image/jpeg;base64,${this.base64textString}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.base64Image}">`,
       buttons: ['Fechar']
     });
 
@@ -119,10 +124,22 @@ _handleReaderLoaded(readerEvt) {
 
 
    }
+
+   async photo(){
+    const image = await Camera.getPhoto({
+      quality:100,
+      allowEditing: false,
+      resultType:CameraResultType.Base64,
+      source:CameraSource.Camera
+    });
+          this.base64Image = image.base64String;
+          this.imgk = "verimg";
+       
+      
+  }
  
   async send(){
 
- 
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
@@ -132,7 +149,7 @@ _handleReaderLoaded(readerEvt) {
         let body={
         aksi: 'proses_mensagem',
         mensagem: this.mensagem,
-        img: this.base64textString,
+        img: this.base64Image,
         id_lideranca: this.id_lideranca,
         id_apoio: this.id_apoio,
         id_filiador: this.id_filiador,

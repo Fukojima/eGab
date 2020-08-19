@@ -170,6 +170,9 @@ export class ModalApoioPage implements OnInit {
                  this.id_secao = res.result[0].id_secao;
                  this.nr_titulo = res.result[0].nr_titulo;
                  this.obs = res.result[0].obs;
+                 this.documento_frente_titulo = res.result[0].documento_frente_titulo,
+                 this.documento_verso_titulo = res.result[0].documento_verso_titulo,
+                 this.documento_comprovante = res.result[0].comprovante,
                  this.loadZonaSecao(this.id_zona, this.id_secao);
                  this.data_nascimento = moment(res.result[0].data_nascimento).format("DD/MM/YYYY");
                  if(res.result[0].dt_alteracao == null || ""){
@@ -234,7 +237,7 @@ export class ModalApoioPage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente}">`,
       buttons: ['Fechar']
     });
 
@@ -247,7 +250,7 @@ export class ModalApoioPage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do Título de eleitor',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_frente_titulo}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_frente_titulo}">`,
       buttons: ['Fechar']
     });
 
@@ -262,7 +265,7 @@ export class ModalApoioPage implements OnInit {
       cssClass: 'documento',
       header: 'Frente do Título de eleitor',
 
-      message:  `<img class=""img-doc" src="https://egab.app/api/img/${this.documento_verso_titulo}">`,
+      message:  `<img class=""img-doc" src="data:image/jpeg;base64,${this.documento_verso_titulo}">`,
       buttons: ['Fechar']
     });
 
@@ -277,7 +280,7 @@ export class ModalApoioPage implements OnInit {
       cssClass: 'documento',
       header: 'Verso do documento',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_verso}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_verso}">`,
       buttons: ['Fechar']
     });
 
@@ -585,7 +588,7 @@ export class ModalApoioPage implements OnInit {
           cssClass: 'documento',
           header: 'Comprovante de resiência',
     
-          message:  `<img src="https://egab.app/api/img/${this.documento_comprovante}">`,
+          message:  `<img src="data:image/jpeg;base64,${this.documento_comprovante}">`,
           buttons: ['Fechar']
         });
     

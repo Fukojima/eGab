@@ -19,7 +19,7 @@
     <ion-list-header class="font-label">Listagem por ordem alfabética</ion-list-header>
       <ion-item-sliding *ngFor="let user of users" >
             <ion-item>
-              <img class="user-flag" src="../../../assets/icon/flag.png">
+              <img class="user-picture" src="data:image/jpeg;base64,{{user.perfil}}">
               <ion-label  (click)="presentModal(user.id_lideranca,user.nome)">{{user.nome}} </ion-label>
             </ion-item>
            

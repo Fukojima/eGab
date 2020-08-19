@@ -113,49 +113,54 @@
           <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
         </ion-select>
             </ion-item>
-
-            <ion-item>
-              <label class ="font-label {{sendImg}}"for="upload-photof">Imagem selecionada</label>
-              <label class ="font-label {{inputImg}}"for="upload-photof">Selecione uma imagem da frente do documento de identificação</label>
-              <ion-input class="input" type="file" name="imagefrente" id="upload-photof" [(ngModel)] = 'image'  (change)="selectedFile($event,'F')"> </ion-input>
-      <ion-button class="{{iff}} b" (click)="onClick('F')"  ><p class="{{enviadof}}">Enviado</p> <p class="{{enviarf}}">Enviar</p></ion-button>
-      
+            <ion-label class="font-label"> Imagem da frente do documento de identificação</ion-label>
+          
+            <ion-item >
+              <ion-button class=" b" (click)="frenteIdentificacao()" ><p class="{{enviarf}}">Selecionar</p></ion-button>
+              <p class="{{enviadov}} displayImg">Imagem enviada</p>
+       
             </ion-item>
-            <ion-item>
-              <label class ="font-label {{sendImgv}}"for="upload-photov">Imagem selecionada</label>
-              <label class ="font-label {{inputImgv}}"for="upload-photov">Selecione uma imagem do verso do documento de identificação</label>
-              <ion-input class="input" type="file" name="imageverso" id="upload-photov"  [(ngModel)] = 'image'  (change)="selectedFile($event,'V')"> </ion-input>
-      <ion-button class="{{iv}} b" (click)="onClick('V')" > <p class="{{enviadov}}">Enviado</p> <p class="{{enviarv}}">Enviar</p></ion-button>
-            </ion-item>
-            <ion-item>
-              <label class ="font-label {{sendImgt}}"for="upload-photoft">Imagem selecionada</label>
-              <label class ="font-label {{inputImgt}}"for="upload-photoft">Selecione uma imagem da frente do título de eleitor</label>
-              <ion-input class="input" type="file" name="imagefrente" id="upload-photoft" [(ngModel)] = 'image'  (change)="selectedFile($event,'FT')"> </ion-input>
-      <ion-button class="{{it}} b" (click)="onClick('FT')"  ><p class="{{enviadoft}}">Enviado</p> <p class="{{enviarft}}">Enviar</p></ion-button>
-      
-            </ion-item>
-            <ion-item>
-              <label class ="font-label {{sendImgvt}}"for="upload-photovt">Imagem selecionada</label>
-              <label class ="font-label {{inputImgvt}}"for="upload-photovt">Selecione uma imagem do verso do título de eleitor</label>
-              <ion-input class="input" type="file" name="imageverso" id="upload-photovt"  [(ngModel)] = 'image'  (change)="selectedFile($event,'VT')"> </ion-input>
-      <ion-button class="{{ivt}} b" (click)="onClick('VT')" > <p class="{{enviadovt}}">Enviado</p> <p class="{{enviarvt}}">Enviar</p></ion-button>
-            </ion-item>
-            <ion-item>
-              <label class ="font-label {{sendImgc}}"for="upload-photoc">Imagem selecionada</label>
-              <label class ="font-label {{inputImgc}}"for="upload-photoc">Selecione uma imagem do comprovante de residencia</label>
-              <ion-input class="input" type="file" name="imageverso" id="upload-photoc"  [(ngModel)] = 'image'  (change)="selectedFile($event,'C')"> </ion-input>
-      <ion-button class="{{ic}} b" (click)="onClick('C')" > <p class="{{enviadoc}}">Enviado</p> <p class="{{enviarc}}">Enviar</p></ion-button>
-            </ion-item>
-
-
-            <ion-item>
-              <label class ="font-label {{sendImgp}}"for="upload-photop">Imagem selecionada</label>
-              <label class ="font-label {{inputImgp}}"for="upload-photop">Selecione uma imagem para o seu perfil</label>
-             
-              <ion-input class="input" type="file" name="imageperfil"  id="upload-photop" [(ngModel)] = 'image'  (change)="selectedFile($event,'P')"> </ion-input>
-      <ion-button class="{{ip}} b" (click)="onClick('P')" > <p class="{{enviadop}}">Enviado</p> <p class="{{enviarp}}">Enviar</p></ion-button>
-            </ion-item>
+   
          
+          <ion-label class="font-label"> Imagem do verso do documento de identificação</ion-label>
+        
+          <ion-item >
+            <ion-button class=" b" (click)="versoIdentificacao()" ><p class="{{enviarf}}">Selecionar</p></ion-button>
+            <p class="{{enviadop}} displayImg">Imagem enviada</p>
+     
+          </ion-item>
+
+        <ion-label class="font-label"> Imagem da frente do título de eleitor</ion-label>
+      
+        <ion-item >
+          <ion-button class=" b" (click)="frenteTitulo()" ><p class="{{enviarf}}">Selecionar</p></ion-button>
+          <p class="{{enviadopt}} displayImg">Imagem enviada</p>
+   
+        </ion-item>
+  
+      <ion-label class="font-label"> Imagem do verso do titulo de eleitor</ion-label>
+    
+      <ion-item >
+        <ion-button class=" b" (click)="versoTitulo()" ><p class="{{enviarf}}">Selecionar</p></ion-button>
+        <p class="{{enviadoft}} displayImg">Imagem enviada</p>
+ 
+      </ion-item>
+   
+    <ion-label class="font-label"> Imagem do comprovante de residencia</ion-label>
+  
+    <ion-item >
+      <ion-button class=" b" (click)="comprovante()" ><p class="{{enviarf}}">Selecionar</p></ion-button>
+      <p class="{{enviadovt}} displayImg">Imagem enviada</p>
+
+    </ion-item>   
+     <ion-label class="font-label"> Imagem do perfil de usuário</ion-label>
+  
+    <ion-item >
+      <ion-button class=" b" (click)="perfilImg()" ><p class="{{enviarf}}">Selecionar</p></ion-button>
+      <p class="{{enviadof}} displayImg">Imagem enviada</p>
+
+    </ion-item>
+    
         
             
 

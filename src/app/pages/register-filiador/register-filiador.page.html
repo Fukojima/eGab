@@ -52,9 +52,24 @@
                 <ion-select-option class="font-label" value="5"  name="Jaboatão" ngDefaultControl>Jaboatão</ion-select-option>
               </ion-select>
             </ion-item>
+            <ion-label class="font-label"> Imagem do perfil de usuário</ion-label>
+  
+            <ion-item >
+              <ion-button class=" b" (click)="perfilImg()" ><p >Selecionar</p></ion-button>
+              <p class="{{enviadof}} displayImg">Imagem enviada</p>
+        
+            </ion-item>
+                
             <ion-item>
               <ion-label class="font-label" >Para filiados.<br> Validar o cadastro?</ion-label>
         <ion-select cancelText="Cancelar" class="font-label"  [(ngModel)]="sn_validar_cadastro" name="validar">
+          <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+          <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+        </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label" >Dados do título de eleitor obrigatórios?</ion-label>
+        <ion-select cancelText="Cancelar" class="font-label"  [(ngModel)]="sn_obriga_dados_titulos" name="validarTitulo">
           <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
           <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
         </ion-select>

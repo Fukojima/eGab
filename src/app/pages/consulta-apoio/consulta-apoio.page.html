@@ -20,7 +20,7 @@
       <ion-item-sliding *ngFor="let user of users" >
             <ion-item>
            
-              <img class="user-picture" src="https://egab.app/api/img/{{user.perfil}}">
+              <img class="user-picture" src="data:image/jpeg;base64,{{user.perfil}}">
               <ion-label class="font-label" (click)="presentModal(user.id_apoio,user.nome)">{{user.nome}} </ion-label>
 
               <a class='{{user.sn_whatsapp}}' href="https://api.whatsapp.com/send?phone=55{{user.telefone_apoio}}"><img src="../../../assets/icon/{{user.sn_whatsapp}}.png" alt="HTML tutorial" style="width:42px;height:42px;"></a>

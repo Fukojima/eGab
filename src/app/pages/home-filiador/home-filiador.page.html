@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar >
-    <img class='photo' src="https://egab.app/api/img/{{perfil}}">
+    <img class='photo' src="data:image/jpeg;base64,{{perfil}}">
     <div class="user-name">Olá, {{name}}</div>
     <div class="font-labedl"> Perfil: Filiador</div><ion-button (click) ="popLogout()" class="user-button"color="light"><ion-icon   name="log-out-outline" class="icon"></ion-icon></ion-button>
   </ion-toolbar>
@@ -21,7 +21,7 @@
         <ion-button color="light"  (click)="openConsultaFiliado()" class="gallery__item font-label "><div><div><ion-icon name="search-outline" class="icon"></ion-icon></div><div class="text">Consultar<br> Filiado</div></div></ion-button>
         <ion-button color="light"  (click)="openProfile()" class="gallery__item font-label "><div><div><ion-icon name="person-outline" class="icon"></ion-icon></div><div class="text">Perfil</div></div></ion-button>      
         <ion-button color="light" (click)="sendMessage()" class="gallery__item font-label "><div><div><ion-icon name="logo-whatsapp" class="icon"></ion-icon></div><div class="text">Enviar<br> Mensagem</div></div></ion-button>
-        <ion-button color="light" (click)="openCadastroPendente()" class="gallery__item font-label "><div><div><ion-icon name="checkbox-outline" class="icon"></ion-icon></div><div class="text">Aprovar<br> Cadastro</div></div></ion-button>
+        <ion-button color="light" (click)="openCadastroPendente()" class="gallery__item font-label "><div><div><ion-icon name="checkbox-outline" class="icon"></ion-icon></div><div class="text">Validar<br> Cadastro</div></div></ion-button>
       </div>
     </main>
 

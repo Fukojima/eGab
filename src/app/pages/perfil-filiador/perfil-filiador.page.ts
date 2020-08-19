@@ -1,10 +1,17 @@
+import { async } from '@angular/core/testing';
 import { Storage } from '@ionic/storage';
 import { ToastController, LoadingController, AlertController, NavController, ModalController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
 import { HttpClient } from '@angular/common/http';
+import { Plugins, CameraResultType, CameraSource, FilesystemDirectory} from '@capacitor/core';
+import { FormGroup } from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as moment from 'moment';
 
+const { Camera, FileSystem} = Plugins;
 
 
 @Component({
@@ -64,11 +71,24 @@ export class PerfilFiliadorPage implements OnInit {
   enviarp :string ='displayedp'
   enviadop:string = 'nonep'
   zonas: any=[];
-  
+  div: string = 'nonep'
   zonaaa : string 
   secoes: any = []
   inputImgp: string = 'displayimgp'
   sendImgp: string = 'noneImgp'
+  sn_validar_cadastro;
+  validacao;
+  sn_obriga_dados_titulos: any;
+  msg_padrao_aniversario: any;
+  divv: any = 'nonep';
+ hh: any='';
+ mime: any = 'nonep';
+ mm: any='';
+
+ tite: any = 'nonep';
+ tt: any = ''
+  dadosTitulo: string;
+  base64Image: string;
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -101,7 +121,19 @@ export class PerfilFiliadorPage implements OnInit {
      
 
        this.loadUsers();
-  
+       if (this.sn_validar_cadastro == "S"){
+         this.validacao = "Sim"
+       }else{
+        this.validacao = "Não"
+       }
+
+
+
+       if (this.sn_obriga_dados_titulos == "S"){
+        this.dadosTitulo = "Sim"
+      }else{
+       this.dadosTitulo = "Não"
+      }
      
        
        
@@ -143,6 +175,9 @@ export class PerfilFiliadorPage implements OnInit {
                  this.cidade = res.result[0].cidade;
                  this.uf = res.result[0].uf;
                  this.data_nascimento = res.result[0].data_nascimento;
+                 this.sn_validar_cadastro = res.result[0].sn_validar_cadastro;
+                 this.sn_obriga_dados_titulos=res.result[0].sn_obriga_dados_titulos;
+                 this.msg_padrao_aniversario = res.result[0].msg_padrao_aniversario;
                  if(res.result[0].dt_alteracao == null || ""){
                           this.dt_alteracao = 'Não houve alterações'
 
@@ -190,8 +225,103 @@ export class PerfilFiliadorPage implements OnInit {
     
  }
 
+ popupNovoSNValidaCadastro(){
+   this.divv = ''
+   this.hh = 'nonep'
+ }
+ popupNovoSNObrigaDadosTitulo(){
+  this.tite = ''
+  this.tt = 'nonep'
+}
+
+popupNovoMsgCadastro(){
+  this.mime = ''
+  this.mm = 'nonep'
+}
+ async editNovoSNValidaCadastro(){
+  const loader = await this.loadingCtrl.create({
+    message : 'Aguarde...',
+  })
+  loader.present();
+  this.dt = new Date().getDate();
+this.ms = new Date().getMonth()+1;
+this.ano = new Date().getFullYear();
+var hrs = new Date().getHours();
+var min = new Date().getMinutes();
+var sec = new Date().getSeconds();
+//this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+  return new Promise(resolve => {
+    let body={
+    aksi: 'proses_update_sn_validar_cadastro',
+    sn_validar_cadastro : this.sn_validar_cadastro,
+
+    id_filiador: this.id_filiador,
+    data_atual: this.dtAtual
+
+    }
+    this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+       if(res.success == true){
+         loader.dismiss();
+         this.presentToast('Atualizado com sucesso');
+         this.ionViewDidEnter();
+   this.divv = 'nonep'
+   this.hh = ''
+       }else{
+        loader.dismiss();
+        this.presentToast('Erro na atualização');
+     
+       }
+    },(err)=>{
+      loader.dismiss();
+      this.presentToast(err);
+    })
+
+  });
+ }
 
 
+ async editNovoSNObrigaDadosTitulo(){
+  const loader = await this.loadingCtrl.create({
+    message : 'Aguarde...',
+  })
+  loader.present();
+  this.dt = new Date().getDate();
+this.ms = new Date().getMonth()+1;
+this.ano = new Date().getFullYear();
+var hrs = new Date().getHours();
+var min = new Date().getMinutes();
+var sec = new Date().getSeconds();
+//this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+  return new Promise(resolve => {
+    let body={
+    aksi: 'proses_update_sn_obriga_dados_titulo',
+    sn_obriga_dados_titulo : this.sn_obriga_dados_titulos,
+
+    id_filiador: this.id_filiador,
+    data_atual: this.dtAtual
+
+    }
+    this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+       if(res.success == true){
+         loader.dismiss();
+         this.presentToast('Atualizado com sucesso');
+         this.ionViewDidEnter();
+         this.tite = 'nonep'
+         this.tt = ''
+       }else{
+        loader.dismiss();
+        this.presentToast('Erro na atualização');
+     
+       }
+    },(err)=>{
+      loader.dismiss();
+      this.presentToast(err);
+    })
+
+  });
+ }
 
 
    async openFrente(){
@@ -262,6 +392,50 @@ export class PerfilFiliadorPage implements OnInit {
         await alert.present();
       }
 
+    
+
+      async editMsgPadraoAniversario(a){
+        const loader = await this.loadingCtrl.create({
+          message : 'Aguarde...',
+        })
+        loader.present();
+        this.dt = new Date().getDate();
+      this.ms = new Date().getMonth()+1;
+      this.ano = new Date().getFullYear();
+      var hrs = new Date().getHours();
+      var min = new Date().getMinutes();
+      var sec = new Date().getSeconds();
+      //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+     this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+        return new Promise(resolve => {
+          let body={
+          aksi: 'proses_update_msg_padrao_aniversario',
+          msg_padrao_aniversario: this.msg_padrao_aniversario,
+     
+          id_filiador: this.id_filiador,
+          data_atual: this.dtAtual
+     
+          }
+          this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+             if(res.success == true){
+               loader.dismiss();
+               this.presentToast('Atualizado com sucesso');
+               this.ionViewDidEnter();
+              this.mime = 'nonep'
+              this.mm = ''
+             }else{
+              loader.dismiss();
+              this.presentToast('Erro na atualização');
+           
+             }
+          },(err)=>{
+            loader.dismiss();
+            this.presentToast(err);
+          })
+  
+        });
+      }
+
       newPass(){
         this.router.navigate(['/mudar-senha']);   
         this.dismiss();
@@ -310,7 +484,21 @@ export class PerfilFiliadorPage implements OnInit {
   
   
 
-      
+      async photo(){
+          const image = await Camera.getPhoto({
+            quality:100,
+            allowEditing: false,
+            resultType:CameraResultType.Base64,
+            source:CameraSource.Camera
+          });
+                this.base64Image = image.base64String;
+
+                this.persistImg(this.base64Image);
+            
+      }
+
+
+
 
       async presentToast(a){
         const toast = await this.toastCtrl.create({
