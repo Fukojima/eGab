@@ -58,6 +58,7 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
   dtAtual: string;
   teste: any;
   filtro3: string;
+  secao: any;
   constructor( private router : Router,
     private toastCtrl : ToastController,
     private loadingCtrl : LoadingController,
@@ -127,6 +128,11 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
     }else{
       this.zona = this.id_zona.id_zona
     }
+    if(this.id_secao == undefined){
+      this.secao = null
+    }else{
+      this.secao = this.id_secao.id_secao
+    }
     
    const loader = await this.loadingCtrl.create({
       message : 'Aguarde...',
@@ -138,7 +144,7 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
         let body={
         aksi: 'proses_pesquisa',
         id_zona: this.zona,
-        id_secao: this.id_secao.id_secao,
+        id_secao: this.secao,
         id_lideranca: this.id_lideranca,
         start: this.start,
         limit: this.limit
