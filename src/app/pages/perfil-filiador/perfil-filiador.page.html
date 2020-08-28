@@ -16,8 +16,7 @@
     <ion-label class="fontt-label" > Filiador</ion-label>
   </ion-item>
   <ion-item>
-
-    <ion-button (click)="photo()" >Atualizar imagem do perfil</ion-button>
+    <ion-button class="fullbut" (click)="photo()" ><ion-icon class='image-icon' name="cloud-upload-outline"></ion-icon>Atualizar imagem do perfil</ion-button>
     
 
   </ion-item>
@@ -94,12 +93,12 @@
   <div padding class="{{mime}}" >
     <ion-list>
     <ion-item class="flex">
-      <ion-label class="font-label">Editar mensagem padrão de aniversário:</ion-label>
+      <ion-label class="font-label">Editar mensagem padrão de aniversário:<br><i>(400 máx.)</i></ion-label>
       
       
     </ion-item>
-    <ion-label class="font-label">Limite de 400 caracteres...</ion-label>
-    <ion-label class='input-msg'  ><ion-textarea name="msg" type="text"  ngModel  [(ngModel)]="msg_padrao_aniversario" ></ion-textarea></ion-label>
+   
+    <ion-label class='input-msg'  ><ion-textarea name="msg" type="text" class="msgarea" ngModel  [(ngModel)]="msg_padrao_aniversario" ></ion-textarea></ion-label>
     <ion-button class="butt" (click)="editMsgPadraoAniversario()"> Alterar </ion-button>
    
 

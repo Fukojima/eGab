@@ -18,7 +18,7 @@
           <div padding >
             <ion-item>
               <ion-label class="font-label">CPF:</ion-label>
-              <ion-input class="font-label" name="CPF/CNPJ" type="text" mask="000.000.000-00" ngModel required  [(ngModel)]="cpf_cnpj_filiado" ></ion-input>
+              <ion-input class="font-label" name="CPF/CNPJ" type="tel" mask="000.000.000-00" ngModel required  [(ngModel)]="cpf_cnpj_filiado" ></ion-input>
             </ion-item>
             <ion-item>
               <ion-label class="font-label ">Nome:</ion-label>
@@ -30,7 +30,7 @@
             </ion-item>
             <ion-item>
               <ion-label class="font-label ">Data de nascimento:</ion-label>
-              <ion-input class="font-label " name="data" type="text"  ngModel required [(ngModel)]="data_nascimento" ></ion-input>
+              <ion-input class="font-label " name="data" type="text" mask="00/00/0000"  ngModel required [(ngModel)]="data_nascimento" ></ion-input>
             </ion-item>
             <ion-item>
               <ion-label class="font-label">Email:</ion-label>
@@ -59,7 +59,7 @@
             </ion-item>
             <ion-item>
               <ion-label class="font-label ">Número:</ion-label>
-              <ion-input class="font-label" name="Número" type="text"  ngModel required  [(ngModel)]="numero"></ion-input>
+              <ion-input class="font-label" name="Número" type="tel"  ngModel required  [(ngModel)]="numero"></ion-input>
             </ion-item>
         
             <ion-item>
@@ -83,7 +83,7 @@
           
             <ion-item>
               <ion-label class="font-label">Título de eleitor:</ion-label>
-              <ion-input  (ionBlur)="paleativeTitle()" class="font-label" name="titulo" type="text" ngModel required [(ngModel)]="nr_titulo"></ion-input>
+              <ion-input  (ionBlur)="paleativeTitle()" class="font-label" name="titulo" type="tel" ngModel required [(ngModel)]="nr_titulo"></ion-input>
             </ion-item>
             
             <ion-item >
@@ -109,7 +109,7 @@
             <ion-label class="font-label" > Liderança</ion-label>
             <ion-select class="font-label" cancelText="Cancelar" name="lider" [(ngModel)]="id_lideranca">
 
-            <ion-select-option value="{{lider.id_lideranca}}" *ngFor="let lider of lideres"  name="secao-option" class="font-label"  >{{lider.nome_lideranca}}  </ion-select-option>
+            <ion-select-option value="{{lider.id_lideranca}}" *ngFor="let lider of lideres"  name="secao-option" class="font-label g"  >{{lider.nome_lideranca}}  </ion-select-option>
 
           </ion-select>
         </ion-item>
@@ -173,6 +173,20 @@
 
 
 
+          </div>
+          <div padding >
+            <ion-list>
+            <ion-item class="flex">
+              <ion-label class="font-label">Observações:<br><i>(100 máx.)</i></ion-label>
+              
+              
+            </ion-item>
+         
+            <ion-label class='input-msg'><ion-textarea  name="msg" type="text" class="msgarea" ngModel  [(ngModel)]="obs" ></ion-textarea></ion-label>
+     
+           
+      
+  </ion-list>
           </div>
           <div padding>
             <ion-button  size="large" type="submit" (click)="tryRegister()" expand="block">Cadastrar</ion-button>

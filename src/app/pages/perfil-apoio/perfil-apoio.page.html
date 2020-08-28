@@ -19,7 +19,7 @@
 </ion-item>
 <ion-item>
 
-  <ion-button (click)="photo()" >Atualizar imagem do perfil</ion-button>
+  <ion-button class="fullbut" (click)="photo()" ><ion-icon class='image-icon' name="cloud-upload-outline"></ion-icon>Atualizar imagem do perfil</ion-button>
   
 
 </ion-item>
@@ -49,6 +49,18 @@
   <ion-label class="font-label" ><b>Telefone: </b><br>{{telefone_apoio}} </ion-label>
   <ion-icon name="{{wpp}}"  class="user-icon"></ion-icon>
   <ion-icon name="create-outline" (click)="popupNovoTelefoneApoio()" class="user-icon"></ion-icon>
+</ion-item>
+<ion-item class="{{cansend}}">
+  <ion-label class="font-label" ><b>Permissão para enviar mensagens?</b><br> {{sn_enviar_mensagem_res}}</ion-label>
+  <ion-icon name="create-outline" (click)="popupNovaSNMensagem()" class="user-icon"></ion-icon>
+</ion-item>
+<ion-item class="{{divmsg}}">
+  <ion-label class="font-label" >Permitir que esse apoio envie <br> mensagens?</ion-label>
+<ion-select  class="font-label" [(ngModel)]="sn_enviar_mensagem" name="mensagem">
+<ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+<ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+</ion-select>
+<ion-button (click)='editSNMensagemPermissao()' >Salvar</ion-button>
 </ion-item>
 <ion-item>
   <ion-label class="font-label" ><b>CEP: </b><br>{{cep}} </ion-label>
@@ -127,11 +139,33 @@
   <ion-button  (click)="openVersoTitulo()"><ion-icon class='image-icon' name="image-outline"></ion-icon>Verso</ion-button>
 </ion-item>
 
-<ion-item>
-  <ion-label class="font-label" ><b>Observação: </b><br>{{obs}} </ion-label>
-  
+
+<ion-item class="{{mm}} ">
+  <ion-label class="font-label quebra" ><b>Observação:</b> <br> {{obs}}</ion-label>
+
+  <ion-icon (click)="popupNovoObs()" name="create-outline"  class="user-icon"></ion-icon>
 
 </ion-item>
+<div padding class="{{mime}}" >
+  <ion-list>
+  <ion-item class="flex">
+    <ion-label class="font-label">Editar observação:<br><i>(100 máx.)</i></ion-label>
+    
+    
+  </ion-item>
+ 
+  <ion-label class='input-msg'  ><ion-textarea name="msg" type="text" class="msgarea" ngModel  [(ngModel)]="obs" ></ion-textarea></ion-label>
+  <ion-button class="butt" (click)="editObs()"> Alterar </ion-button>
+ 
+
+</ion-list>
+</div>
+
+
+<ion-item>  
+  <ion-button class="butt" (click)="newPass()"> Redefinir senha</ion-button>
+</ion-item>
+
 
 
 

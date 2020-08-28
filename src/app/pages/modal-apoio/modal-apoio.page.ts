@@ -248,7 +248,7 @@ export class ModalApoioPage implements OnInit {
    async openFrenteTitulo(){
     const alert = await this.alertController.create({
       cssClass: 'documento',
-      header: 'Frente do Título de eleitor',
+      header: 'Verso do Título de eleitor',
 
       message:  `<img src="data:image/jpeg;base64,${this.documento_frente_titulo}">`,
       buttons: ['Fechar']

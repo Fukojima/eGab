@@ -15,6 +15,9 @@ export class HomeApoioPage implements OnInit {
   name: string;
   senhaPadrao: string;
   perfil;
+  sn_enviar_mensagem: any;
+  enviamsg: string;
+  newwidth: string;
 
   constructor(    private router : Router,
     private toastCtrl : ToastController,
@@ -53,11 +56,15 @@ export class HomeApoioPage implements OnInit {
        this.name = this.datastorage.nome;
        this.senhaPadrao = this.datastorage.sn_ainda_senha_padrao;
        this.perfil = this.datastorage.perfil_apoio;
+       this.sn_enviar_mensagem = this.datastorage.sn_enviar_msg_apoio;
        if (this.senhaPadrao == "S"){
 
         this.presentAlert();
        }
 
+       if (this.sn_enviar_mensagem == "N"){
+       this.enviamsg = "none";
+       this.newwidth = "c";}
 
 
        

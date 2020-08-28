@@ -19,6 +19,9 @@ export class HomePage implements OnInit {
   id_lideranca: string
   nome: string
   perfil: string
+  enviamsg: string;
+  newwidth: string;
+  sn_enviar_mensagem: string;
 
   constructor(
     private router : Router,
@@ -95,10 +98,14 @@ export class HomePage implements OnInit {
 
       this.senhaPadrao = this.datastorage.sn_ainda_senha_padrao;
       this.perfil = this.datastorage.perfil_lid;
+      this.sn_enviar_mensagem = this.datastorage.sn_enviar_msg_lid;
       if (this.senhaPadrao == "S"){
 
        this.presentAlert();
       }
+      if (this.sn_enviar_mensagem == "N"){
+        this.enviamsg = "none";
+        this.newwidth = "c";}
 
    });
   }

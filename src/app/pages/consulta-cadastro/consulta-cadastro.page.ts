@@ -121,6 +121,10 @@ export class ConsultaCadastroPage implements OnInit {
              
            }
            resolve(true);
+           if (res.result == ''){
+            this.emptyFiliados();
+           
+          }
         },(err)=>{
 
         
@@ -229,7 +233,25 @@ export class ConsultaCadastroPage implements OnInit {
         }
 
   
-
+        async emptyFiliados() {
+          const alert = await this.alertController.create({
+            cssClass: 'my-custom-class',
+            header: 'Cadastro vazio',
+            
+            message: 'Não existe nenhum apoio cadastrado, deseja realizar o cadastro?',
+            buttons: [{
+              text: 'Cadastrar',
+              handler: () => {
+              this.openRegisterLideranca();
+              }
+            },
+          'Cancelar']
+            
+          });
+      
+          await alert.present();
+          
+        }
 
    openProfile(a){
 
@@ -237,6 +259,9 @@ export class ConsultaCadastroPage implements OnInit {
    }
 
 
+   openRegisterLideranca(){
+    this.router.navigate(['/register-lideranca'])
+  }
 
 
 

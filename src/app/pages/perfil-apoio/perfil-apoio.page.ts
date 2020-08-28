@@ -21,7 +21,7 @@ const { Camera, FileSystem} = Plugins;
 export class PerfilApoioPage implements OnInit {
   cpf_cnpj_apoio : string
   nome_apoio : string	
-  
+  divmsg:string = "nonep"
   email_apoio 	: string
   telefone_apoio	: string
   endereco : string 	
@@ -81,7 +81,8 @@ export class PerfilApoioPage implements OnInit {
  
   email_filiado 	: string
   telefone_filiado 	: string
-
+  sn_enviar_mensagem;
+  sn_enviar_mensagem_res;
   nr_zona: any;
   nr_secao: any;
   id_municipio: any;
@@ -91,6 +92,9 @@ export class PerfilApoioPage implements OnInit {
   documento_comprovante: any;
   obs: any;
   base64Image: string;
+  mime: any = 'nonep';
+ mm: any='';
+ cansend:string = '';
 
   constructor(    private router : Router,
     private http: HttpClient,
@@ -116,10 +120,17 @@ export class PerfilApoioPage implements OnInit {
        this.id_lideranca = this.datastorage.id_filiador_lid;
        this.us_alteracao = this.datastorage.nome;
        this.id_municipio = this.datastorage.id_municipio_filiador;
+       this.id_grupo_usuario = this.datastorage.id_grupo_usuario;
 
        if(this.id_apoio == null){
          this.id_apoio = this.datastorage.id_apoio;
          this.y = true;
+       }
+
+       if(this.id_grupo_usuario == '2'){
+         true
+       }else{
+         this.cansend='nonep'
        }
        console.log(this.x);
        this.start =0;
@@ -138,6 +149,52 @@ export class PerfilApoioPage implements OnInit {
 
    }
 
+
+   async editObs(){
+    const loader = await this.loadingCtrl.create({
+      message : 'Aguarde...',
+    })
+    loader.present();
+    this.dt = new Date().getDate();
+  this.ms = new Date().getMonth()+1;
+  this.ano = new Date().getFullYear();
+  var hrs = new Date().getHours();
+  var min = new Date().getMinutes();
+  var sec = new Date().getSeconds();
+  //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+ this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+    return new Promise(resolve => {
+      let body={
+      aksi: 'proses_update_obs_apoio',
+      observacao: this.obs,
+ 
+      id_apoio: this.id_apoio,
+      data_atual: this.dtAtual
+ 
+      }
+      this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+         if(res.success == true){
+           loader.dismiss();
+           this.presentToast('Atualizado com sucesso');
+           this.ionViewDidEnter();
+          this.mime = 'nonep'
+          this.mm = ''
+         }else{
+          loader.dismiss();
+          this.presentToast('Erro na atualização');
+       
+         }
+      },(err)=>{
+        loader.dismiss();
+        this.presentToast(err);
+      })
+
+    });
+  }
+   popupNovoObs(){
+    this.mime = ''
+    this.mm = 'nonep'
+  }
   async loadUsers(){
  
 
@@ -167,9 +224,17 @@ export class PerfilApoioPage implements OnInit {
                  this.us_aprovacao = res.result[0].us_aprovacao;
                  this.documento_frente = res.result[0].documento_frente;
                  this.documento_verso = res.result[0].documento_verso;
+                 this.documento_verso_titulo = res.result[0].documento_verso_titulo;
+                 this.documento_frente_titulo = res.result[0].documento_frente_titulo;
+                 this.documento_comprovante = res.result[0].documento_comprovante;
                  this.cidade = res.result[0].cidade;
                  this.uf = res.result[0].uf;
-           
+                 this.sn_enviar_mensagem = res.result[0].sn_enviar_mensagem;
+                 if (this.sn_enviar_mensagem == "S"){
+                  this.sn_enviar_mensagem_res ="Sim";
+                }else{
+                  this.sn_enviar_mensagem_res ="Não"
+                }
                   
                  this.nome_mae = res.result[0].nome_mae;
                        
@@ -362,7 +427,8 @@ this.endereco = res.result[0].endereco;
           let body={
           aksi: 'proses_update_nome_apoio',
           novo_nome_apoio : a.toUpperCase(),
-     
+          us_alteracao: this.us_alteracao,
+          cpf: this.cpf_cnpj_apoio.replace('.','').replace('-','').replace('.',''),
           id_apoio: this.id_apoio,
           data_atual: this.dtAtual
      
@@ -456,7 +522,7 @@ this.endereco = res.result[0].endereco;
           let body={
           aksi: 'proses_update_email_apoio',
           novo_email_apoio : a.toLowerCase(),
- 
+          cpf: this.cpf_cnpj_apoio.replace('.','').replace('-','').replace('.',''),
           id_apoio: this.id_apoio,
           data_atual: this.dtAtual
 
@@ -659,7 +725,7 @@ this.endereco = res.result[0].endereco;
    async openVersoTitulo(){
     const alert = await this.alertController.create({
       cssClass: 'documento',
-      header: 'Frente do Título de eleitor',
+      header: 'Verso do Título de eleitor',
 
       message:  `<img class=""img-doc" src="data:image/jpeg;base64,${this.documento_verso_titulo}">`,
       buttons: ['Fechar']
@@ -672,9 +738,9 @@ this.endereco = res.result[0].endereco;
    async openComprovante(){
     const alert = await this.alertController.create({
       cssClass: 'documento',
-      header: 'Comprovante de resiência',
+      header: 'Comprovante de residência',
 
-      message:  `<img src="https://egab.app/api/img/${this.documento_comprovante}">`,
+      message:  `<img src="data:image/jpeg;base64,${this.documento_comprovante}">`,
       buttons: ['Fechar']
     });
 
@@ -730,6 +796,54 @@ this.endereco = res.result[0].endereco;
       })
 
     });
+  }
+
+  async editSNMensagemPermissao(){
+    const loader = await this.loadingCtrl.create({
+      message : 'Aguarde...',
+    })
+    loader.present();
+    this.dt = new Date().getDate();
+    this.ms = new Date().getMonth()+1;
+    this.ano = new Date().getFullYear();
+    var hrs = new Date().getHours();
+    var min = new Date().getMinutes();
+    var sec = new Date().getSeconds();
+    //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+   this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+    console.log('data:', this.dtAtual);
+    return new Promise(resolve => {
+      let body={
+      aksi: 'proses_update_sn_enviar_mensagem_apoio',
+      sn_enviar_mensagem : this.sn_enviar_mensagem,
+      us_alteracao: this.us_alteracao,
+      id_apoio: this.id_apoio,
+      data_atual: this.dtAtual
+
+      }
+      this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+         if(res.success == true){
+           loader.dismiss();
+           this.presentToast('Atualizado com sucesso');
+           this.ionViewDidEnter();
+           this.divmsg="nonep"
+
+         }else{
+          loader.dismiss();
+          this.presentToast('Erro na atualização');
+       
+         }
+      },(err)=>{
+        loader.dismiss();
+        this.presentToast(err);
+      })
+
+    });
+  }
+
+
+  popupNovaSNMensagem(){
+    this.divmsg = "";
   }
   async loadZona(){
 
@@ -837,11 +951,11 @@ this.endereco = res.result[0].endereco;
                  let body={
                  aksi: 'proses_update_cep_apoio',
                  novo_cep_apoio : a,
-                 nova_cidade : res.result.cidade,
+                 nova_cidade : res.result.cidade.toUpperCase(),
                  novo_uf : res.result.uf,
-                 novo_bairro : res.result.bairro,
-                 novo_endereco : res.result.logradouro,
-                 us_alteracao: this.us_alteracao,
+                 novo_bairro : res.result.bairro.toUpperCase(),
+                 novo_endereco : res.result.logradouro.toUpperCase(),
+                 us_alteracao: this.us_alteracao.toUpperCase(),
                  id_apoio: this.id_apoio,
                  data_atual: this.dtAtual
        

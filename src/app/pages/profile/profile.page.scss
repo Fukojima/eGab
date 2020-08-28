@@ -23,7 +23,10 @@
    height:200px;
 
 }
+.quebra{
 
+  white-space: normal;
+}
  .zona-none{
    display:none;
  }
@@ -92,7 +95,8 @@
 ion-button{
   font-family: Exo;
   --background: #0f2546;
-  height: 90%;
+ 
+  width:100%;
 }
 
 
@@ -156,4 +160,8 @@ header{
 #upload-photop {
   position: absolute;
   opacity: 0;
+}
+
+.fullbut{
+  width:100%
 }

@@ -113,6 +113,8 @@ export class RegisterFiliadorApoioPage implements OnInit {
   nr_zona: any;
   id_filiador_apoio: any;
   a: any;
+  obs: any;
+  sn_obriga_dados_titulo: any;
   
 
 
@@ -143,11 +145,11 @@ export class RegisterFiliadorApoioPage implements OnInit {
        this.secoes = [];
        this.loadMunicipio();
        this.loadLider();
-     
+        this.sn_obriga_dados_titulo = this.datastorage.sn_obriga_dados_titulo_apoio
        
-       if (this.datastorage.sn_validar_cadastro == "N"){
+       if (this.datastorage.sn_validar_cadastro_apoio == "N"){
          this.situacao_cadastro = 'A';
-         this.us_aprovacao = this.datastorage.us_aprovacao_lid;
+         this.us_aprovacao = this.datastorage.us_aprovacao_apoio;
        }else{
         this.situacao_cadastro = 'G';
         this.us_aprovacao = '';
@@ -196,8 +198,13 @@ this.nr_titulo = '0000' + tempTitle;
         this.presentToast('O campo "CPF" precisa ser preenchido');
     }else if(this.testaCPF(this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.','')) == false){ 
       this.presentToast('CPF inválido.');
-  }else if(this.validarTitulo(this.nr_titulo) == false){
+  }else if(this.sn_obriga_dados_titulo == "S"){
+    if(this.validarTitulo(this.nr_titulo) == null){
+      this.presentToast('Campo de título não pode ficar nulo');
+  }
+    else if(this.validarTitulo(this.nr_titulo) == false){
     this.presentToast('Título inválido');
+}
 }else if(this.email_filiado  == null){
         this.presentToast('O campo "Email" precisa ser preenchido');
     }else if(this.telefone_filiado ==null){
@@ -250,7 +257,8 @@ this.nr_titulo = '0000' + tempTitle;
         data_nascimento: this.data_nascimento,
         documento_comprovante: this.documento_comprovante,
         id_zona: this.id_zona,
-        id_secao: this.id_secao
+        id_secao: this.id_secao,
+        obs: this.obs
 
 
         
@@ -611,6 +619,9 @@ this.nr_titulo = '0000' + tempTitle;
 
 
           async loadLider(){
+            while(this.lideres.length > 0) {
+              this.lideres.pop();
+             }
  
             const loader = await this.loadingCtrl.create({
               message : 'Aguarde...',

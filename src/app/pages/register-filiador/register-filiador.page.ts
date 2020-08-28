@@ -139,13 +139,15 @@ export class RegisterFiliadorPage implements OnInit {
         aksi: 'proses_register_filiador',
         cpf_cnpj_filiador : this.cpf_cnpj_filiador.replace('.','').replace('-','').replace('.',''),
         nome_filiador : this.nome_filiador.toUpperCase(),
-        email_filiador 	: this.email_filiador.toLowerCase(),
+        email_filiador 	: this.email_filiador,
         telefone_filiador 	: this.telefone_filiador.replace('(','').replace(')','').replace('-',''),
         id_municipio : this.id_municipio,
         sn_whatsapp : this.sn_whatsapp,
         sn_validar_cadastro : this.sn_validar_cadastro,
         msg_padrao_aniversario: this.msg_padrao_aniversario,
+        sn_obriga_dados_titulo: this.sn_obriga_dados_titulos,
         documento_perfil: this.documento_perfil
+         
          
 
         }
@@ -156,10 +158,28 @@ export class RegisterFiliadorPage implements OnInit {
              this.disabledButton = false;
              this.presentToast('Cadastro realizado com sucesso.');
              this.router.navigate(['/home-admin']);
+             this.accsPrvdrs.postData(body,'proses_api_user.php').subscribe((res:any)=>{
+              if(res.success == true){
+                loader.dismiss();
+                this.disabledButton = false;
+              
+              
+              }else{
+               loader.dismiss();
+               this.presentToast('Erro no cadastro');
+               this.disabledButton = false;
+          
+            
+              }
+           },(err)=>{
+             loader.dismiss();
+        
+           
+           })
            }else{
             loader.dismiss();
             this.disabledButton = false;
-            this.presentToast(res.msg);
+            this.presentToast('Erro no cadastro');
          
            }
         },(err)=>{
@@ -167,23 +187,7 @@ export class RegisterFiliadorPage implements OnInit {
           this.presentToast(err);
         
         })
-        this.accsPrvdrs.postData(body,'proses_api_user.php').subscribe((res:any)=>{
-          if(res.success == true){
-            loader.dismiss();
-            this.disabledButton = false;
-          
-          
-          }else{
-           loader.dismiss();
-           this.disabledButton = false;
-      
-        
-          }
-       },(err)=>{
-         loader.dismiss();
-         this.presentToast(err);
-       
-       })
+     
         
       });
     }

@@ -110,6 +110,8 @@ export class RegisterLiderancaPage implements OnInit {
    enviarc :string ='displayedc'
    enviadoc:string = 'nonec'
   obs: any;
+  sn_enviar_mensagem: any;
+  sn_obriga_dados_titulo: any;
 
 
   constructor(
@@ -135,7 +137,7 @@ export class RegisterLiderancaPage implements OnInit {
        this.id_filiador = this.datastorage.id_filiador;
        this.id_municipio = this.datastorage.id_municipio_filiador;
        this.loadZona();
-
+       this.sn_obriga_dados_titulo = this.datastorage.obriga_dados_titulo;
   
       
     });
@@ -227,8 +229,13 @@ selectedFile(event,a){
         this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
     }else if(this.testaCPF(this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.','')) == false){ 
       this.presentToast('CPF inválido.');
-  }else if(this.validarTitulo(this.nr_titulo) == false){
+  }else if(this.sn_obriga_dados_titulo == "S"){
+    if(this.validarTitulo(this.nr_titulo) == null){
+      this.presentToast('Campo de título não pode ficar nulo');
+  }
+    else if(this.validarTitulo(this.nr_titulo) == false){
     this.presentToast('Título inválido');
+}
 }else if(this.telefone_lideranca ==null){
         this.presentToast('O campo "Telefone" precisa ser preenchido');
     }else if(this.endereco ==null){
@@ -276,7 +283,8 @@ selectedFile(event,a){
         id_zona: this.id_zona,
         id_secao: this.id_secao,
         id_filiador: this.id_filiador,
-        obs: this.obs
+        obs: this.obs,
+        sn_enviar_mensagem: this.sn_enviar_mensagem
     
          
 
@@ -297,6 +305,7 @@ selectedFile(event,a){
               }else{
                loader.dismiss();
                this.disabledButton = false;
+               this.presentToast(res.msg);
               
             
               }

@@ -17,7 +17,7 @@
   </ion-item>
   <ion-item>
 
-    <ion-button (click)="photo()" >Atualizar imagem do perfil</ion-button>
+    <ion-button class="fullbut" (click)="photo()" ><ion-icon class='image-icon' name="cloud-upload-outline"></ion-icon>Atualizar imagem do perfil</ion-button>
     
   
   </ion-item>
@@ -49,6 +49,18 @@
     <ion-icon name="create-outline" (click)="popupNovoTelefoneLideranca()" class="user-icon"></ion-icon>
   </ion-item>
   <ion-item>
+    <ion-label class="font-label" ><b>Permissão para enviar mensagens?</b><br> {{sn_enviar_mensagem_res}}</ion-label>
+    <ion-icon name="create-outline" (click)="popupNovaSNMensagem()" class="user-icon"></ion-icon>
+  </ion-item>
+  <ion-item class="{{divmsg}}">
+    <ion-label class="font-label quebra" >Permitir que essa liderança envie mensagens?</ion-label>
+<ion-select  class="font-label" [(ngModel)]="sn_enviar_mensagem" name="mensagem">
+<ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+<ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+</ion-select>
+     <ion-button (click)='editSNMensagemPermissao()' >Salvar</ion-button>
+  </ion-item>
+  <ion-item>
     <ion-label class="font-label" ><b>CEP: </b><br>{{cep}} </ion-label>
     <ion-icon name="create-outline" (click)='popupNovoCEPLideranca()' class="user-icon nm"></ion-icon>
     <ion-item class="">
@@ -67,7 +79,7 @@
 
   </ion-item>
   <ion-item>
-    <ion-label class="font-label" ><b>Bairro: </b><br>{{bairro}} </ion-label>
+    <ion-label class="font-label quebra" ><b>Bairro: </b><br>{{bairro}} </ion-label>
     
     <ion-label class="font-label num" ><b>Número: </b><br>{{numero}} </ion-label>
     <ion-icon name="create-outline" (click)="popupNovoNumeroLideranca()" class="user-icon"></ion-icon>
@@ -127,15 +139,29 @@
 
 
 
- 
-  <ion-item>
-    <ion-label class="font-label" ><b>Observação: </b><br>{{obs}} </ion-label>
-    
+  <ion-item class="{{mm}} ">
+    <ion-label class="font-label quebra" ><b>Observação:</b> <br> {{obs}}</ion-label>
+  
+    <ion-icon (click)="popupNovoObs()" name="create-outline"  class="user-icon"></ion-icon>
   
   </ion-item>
+  <div padding class="{{mime}}" >
+    <ion-list>
+    <ion-item class="flex">
+      <ion-label class="font-label">Editar observação:<br><i>(100 máx.)</i></ion-label>
+      
+      
+    </ion-item>
+   
+    <ion-label class='input-msg'  ><ion-textarea name="msg" type="text" class="msgarea" ngModel  [(ngModel)]="obs" ></ion-textarea></ion-label>
+    <ion-button class="butt" (click)="editObs()"> Alterar </ion-button>
+   
+  
+  </ion-list>
+  </div>
 
 
-<ion-button class="butt" (click)="filiadosList()">Filiados </ion-button>
+<ion-button class="butt" (click)="filiadosList()"><ion-icon class='image-icon' name="people-circle-outline"></ion-icon>Filiados </ion-button>
 
 
   </ion-card>

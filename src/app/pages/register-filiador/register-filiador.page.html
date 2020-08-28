@@ -19,7 +19,7 @@
             <ion-list >
             <ion-item>
               <ion-label class="font-label">CPF:</ion-label>
-              <ion-input  name="CPF/CNPJ" class="font-label" type="text" mask="000.000.000-00" ngModel required  [(ngModel)]="cpf_cnpj_filiador" ></ion-input>
+              <ion-input  name="CPF/CNPJ" class="font-label" type="tel" mask="000.000.000-00" ngModel required  [(ngModel)]="cpf_cnpj_filiador" ></ion-input>
             </ion-item>
             <ion-item>
               <ion-label class="font-label">Nome:</ion-label>
@@ -77,12 +77,12 @@
             <div padding >
               <ion-list>
               <ion-item class="flex">
-                <ion-label class="font-label">Mensagem padrão para aniversário:</ion-label>
+                <ion-label class="font-label">Mensagem padrão para aniversário:<br> <i>(400 máx.)</i></ion-label>
                 
                 
               </ion-item>
-              <ion-label class="font-label">Limite de 400 caracteres...</ion-label>
-              <ion-label class='input-msg'><ion-textarea  name="msg" type="text"  ngModel  [(ngModel)]="msg_padrao_aniversario" ></ion-textarea></ion-label>
+        
+              <ion-label class='input-msg'><ion-textarea class="msgarea"  name="msg" type="text"  ngModel  [(ngModel)]="msg_padrao_aniversario" ></ion-textarea></ion-label>
        
              
         

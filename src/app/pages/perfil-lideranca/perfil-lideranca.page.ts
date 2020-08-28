@@ -21,7 +21,8 @@ const { Camera, FileSystem} = Plugins;
 export class PerfilLiderancaPage implements OnInit {
   cpf_cnpj_lideranca : string
   nome_lideranca : string	
-  
+  mime: any = 'nonep';
+  mm: any='';
   email_lideranca 	: string
   telefone_lideranca 	: string
   endereco : string 	
@@ -112,7 +113,7 @@ export class PerfilLiderancaPage implements OnInit {
        this.datastorage = res;
        this.id_lideranca = this.datastorage.id_filiador_lid;
        this.us_alteracao = this.datastorage.nome;
-      this.id_municipio = this.datastorage.id_municipio_filiador;
+      this.id_municipio = this.datastorage.id_municipio;
        console.log(this.x);
        this.start =0;
        this.users = [];
@@ -129,7 +130,51 @@ export class PerfilLiderancaPage implements OnInit {
 
 
    }
+   async editObs(){
+    const loader = await this.loadingCtrl.create({
+      message : 'Aguarde...',
+    })
+    loader.present();
+    this.dt = new Date().getDate();
+  this.ms = new Date().getMonth()+1;
+  this.ano = new Date().getFullYear();
+  var hrs = new Date().getHours();
+  var min = new Date().getMinutes();
+  var sec = new Date().getSeconds();
+  //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+ this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+    return new Promise(resolve => {
+      let body={
+      aksi: 'proses_update_obs_lideranca',
+      observacao: this.obs,
+ 
+      id_lideranca: this.id_lideranca,
+      data_atual: this.dtAtual
+ 
+      }
+      this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+         if(res.success == true){
+           loader.dismiss();
+           this.presentToast('Atualizado com sucesso');
+           this.ionViewDidEnter();
+          this.mime = 'nonep'
+          this.mm = ''
+         }else{
+          loader.dismiss();
+          this.presentToast('Erro na atualização');
+       
+         }
+      },(err)=>{
+        loader.dismiss();
+        this.presentToast(err);
+      })
 
+    });
+  }
+   popupNovoObs(){
+    this.mime = ''
+    this.mm = 'nonep'
+  }
    newPass(){
     this.router.navigate(['/mudar-senha']);   
     this.dismiss();
@@ -361,6 +406,7 @@ export class PerfilLiderancaPage implements OnInit {
           aksi: 'proses_update_nome_lideranca',
           novo_nome_lideranca : a.toUpperCase(),
           us_alteracao: this.us_alteracao,
+          cpf: this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.',''),
           id_lideranca: this.id_lideranca,
           data_atual: this.dtAtual
      
@@ -467,6 +513,7 @@ export class PerfilLiderancaPage implements OnInit {
           aksi: 'proses_update_email_lideranca',
           novo_email_lideranca : a.toLowerCase(),
           us_alteracao: this.us_alteracao,
+          cpf: this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.',''),
           id_lideranca: this.id_lideranca,
           data_atual: this.dtAtual
 
@@ -738,7 +785,7 @@ export class PerfilLiderancaPage implements OnInit {
      async openVersoTitulo(){
       const alert = await this.alertController.create({
         cssClass: 'documento',
-        header: 'Frente do Título de eleitor',
+        header: 'Verso do Título de eleitor',
   
         message:  `<img class=""img-doc" src="data:image/jpeg;base64,${this.documento_verso_titulo}">`,
         buttons: ['Fechar']
@@ -751,7 +798,7 @@ export class PerfilLiderancaPage implements OnInit {
      async openComprovante(){
       const alert = await this.alertController.create({
         cssClass: 'documento',
-        header: 'Comprovante de resiência',
+        header: 'Comprovante de residência',
   
         message:  `<img src="data:image/jpeg;base64,${this.documento_comprovante}">`,
         buttons: ['Fechar']
@@ -912,10 +959,10 @@ export class PerfilLiderancaPage implements OnInit {
                    let body={
                    aksi: 'proses_update_cep_lideranca',
                    novo_cep_lideranca : a,
-                   nova_cidade : res.result.cidade,
+                   nova_cidade : res.result.cidade.toUpperCase(),
                    novo_uf : res.result.uf,
-                   novo_bairro : res.result.bairro,
-                   novo_endereco : res.result.logradouro,
+                   novo_bairro : res.result.bairro.toUpperCase(),
+                   novo_endereco : res.result.logradouro.toUpperCase(),
                    us_alteracao: this.us_alteracao,
                    id_lideranca: this.id_lideranca,
                    data_atual: this.dtAtual

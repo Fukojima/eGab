@@ -18,7 +18,7 @@
           <div padding >
             <ion-item>
               <ion-label class="font-label">CPF:</ion-label>
-              <ion-input class="font-label" name="CPF/CNPJ" type="text" mask="000.000.000-00" ngModel required  [(ngModel)]="cpf_cnpj_lideranca" ></ion-input>
+              <ion-input class="font-label" name="CPF/CNPJ" type="tel" mask="000.000.000-00" ngModel required  [(ngModel)]="cpf_cnpj_lideranca" ></ion-input>
             </ion-item>
             <ion-item>
               <ion-label class="font-label ">Nome:</ion-label>
@@ -59,7 +59,7 @@
             </ion-item>
             <ion-item>
               <ion-label class="font-label ">Número:</ion-label>
-              <ion-input class="font-label" name="Número" type="text"  ngModel required  [(ngModel)]="numero"></ion-input>
+              <ion-input class="font-label" name="Número" type="tel"  ngModel required  [(ngModel)]="numero"></ion-input>
             </ion-item>
         
             <ion-item>
@@ -83,7 +83,7 @@
           
             <ion-item>
               <ion-label class="font-label">Título de eleitor:</ion-label>
-              <ion-input class="font-label" (ionBlur)="paleativeTitle()" name="titulo" type="text" ngModel required [(ngModel)]="nr_titulo"></ion-input>
+              <ion-input class="font-label" (ionBlur)="paleativeTitle()" name="titulo" type="tel" ngModel required [(ngModel)]="nr_titulo"></ion-input>
             </ion-item>
             
             <ion-item >
@@ -109,6 +109,13 @@
             <ion-item>
               <ion-label class="font-label" >Possui cadastro com biometria?</ion-label>
         <ion-select  class="font-label" [(ngModel)]="sn_biometria" name="validar">
+          <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+          <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+        </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label" >Permissão para enviar mensagens?</ion-label>
+        <ion-select  class="font-label" [(ngModel)]="sn_enviar_mensagem" name="mensagem">
           <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
           <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
         </ion-select>
@@ -177,12 +184,12 @@
           <div padding >
             <ion-list>
             <ion-item class="flex">
-              <ion-label class="font-label">Observações:</ion-label>
+              <ion-label class="font-label">Observações:<br><i>(100 máx.)</i></ion-label>
               
               
             </ion-item>
-            <ion-label class="font-label">Limite de 100 caracteres...</ion-label>
-            <ion-label class='input-msg'><ion-textarea  name="msg" type="text"  ngModel  [(ngModel)]="obs" ></ion-textarea></ion-label>
+         
+            <ion-label class='input-msg'><ion-textarea  name="msg" type="text" class="msgarea"  ngModel  [(ngModel)]="obs" ></ion-textarea></ion-label>
      
            
       

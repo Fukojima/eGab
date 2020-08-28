@@ -144,14 +144,15 @@ export class RegisterPage implements OnInit {
                    this.validacao = true;
       }
        
-       if (this.datastorage.sn_validar_cadastro == "N"){
+       if (this.datastorage.sn_validar_cadastro_lideranca == "N"){
          this.situacao_cadastro = 'A';
          this.us_aprovacao = this.datastorage.us_aprovacao_lid;
        }else{
         this.situacao_cadastro = 'G';
         this.us_aprovacao = '';
        }
-       
+       console.log('ds',this.datastorage.sn_validar_cadastro_lideranca)
+       console.log('dsd', this.situacao_cadastro)
     });
    }
  async tryRegister(){
@@ -163,7 +164,7 @@ export class RegisterPage implements OnInit {
         this.presentToast('O campo "CPF" precisa ser preenchido');
     }else if(this.testaCPF(this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.','')) == false){ 
       this.presentToast('CPF inválido.');
-  } if(this.datastorage.sn_obriga_dados_titulo == "S"){
+  } if(this.datastorage.sn_obriga_dados_titulo_lideranca == "S"){
     if(this.validarTitulo(this.nr_titulo) == false){
       this.presentToast('Título inválido');           
   }else if(this.nr_titulo ==null){
@@ -284,10 +285,11 @@ export class RegisterPage implements OnInit {
          
            this.ionViewDidEnter();
             console.log('listcep',res);
-           this.cidade = res.result.cidade;
+           this.cidade = res.result.cidade.toUpperCase();
            this.uf = res.result.uf;
-           this.bairro = res.result.bairro;
-           this.endereco = res.result.logradouro;
+           this.bairro = res.result.bairro.toUpperCase();
+           this.endereco = res.result.logradouro.toUpperCase();
+      
 
          }else{
           loader.dismiss();

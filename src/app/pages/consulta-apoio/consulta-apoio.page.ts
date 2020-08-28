@@ -104,6 +104,10 @@ export class ConsultaApoioPage implements OnInit {
              
            }
            resolve(true);
+           if (res.result == ''){
+            this.emptyFiliados();
+           
+          }
         },(err)=>{
 
         
@@ -112,9 +116,31 @@ export class ConsultaApoioPage implements OnInit {
       });
     }
 
+    openRegisterApoio(){
+      this.router.navigate(['/register-apoio'])
+    }
 
 
+
+    async emptyFiliados() {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Cadastro vazio',
+        
+        message: 'Não existe nenhum apoio cadastrado, deseja realizar o cadastro?',
+        buttons: [{
+          text: 'Cadastrar',
+          handler: () => {
+          this.openRegisterApoio();
+          }
+        },
+      'Cancelar']
+        
+      });
   
+      await alert.present();
+      
+    }
 
 
    openProfile(a){

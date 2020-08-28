@@ -16,11 +16,10 @@
     <ion-label class="fontt-label" >      Filiado </ion-label>
   </ion-item>
   <ion-item>
-    <label class ="font-label {{sendImgp}}"for="upload-photop">Imagem selecionada</label>
-    <label class ="font-label {{inputImgp}}"for="upload-photop">Clique para selecionar uma nova imagem de perfil...</label>
-   
-    <ion-input class="input" type="file" name="imageperfil"  id="upload-photop" [(ngModel)] = 'image'  (change)="selectedFile($event)"> </ion-input>
-<ion-button class=" b" (click)="onClick()" ><p>Atualizar</p></ion-button>
+
+    <ion-button class="fullbut" (click)="photo()" ><ion-icon class='image-icon' name="cloud-upload-outline"></ion-icon>Atualizar imagem do perfil</ion-button>
+    
+  
   </ion-item>
   <ion-item>
  
@@ -71,7 +70,7 @@
 
   </ion-item>
   <ion-item>
-    <ion-label class="font-label" ><b>Bairro: </b><br>{{bairro}} </ion-label>
+    <ion-label class="font-label quebra" ><b>Bairro: </b><br>{{bairro}} </ion-label>
     
     <ion-label class="font-label num" ><b>Número: </b><br>{{numero}} </ion-label>
     <ion-icon name="create-outline" (click)="popupNovoNumeroFiliado()" class="user-icon"></ion-icon>
@@ -139,7 +138,8 @@
   </ion-item>
 
  
-<ion-item class="dis"><ion-button (click)='popupDeletarFiliado()'> Apagar filiado</ion-button></ion-item>
+<ion-item ><ion-button (click)='popupDeletarFiliado()'><ion-icon class='image-icon' name="trash-outline"></ion-icon> Apagar filiado</ion-button></ion-item>
+<ion-item><ion-button (click)="createPDF()"><ion-icon class='image-icon' name="document-text-outline"></ion-icon> Gerar PDF</ion-button></ion-item>
 
 
 

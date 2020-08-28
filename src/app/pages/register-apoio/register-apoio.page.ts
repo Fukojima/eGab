@@ -114,9 +114,10 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
 
 
 
-
+  sn_enviar_mensagem;
    data_nascimento: string
   nr_zona: any;
+  sn_obriga_dados_titulo: any;
   
   constructor(
     private router : Router,
@@ -140,6 +141,7 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
        this.secoes = [];
        this.loadZona();
        this.id_municipio = this.datastorage.id_municipio_filiador;
+       this.sn_obriga_dados_titulo = this.datastorage.obriga_dados_titulo;
     });
    }
    
@@ -161,11 +163,15 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
         this.presentToast('O campo "Telefone" precisa ser preenchido');
     }else if(this.sn_whatsapp ==null){
         this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
-    }else if(this.validarTitulo(this.nr_titulo) == false){
+    }else if(this.sn_obriga_dados_titulo == "S"){
+      if(this.validarTitulo(this.nr_titulo) == null){
+        this.presentToast('Campo de título não pode ficar nulo');
+    }
+      else if(this.validarTitulo(this.nr_titulo) == false){
       this.presentToast('Título inválido');
-  }else if(this.telefone_filiado ==null){
-          this.presentToast('O campo "Telefone" precisa ser preenchido');
-      }else if(this.endereco ==null){
+  }
+}
+    else if(this.endereco ==null){
           this.presentToast('O campo "Endereço" precisa ser preenchido');
       }else if(this.numero ==null){
           this.presentToast('O campo "Número" precisa ser preenchido');
@@ -209,7 +215,8 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
         documento_comprovante: this.documento_comprovante,
         id_zona : this.id_zona,
         id_secao: this.id_secao,
-        obs: this.obs
+        obs: this.obs,
+        sn_enviar_mensagem: this.sn_enviar_mensagem
        
     
          
@@ -222,11 +229,29 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
              this.disabledButton = false;
              this.presentToast('Registrado com sucesso');
              this.openHome();
+             this.accsPrvdrs.postData(body,'proses_api_user.php').subscribe((res:any)=>{
+              if(res.success == true){
+                loader.dismiss();
+                this.disabledButton = false;
+               
+               
+           
+              }else{
+               loader.dismiss();
+               this.disabledButton = false;
+              
+            
+              }
+           },(err)=>{
+             loader.dismiss();
+            
+           
+           })
         
            }else{
             loader.dismiss();
             this.disabledButton = false;
-            this.presentToast('Erro no cadastro');
+            this.presentToast(res.msg);
          
            }
         },(err)=>{
@@ -234,24 +259,7 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
           this.presentToast(err);
         
         })
-        this.accsPrvdrs.postData(body,'proses_api_user.php').subscribe((res:any)=>{
-          if(res.success == true){
-            loader.dismiss();
-            this.disabledButton = false;
-           
-           
-       
-          }else{
-           loader.dismiss();
-           this.disabledButton = false;
-          
         
-          }
-       },(err)=>{
-         loader.dismiss();
-         this.presentToast(err);
-       
-       })
 
       });
     }
@@ -461,6 +469,9 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
   }
 
   paleativeTitle(){
+            if (this.nr_titulo == null){
+              true
+            }else{
             var tempTitle = this.nr_titulo;
             var split = this.nr_titulo.split('');
 
@@ -488,7 +499,7 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
            }else if (this.nr_titulo.length == 11){
             this.nr_titulo = '0' + tempTitle;
          }
-
+        }
            
   }
 

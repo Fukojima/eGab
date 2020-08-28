@@ -121,20 +121,7 @@ export class PerfilFiliadorPage implements OnInit {
      
 
        this.loadUsers();
-       if (this.sn_validar_cadastro == "S"){
-         this.validacao = "Sim"
-       }else{
-        this.validacao = "Não"
-       }
-
-
-
-       if (this.sn_obriga_dados_titulos == "S"){
-        this.dadosTitulo = "Sim"
-      }else{
-       this.dadosTitulo = "Não"
-      }
-     
+ 
        
        
        
@@ -175,8 +162,8 @@ export class PerfilFiliadorPage implements OnInit {
                  this.cidade = res.result[0].cidade;
                  this.uf = res.result[0].uf;
                  this.data_nascimento = res.result[0].data_nascimento;
-                 this.sn_validar_cadastro = res.result[0].sn_validar_cadastro;
-                 this.sn_obriga_dados_titulos=res.result[0].sn_obriga_dados_titulos;
+                 this.sn_validar_cadastro = res.result[0].sn_valida_cadastro;
+                 this.sn_obriga_dados_titulos=res.result[0].sn_obriga_dados_titulo;
                  this.msg_padrao_aniversario = res.result[0].msg_padrao_aniversario;
                  if(res.result[0].dt_alteracao == null || ""){
                           this.dt_alteracao = 'Não houve alterações'
@@ -201,6 +188,20 @@ export class PerfilFiliadorPage implements OnInit {
 
          }
          resolve(true);
+         if (this.sn_validar_cadastro == "S"){
+          this.validacao = "Sim"
+        }else{
+         this.validacao = "Não"
+        }
+       console.log("sn_validar", this.sn_validar_cadastro);
+ 
+ 
+        if (this.sn_obriga_dados_titulos == "S"){
+         this.dadosTitulo = "Sim"
+       }else{
+        this.dadosTitulo = "Não"
+       }
+       console.log('sn_titulo',this.sn_obriga_dados_titulos)
 
        
   
