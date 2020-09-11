@@ -99,6 +99,12 @@ export class HomeApoioPage implements OnInit {
             
            
  }  
+ cadastrarLid(){
+         
+  this.router.navigate(['/register-lideranca'])   
+          
+         
+}  
 
   openPerfil(){
     this.router.navigate(['/perfil-apoio'])  

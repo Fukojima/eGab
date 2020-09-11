@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AcessProviders} from '../../providers/access-providers';
 import { Storage } from '@ionic/storage';
 import { FormGroup } from '@angular/forms';
+
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Plugins, CameraResultType, CameraSource, FilesystemDirectory} from '@capacitor/core';
@@ -35,6 +36,9 @@ export class MensagemPage implements OnInit {
   id_filiador: any ="";
   id_grupo: any;
   base64Image: string;
+  contador: number = 0;
+  intervalo: NodeJS.Timeout = setInterval(this.getStatus, 3000);
+
   constructor(
 
     private router : Router,
@@ -70,8 +74,9 @@ export class MensagemPage implements OnInit {
           this.id_origem = res.id_filiador;
          }
     
-      console.log(this.id_origem);
-      
+         this.intervalo;
+        
+        
       
    });
 
@@ -108,7 +113,6 @@ _handleReaderLoaded(readerEvt) {
 
          
   }
-  
 
 
   async verImg(){
@@ -125,6 +129,57 @@ _handleReaderLoaded(readerEvt) {
 
    }
 
+   getQrCode(){
+   
+   var url = "http://18.222.133.67:8082/qrcode";
+
+   var xhttp = new XMLHttpRequest();
+   xhttp.open("GET", url, true);
+   
+   xhttp.onreadystatechange = function(){//Função a ser chamada quando a requisição retornar do servidor
+       if ( xhttp.readyState == 4 && xhttp.status == 200 ) {//Verifica se o retorno do servidor deu certo
+           console.log('teste1',xhttp.response);
+       }
+   }
+   console.log('teste 2',xhttp.response);
+   xhttp.send();//A execução do script CONTINUARÁ mesmo que a requisição não tenha retornado do servidor
+   if (this.contador == undefined){
+     this.contador = 0;
+   }
+   this.contador += 1;
+   console.log(this.contador);
+ 
+  }
+
+
+   getStatus(){
+     if (this.contador != 4){
+    var url = "http://18.222.133.67:8082/GetStatus";
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", url, true);
+    
+    xhttp.onreadystatechange = function(){//Função a ser chamada quando a requisição retornar do servidor
+        if ( xhttp.readyState == 4 && xhttp.status == 200 ) {//Verifica se o retorno do servidor deu certo
+            console.log('teste1',xhttp.responseText);
+       
+
+            
+        }
+      
+    }
+    console.log('teste 2',xhttp.responseText);
+    xhttp.send();//A execução do script CONTINUARÁ mesmo que a requisição não tenha retornado do servidor
+    if (this.contador == undefined){
+      this.contador = 0;
+    }
+    this.contador += 1;
+    console.log(this.contador);
+  }else{
+    clearInterval(this.intervalo);
+  }
+   }
+  
    async photo(){
     const image = await Camera.getPhoto({
       quality:100,

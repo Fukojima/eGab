@@ -74,6 +74,13 @@
           <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
         </ion-select>
             </ion-item>
+            <ion-item>
+              <ion-label class="font-label" >Validação do cpf obrigatória?</ion-label>
+        <ion-select cancelText="Cancelar" class="font-label"  [(ngModel)]="sn_obriga_cpf" name="validarCpf">
+          <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+          <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+        </ion-select>
+            </ion-item>
             <div padding >
               <ion-list>
               <ion-item class="flex">

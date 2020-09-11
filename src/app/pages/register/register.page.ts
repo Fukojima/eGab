@@ -90,7 +90,7 @@ export class RegisterPage implements OnInit {
    sendImgv: string = 'noneImgv'
    inputImgp: string = 'displayimgp'
    sendImgp: string = 'noneImgp'
-
+  sn_obriga_cpf;
    inputImgt: string = 'displayimgft'
    sendImgt: string = 'noneImgft'
    inputImgvt: string = 'displayimgvt'
@@ -111,6 +111,7 @@ export class RegisterPage implements OnInit {
 
    data_nascimento: string
   nr_zona: any;
+  sn_obriga_dados_titulo: any;
   
 
 
@@ -143,7 +144,12 @@ export class RegisterPage implements OnInit {
        if (this.datastorage.sn_obriga_dados_titulo == "S"){
                    this.validacao = true;
       }
-       
+      this.sn_obriga_dados_titulo = this.datastorage.sn_obriga_dados_titulo_lideranca
+      this.sn_obriga_cpf= this.datastorage.sn_obriga_cpf
+      if(this.sn_obriga_cpf == 'N' && this.cpf_cnpj_filiado == null){
+        this.cpf_cnpj_filiado = '000.000.000-00'
+      }
+      
        if (this.datastorage.sn_validar_cadastro_lideranca == "N"){
          this.situacao_cadastro = 'A';
          this.us_aprovacao = this.datastorage.us_aprovacao_lid;
@@ -151,39 +157,39 @@ export class RegisterPage implements OnInit {
         this.situacao_cadastro = 'G';
         this.us_aprovacao = '';
        }
-       console.log('ds',this.datastorage.sn_validar_cadastro_lideranca)
-       console.log('dsd', this.situacao_cadastro)
+
     });
    }
- async tryRegister(){
-    console.log('1',this.cpf_cnpj_filiado);
-    console.log('2',this.cpf_cnpj_filiado.replace('.','').replace('.','').replace('-',''));
+   async tryRegister(){
+ 
     if(this.nome_filiado ==null){
         this.presentToast('O campo "nome" precisa ser preenchido');
-    }else if(this.cpf_cnpj_filiado ==null){
-        this.presentToast('O campo "CPF" precisa ser preenchido');
-    }else if(this.testaCPF(this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.','')) == false){ 
-      this.presentToast('CPF inválido.');
-  } if(this.datastorage.sn_obriga_dados_titulo_lideranca == "S"){
-    if(this.validarTitulo(this.nr_titulo) == false){
-      this.presentToast('Título inválido');           
-  }else if(this.nr_titulo ==null){
-    this.presentToast('O campo do título de eleitor precisa ser preenchido');
-    
-}
+    }
   
+ else if(this.email_filiado  == null){
+        this.presentToast('O campo "Email" precisa ser preenchido');
+    }else if(this.nr_titulo == null && this.sn_obriga_dados_titulo=='S'){
+      this.presentToast('Campo de título não pode ficar nulo');
+  }
+    else if(this.validarTitulo(this.nr_titulo ) == false && this.sn_obriga_dados_titulo=='S'){
+    this.presentToast('Título inválido');
 
-}else if(this.telefone_filiado ==null){
+}else if(this.sn_obriga_cpf == 'S' && this.cpf_cnpj_filiado ==null){
+  
+      this.presentToast('O campo "CPF" precisa ser preenchido');
+  
+}
+  else if(this.testaCPF(this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.','')) == false && this.cpf_cnpj_filiado ==null){ 
+  this.presentToast('CPF inválido.');
+}
+
+    
+    
+    else if(this.telefone_filiado ==null){
         this.presentToast('O campo "Telefone" precisa ser preenchido');
-    }else if(this.endereco ==null){
-        this.presentToast('O campo "Endereço" precisa ser preenchido');
-    }else if(this.numero ==null){
-        this.presentToast('O campo "Número" precisa ser preenchido');
-    }else if(this.bairro ==null){
-        this.presentToast('O campo "Bairro" precisa ser preenchido');
-    }else if(this.cidade ==null){
-        this.presentToast('O campo "Cidade" precisa ser preenchido');
     }else{
+      
+       
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
@@ -193,9 +199,8 @@ export class RegisterPage implements OnInit {
       return new Promise(resolve => {
         let body={
         aksi: 'proses_register',
-        id_filiador: this.id_filiador,
         cpf_cnpj_filiado : this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.',''),
-        nome_filiado : this.nome_filiado.toUpperCase(),
+        nome_filiado :  this.nome_filiado.toUpperCase(),
         email_filiado 	: this.email_filiado.toLowerCase(),
         telefone_filiado 	: this.telefone_filiado.replace('(','').replace(')','').replace('-',''),
         endereco : this.endereco.toUpperCase(),
@@ -219,10 +224,9 @@ export class RegisterPage implements OnInit {
         documento_verso_titulo : this.documento_verso_titulo,
         data_nascimento: this.data_nascimento,
         documento_comprovante: this.documento_comprovante,
-        id_zona : this.id_zona,
+        id_zona: this.id_zona,
         id_secao: this.id_secao,
         obs: this.obs
-     
 
 
         
@@ -232,8 +236,8 @@ export class RegisterPage implements OnInit {
         this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
            if(res.success == true){
              loader.dismiss();
-            
-             this.presentToast('Cadastro realizado com sucesso.');
+          
+             this.presentToast(res.msg);
              this.openHome();
 
 
@@ -241,7 +245,7 @@ export class RegisterPage implements OnInit {
            }else{
             loader.dismiss();
             this.disabledButton = false;
-            this.presentToast("Erro no cadastro");
+            this.presentToast(res.msg);
          
            }
         },(err)=>{

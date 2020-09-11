@@ -170,16 +170,7 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
       else if(this.validarTitulo(this.nr_titulo) == false){
       this.presentToast('Título inválido');
   }
-}
-    else if(this.endereco ==null){
-          this.presentToast('O campo "Endereço" precisa ser preenchido');
-      }else if(this.numero ==null){
-          this.presentToast('O campo "Número" precisa ser preenchido');
-      }else if(this.bairro ==null){
-          this.presentToast('O campo "Bairro" precisa ser preenchido');
-      }else if(this.cidade ==null){
-          this.presentToast('O campo "Cidade" precisa ser preenchido');
-      }else{
+}else{
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',

@@ -19,18 +19,18 @@ const { Camera, FileSystem} = Plugins;
   styleUrls: ['./register-filiador-apoio.page.scss'],
 })
 export class RegisterFiliadorApoioPage implements OnInit {
-   cpf_cnpj_filiado : string
+   cpf_cnpj_filiado : string = null
    nome_filiado : string	
    i: number
    email_filiado 	: string 
    telefone_filiado 	: string
-   endereco : string 	
+   endereco : string 	= ""
    numero : string	
    complemento : string	= ""
-   bairro: string 	
-   cidade: string 	
-   uf 	: string
-   cep 	: string
+   bairro: string = ""
+   cidade: string = ""	
+   uf 	: string= ""
+   cep 	: string= ""
    nr_titulo : string	
    id_zona : string	
    id_secao : string
@@ -115,6 +115,7 @@ export class RegisterFiliadorApoioPage implements OnInit {
   a: any;
   obs: any;
   sn_obriga_dados_titulo: any;
+  sn_obriga_cpf: any;
   
 
 
@@ -139,14 +140,17 @@ export class RegisterFiliadorApoioPage implements OnInit {
        this.datastorage = res;
        this.id_filiador = this.datastorage.id_filiador_da_lid;
        this.id_filiador_apoio = this.datastorage.id_filiador_apoio;
-
+       this.sn_obriga_cpf = this.datastorage.sn_obriga_cpf_apoio;
        this.start =0;
        this.zonas = [];
        this.secoes = [];
        this.loadMunicipio();
        this.loadLider();
         this.sn_obriga_dados_titulo = this.datastorage.sn_obriga_dados_titulo_apoio
-       
+        if(this.sn_obriga_cpf == 'N' && this.cpf_cnpj_filiado == null){
+          this.cpf_cnpj_filiado = '000.000.000-00'
+        }
+        
        if (this.datastorage.sn_validar_cadastro_apoio == "N"){
          this.situacao_cadastro = 'A';
          this.us_aprovacao = this.datastorage.us_aprovacao_apoio;
@@ -190,38 +194,35 @@ this.nr_titulo = '0000' + tempTitle;
 }
 
  async tryRegister(){
-    console.log('1',this.cpf_cnpj_filiado);
-    console.log('2',this.cpf_cnpj_filiado.replace('.','').replace('.','').replace('-',''));
+ 
     if(this.nome_filiado ==null){
         this.presentToast('O campo "nome" precisa ser preenchido');
-    }else if(this.cpf_cnpj_filiado ==null){
-        this.presentToast('O campo "CPF" precisa ser preenchido');
-    }else if(this.testaCPF(this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.','')) == false){ 
-      this.presentToast('CPF inválido.');
-  }else if(this.sn_obriga_dados_titulo == "S"){
-    if(this.validarTitulo(this.nr_titulo) == null){
+    }
+  
+ else if(this.email_filiado  == null){
+        this.presentToast('O campo "Email" precisa ser preenchido');
+    }else if(this.nr_titulo == null && this.sn_obriga_dados_titulo=='S'){
       this.presentToast('Campo de título não pode ficar nulo');
   }
-    else if(this.validarTitulo(this.nr_titulo) == false){
+    else if(this.validarTitulo(this.nr_titulo ) == false && this.sn_obriga_dados_titulo=='S'){
     this.presentToast('Título inválido');
+
+}else if(this.sn_obriga_cpf == 'S' && this.cpf_cnpj_filiado ==null){
+  
+      this.presentToast('O campo "CPF" precisa ser preenchido');
+  
 }
-}else if(this.email_filiado  == null){
-        this.presentToast('O campo "Email" precisa ser preenchido');
-    }else if(this.telefone_filiado ==null){
+  else if(this.testaCPF(this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.','')) == false && this.cpf_cnpj_filiado ==null){ 
+  this.presentToast('CPF inválido.');
+}
+
+    
+    
+    else if(this.telefone_filiado ==null){
         this.presentToast('O campo "Telefone" precisa ser preenchido');
-    }else if(this.endereco ==null){
-        this.presentToast('O campo "Endereço" precisa ser preenchido');
-    }else if(this.numero ==null){
-        this.presentToast('O campo "Número" precisa ser preenchido');
-    }else if(this.bairro ==null){
-        this.presentToast('O campo "Bairro" precisa ser preenchido');
-    }else if(this.cidade ==null){
-        this.presentToast('O campo "Cidade" precisa ser preenchido');
-    }else if(this.documento_frente ==null){
-      this.presentToast('É nescessário enviar uma foto da frente do documento.');
-  }else if(this.documento_verso ==null){
-    this.presentToast('É nescessário enviar uma foto do verso do documento.');
-}else{
+    }else{
+      
+       
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
@@ -269,7 +270,7 @@ this.nr_titulo = '0000' + tempTitle;
            if(res.success == true){
              loader.dismiss();
           
-             this.presentToast('Cadastrado com sucesso');
+             this.presentToast(res.msg);
              this.openHome();
 
 
@@ -277,7 +278,7 @@ this.nr_titulo = '0000' + tempTitle;
            }else{
             loader.dismiss();
             this.disabledButton = false;
-            this.presentToast('Erro no cadastro');
+            this.presentToast(res.msg);
          
            }
         },(err)=>{

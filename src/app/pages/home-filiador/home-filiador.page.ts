@@ -142,8 +142,12 @@ export class HomeFiliadorPage implements OnInit {
   sendMessage(){
 
     this.router.navigate(['/mensagem'])
+    
+
    }
-  
+
+
+   
   openCadastroPendente(){
          
     this.router.navigate(['/cadastro-pendente'])   

@@ -19,11 +19,11 @@
             <ion-list>
             <ion-item>
               <ion-label class="font-label">Nova senha:</ion-label>
-              <ion-input  name="senha" type="text"  ngModel required  [(ngModel)]="senha" ></ion-input>
+              <ion-input  name="senha" type="password"  ngModel required  [(ngModel)]="senha" ></ion-input>
             </ion-item>
             <ion-item>
               <ion-label class="font-label">Confirmar senha:</ion-label>
-              <ion-input  name="is_senha" type="text" ngModel required [(ngModel)]="is_senha" ></ion-input>
+              <ion-input  name="is_senha" type="password" ngModel required [(ngModel)]="is_senha" ></ion-input>
             </ion-item>
             <div padding>
               <ion-button  size="large"   (click)="tryChange()" expand="block">Redefinir Senha</ion-button>

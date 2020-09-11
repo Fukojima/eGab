@@ -112,6 +112,7 @@ export class RegisterLiderancaPage implements OnInit {
   obs: any;
   sn_enviar_mensagem: any;
   sn_obriga_dados_titulo: any;
+  id_grupo_usuario: any;
 
 
   constructor(
@@ -134,8 +135,16 @@ export class RegisterLiderancaPage implements OnInit {
     this.storage.get('storage_xxx').then((res)=>{
        console.log('liderança',res);
        this.datastorage = res;
+       if (this.datastorage.id_grupo_usuario == 2){
        this.id_filiador = this.datastorage.id_filiador;
        this.id_municipio = this.datastorage.id_municipio_filiador;
+      }else{
+         this.id_filiador = this.datastorage.id_filiador_apoio;
+         this.id_municipio = this.datastorage.id_municipio_filiador_apoio
+         ;
+       }
+       
+       this.id_grupo_usuario = this.datastorage.id_grupo_usuario;
        this.loadZona();
        this.sn_obriga_dados_titulo = this.datastorage.obriga_dados_titulo;
   
@@ -238,14 +247,6 @@ selectedFile(event,a){
 }
 }else if(this.telefone_lideranca ==null){
         this.presentToast('O campo "Telefone" precisa ser preenchido');
-    }else if(this.endereco ==null){
-        this.presentToast('O campo "Endereço" precisa ser preenchido');
-    }else if(this.numero ==null){
-        this.presentToast('O campo "Número" precisa ser preenchido');
-    }else if(this.bairro ==null){
-        this.presentToast('O campo "Bairro" precisa ser preenchido');
-    }else if(this.cidade ==null){
-        this.presentToast('O campo "Cidade" precisa ser preenchido');
     }else{
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
@@ -373,8 +374,12 @@ selectedFile(event,a){
     });
   }
   openHome(){
-         
-    this.router.navigate(['/home-filiador'])   
+    if (this.id_grupo_usuario == 2){
+
+    
+    this.router.navigate(['/home-filiador'])}else{
+      this.router.navigate(['/home-apoio'])
+    }
          
         
   }

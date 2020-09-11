@@ -23,6 +23,7 @@ export class RegisterFiliadorPage implements OnInit {
    sn_whatsapp 	: string
    sn_validar_cadastro : string
    data_nascimento;
+   sn_obriga_cpf;
    disabledButton;
    i;
    enviadof:string = 'nonef'
@@ -46,70 +47,7 @@ export class RegisterFiliadorPage implements OnInit {
   ionViewDidEnter(){
    this.disabledButton = false;
   }
-  async tryRegisterUser(){
-
-    if(this.nome_filiador ==null){
-        this.presentToast('O campo "nome" precisa ser preenchido');
-    }else if(this.cpf_cnpj_filiador ==null){
-        this.presentToast('O campo "CPF" precisa ser preenchido');
-    }else if(this.email_filiador  ==null){
-        this.presentToast('O campo "Email" precisa ser preenchido');
-    }else if(this.telefone_filiador ==null){
-        this.presentToast('O campo "Telefone" precisa ser preenchido');
-    }else if(this.id_municipio  ==null){
-        this.presentToast('O campo "Município" precisa ser preenchido');
-    }else if(this.sn_whatsapp ==null){
-        this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
-    }else if(this.sn_validar_cadastro  ==null){
-        this.presentToast('É nescessário informar se o filiador deseja validar ou não os cadastros dos filiados.');
-    }else if(this.data_nascimento  ==null){
-      this.presentToast('É nescessário informar a data de nascimento.');
-  }else{
-      this.disabledButton = true;
-      const loader = await this.loadingCtrl.create({
-        message : 'Aguarde...',
-      })
-      loader.present();
-      return new Promise(resolve => {
-        let body={
-        aksi: 'proses_register_filiador',
-        cpf_cnpj_filiador : this.cpf_cnpj_filiador.replace('.','').replace('-','').replace('.',''),
-        nome_filiador : this.nome_filiador.toUpperCase(),
-        email_filiador 	: this.email_filiador,
-        telefone_filiador 	: this.telefone_filiador.replace('(','').replace(')','').replace('-',''),
-        id_municipio : this.id_municipio,
-        sn_whatsapp : this.sn_whatsapp,
-        sn_validar_cadastro : this.sn_validar_cadastro,
-        msg_padrao_aniversario: this.msg_padrao_aniversario,
-        sn_obriga_dados_titulos: this.sn_obriga_dados_titulos,
-        documento_perfil: this.documento_perfil
-         
-
-        }
-     
-        this.accsPrvdrs.postData(body,'proses_api_user.php').subscribe((res:any)=>{
-           if(res.success == true){
-             loader.dismiss();
-             this.disabledButton = false;
-             this.presentToast("Cadastro realizado com sucesso");
-        
-           }else{
-            loader.dismiss();
-            this.disabledButton = false;
-            this.presentToast("Erro no cadastro");
-         
-           }
-        },(err)=>{
-          loader.dismiss();
-          this.presentToast(err);
-        
-        })
-
-      });
-    }
-
-
-  }
+  
  async tryRegister(){
 
     if(this.nome_filiador ==""){
@@ -146,7 +84,8 @@ export class RegisterFiliadorPage implements OnInit {
         sn_validar_cadastro : this.sn_validar_cadastro,
         msg_padrao_aniversario: this.msg_padrao_aniversario,
         sn_obriga_dados_titulo: this.sn_obriga_dados_titulos,
-        documento_perfil: this.documento_perfil
+        documento_perfil: this.documento_perfil,
+        sn_obriga_cpf: this.sn_obriga_cpf
          
          
 
