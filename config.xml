@@ -196,4 +196,13 @@
     <engine name="browser" spec="6.0.0" />
     <engine name="android" spec="8.1.0" />
     <engine name="ios" spec="5.1.1" />
+    <platform name="windows">
+        <icon src="resources/windows/icon/Square44x44Logo.png" target="Square44x44Logo" />
+        <icon src="resources/windows/icon/SmallTile.png" target="Square71x71Logo" />
+        <icon src="resources/windows/icon/Square150x150Logo.png" target="Square150x150Logo" />
+        <icon src="resources/windows/icon/Square310x310Logo.png" target="Square310x310Logo" />
+        <icon src="resources/windows/icon/Wide310x150Logo.png" target="Wide310x150Logo" />
+        <icon src="resources/windows/icon/StoreLogo.png" target="StoreLogo" />
+        <splash src="resources/windows/splash/Splash.png" target="SplashScreen" />
+    </platform>
 </widget>
