@@ -37,7 +37,7 @@ export class RegisterLiderancaPage implements OnInit {
    id_secao : string
    id_lideranca : string
    sn_biometria: string
-
+   sn_acessa_aplicativo: string
    data_nascimento: string
   nr_zona: any;
   id_filiador_apoio: any;
@@ -225,7 +225,7 @@ selectedFile(event,a){
     this.changeTextInput(a);}
  
   async tryRegister(){
-
+if (this.sn_acessa_aplicativo == 'S'){
     if(this.nome_lideranca ==null){
         this.presentToast('O campo "nome" precisa ser preenchido');
     }else if(this.cpf_cnpj_lideranca ==null){
@@ -285,7 +285,8 @@ selectedFile(event,a){
         id_secao: this.id_secao,
         id_filiador: this.id_filiador,
         obs: this.obs,
-        sn_enviar_mensagem: this.sn_enviar_mensagem
+        sn_enviar_mensagem: this.sn_enviar_mensagem,
+        sn_acessa_aplicativo: this.sn_acessa_aplicativo
     
          
 
@@ -331,6 +332,74 @@ selectedFile(event,a){
   
 
       });
+    }}else{
+      const loader = await this.loadingCtrl.create({
+        message : 'Aguarde...',
+      })
+      loader.present();
+      return new Promise(resolve => {
+        let body={
+        aksi: 'proses_register_lideranca',
+        cpf_cnpj_lideranca : this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.',''),
+        nome_lideranca :  this.nome_lideranca.toUpperCase(),
+        email_lideranca 	: this.email_lideranca.toLowerCase(),
+        telefone_lideranca 	: this.telefone_lideranca.replace('(','').replace(')','').replace('-',''),
+        endereco : this.endereco.toUpperCase(),
+        numero : this.numero,
+        complemento : this.complemento.toUpperCase(),	
+        bairro: this.bairro.toUpperCase(),
+        cidade: this.cidade.toUpperCase(), 	
+        uf 	: this.uf.toUpperCase(),
+        cep 	: this.cep,
+        id_lideranca: this.id_lideranca,
+        sn_biometria: this.sn_biometria,
+        nome_mae:this.nome_mae.toUpperCase(),
+        sn_whatsapp: this.sn_whatsapp,
+        msg_padrao_aniversario: this.msg_padrao_aniversario,
+        situacao_cadastro: this.situacao_cadastro,
+        nr_titulo: this.nr_titulo,
+        documento_verso : this.documento_verso,
+        documento_frente : this.documento_frente,
+        documento_perfil : this.documento_perfil,
+        documento_frente_titulo : this.documento_frente_titulo,
+        documento_verso_titulo : this.documento_verso_titulo,
+        data_nascimento: this.data_nascimento,
+        documento_comprovante: this.documento_comprovante,
+        id_zona: this.id_zona,
+        id_secao: this.id_secao,
+        id_filiador: this.id_filiador,
+        obs: this.obs,
+        sn_enviar_mensagem: this.sn_enviar_mensagem,
+        sn_acessa_aplicativo: this.sn_acessa_aplicativo
+    
+         
+
+        }
+     
+        this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+           if(res.success == true){
+             loader.dismiss();
+             this.disabledButton = false;
+             this.presentToast('Cadastro realizado com sucesso!');
+             this.openHome();
+            
+
+        
+           }else{
+            loader.dismiss();
+            this.disabledButton = false;
+            this.presentToast('Erro no cadastro');
+         
+           }
+        },(err)=>{
+          loader.dismiss();
+          this.presentToast(err);
+        
+        })
+  
+
+      });
+
     }
 
 

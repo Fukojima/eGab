@@ -120,6 +120,13 @@
           <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
         </ion-select>
             </ion-item>
+            <ion-item>
+              <ion-label class="font-label whitespace" >Essa liderança terá acesso ao aplicativo?</ion-label>
+        <ion-select  class="font-label" [(ngModel)]="sn_acessa_aplicativo" name="mensagem">
+          <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+          <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+        </ion-select>
+            </ion-item>
             <ion-label class="font-label"> Imagem da frente do documento de identificação</ion-label>
           
             <ion-item >
