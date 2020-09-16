@@ -16,26 +16,26 @@ const { Camera, FileSystem} = Plugins;
   styleUrls: ['./register-lideranca.page.scss'],
 })
 export class RegisterLiderancaPage implements OnInit {
-   cpf_cnpj_lideranca : string
-   nome_lideranca : string	
-   email_lideranca 	: string
-   telefone_lideranca 	: string	
+   cpf_cnpj_lideranca : string=''
+   nome_lideranca : string =''
+   email_lideranca 	: string =''
+   telefone_lideranca 	: string=''
    id_filiador	: string
    sn_whatsapp 	: string
    datastorage : any
    disabledButton;
    i: any;
-   endereco : string 	
+   endereco : string =''	
    numero : string	
    complemento : string	= ""
-   bairro: string 	
-   cidade: string 	
-   uf 	: string
-   cep 	: string
-   nr_titulo : string	
-   id_zona : string	
-   id_secao : string
-   id_lideranca : string
+   bairro: string =''	
+   cidade: string 	=''
+   uf 	: string=''
+   cep 	: string=''
+   nr_titulo : string	=''
+   id_zona : string	=''
+   id_secao : string=''
+   id_lideranca : string=''
    sn_biometria: string
    sn_acessa_aplicativo: string
    data_nascimento: string
@@ -43,7 +43,7 @@ export class RegisterLiderancaPage implements OnInit {
   id_filiador_apoio: any;
   a: any;
    id_municipio: number
-   nome_mae: string
+   nome_mae: string=''
    situacao_cadastro: string
    sn_aprovado_automatico: string
    us_aprovacao: string
@@ -225,27 +225,27 @@ selectedFile(event,a){
     this.changeTextInput(a);}
  
   async tryRegister(){
-if (this.sn_acessa_aplicativo == 'S'){
+
     if(this.nome_lideranca ==null){
         this.presentToast('O campo "nome" precisa ser preenchido');
-    }else if(this.cpf_cnpj_lideranca ==null){
+    }else if(this.cpf_cnpj_lideranca ==''){
         this.presentToast('O campo "CPF" precisa ser preenchido');
-    }else if(this.email_lideranca  ==null){
+    }else if(this.email_lideranca  ==''){
         this.presentToast('O campo "Email" precisa ser preenchido');
-    }else if(this.telefone_lideranca ==null){
+    }else if(this.telefone_lideranca ==''){
         this.presentToast('O campo "Telefone" precisa ser preenchido');
     }else if(this.sn_whatsapp ==null){
         this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
-    }else if(this.testaCPF(this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.','')) == false){ 
+    }else if(this.testaCPF(this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.','')) == false && this.sn_acessa_aplicativo == 'S'){ 
       this.presentToast('CPF inválido.');
   }else if(this.sn_obriga_dados_titulo == "S"){
     if(this.validarTitulo(this.nr_titulo) == null){
       this.presentToast('Campo de título não pode ficar nulo');
   }
-    else if(this.validarTitulo(this.nr_titulo) == false){
+    else if(this.validarTitulo(this.nr_titulo) == false && this.sn_acessa_aplicativo == 'S'){
     this.presentToast('Título inválido');
 }
-}else if(this.telefone_lideranca ==null){
+}else if(this.telefone_lideranca ==''){
         this.presentToast('O campo "Telefone" precisa ser preenchido');
     }else{
       this.disabledButton = true;
@@ -321,7 +321,7 @@ if (this.sn_acessa_aplicativo == 'S'){
            }else{
             loader.dismiss();
             this.disabledButton = false;
-            this.presentToast('Erro no cadastro');
+            this.presentToast(res.msg);
          
            }
         },(err)=>{
@@ -332,75 +332,8 @@ if (this.sn_acessa_aplicativo == 'S'){
   
 
       });
-    }}else{
-      const loader = await this.loadingCtrl.create({
-        message : 'Aguarde...',
-      })
-      loader.present();
-      return new Promise(resolve => {
-        let body={
-        aksi: 'proses_register_lideranca',
-        cpf_cnpj_lideranca : this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.',''),
-        nome_lideranca :  this.nome_lideranca.toUpperCase(),
-        email_lideranca 	: this.email_lideranca.toLowerCase(),
-        telefone_lideranca 	: this.telefone_lideranca.replace('(','').replace(')','').replace('-',''),
-        endereco : this.endereco.toUpperCase(),
-        numero : this.numero,
-        complemento : this.complemento.toUpperCase(),	
-        bairro: this.bairro.toUpperCase(),
-        cidade: this.cidade.toUpperCase(), 	
-        uf 	: this.uf.toUpperCase(),
-        cep 	: this.cep,
-        id_lideranca: this.id_lideranca,
-        sn_biometria: this.sn_biometria,
-        nome_mae:this.nome_mae.toUpperCase(),
-        sn_whatsapp: this.sn_whatsapp,
-        msg_padrao_aniversario: this.msg_padrao_aniversario,
-        situacao_cadastro: this.situacao_cadastro,
-        nr_titulo: this.nr_titulo,
-        documento_verso : this.documento_verso,
-        documento_frente : this.documento_frente,
-        documento_perfil : this.documento_perfil,
-        documento_frente_titulo : this.documento_frente_titulo,
-        documento_verso_titulo : this.documento_verso_titulo,
-        data_nascimento: this.data_nascimento,
-        documento_comprovante: this.documento_comprovante,
-        id_zona: this.id_zona,
-        id_secao: this.id_secao,
-        id_filiador: this.id_filiador,
-        obs: this.obs,
-        sn_enviar_mensagem: this.sn_enviar_mensagem,
-        sn_acessa_aplicativo: this.sn_acessa_aplicativo
-    
-         
-
-        }
-     
-        this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
-           if(res.success == true){
-             loader.dismiss();
-             this.disabledButton = false;
-             this.presentToast('Cadastro realizado com sucesso!');
-             this.openHome();
-            
-
-        
-           }else{
-            loader.dismiss();
-            this.disabledButton = false;
-            this.presentToast('Erro no cadastro');
-         
-           }
-        },(err)=>{
-          loader.dismiss();
-          this.presentToast(err);
-        
-        })
-  
-
-      });
-
     }
+    
 
 
   }
