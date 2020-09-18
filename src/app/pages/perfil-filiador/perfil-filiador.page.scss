@@ -1,0 +1,159 @@
+
+  ion-alert{
+    font-family: Exo;
+  }
+
+  ion-content{
+    --background:  #fff url('../../../assets/img/336.png') no-repeat center center / cover;
+    background-color: transparent;
+    font-family: Exo;
+  }
+
+.uppercase{
+
+    text-transform: uppercase;
+}
+
+.q{
+
+  margin-left: 5px;
+}
+
+.input-msg{
+  height: 150px;
+}
+
+
+.user-icon{
+  width: 20px;
+  height: 20px;
+  margin-right:20px;
+  float:right;
+}
+.user-picture{
+    width: 60px;
+    height: 80px;
+    margin-right: 20px;
+    float:left;
+    border-radius: 5px;
+  }
+
+  .documento{
+   font-family: Exo;
+
+  }
+
+  .quebra{
+
+    white-space: normal;
+  }
+
+
+  .sc-ion-alert-md-h{
+  font-family: Exo;
+}
+.fullbut{
+  width:100%
+}
+
+.font-title{
+  margin-left: 15px;
+  font-size: 15px; 
+  font-family: Exo;
+}
+
+.font-label{
+  font-size: 12px;
+  font-family: Exo;
+
+}
+
+.fontt-label{
+  font-size: 15px;
+  font-family: Exo;
+  margin-left: 20px;
+
+}
+
+ion-button{
+  font-family: Exo;
+  --background: #0f2546;
+
+}
+
+
+.image-icon{
+
+  margin-right: 3px;
+}
+
+
+.butt{
+  width:100%;
+}
+
+
+.but{
+  float: right;
+
+}
+.dis{
+  padding-left: 30px;
+
+}
+
+header{
+  font-family: Exo;
+}
+
+.b{
+
+    z-index: 9999;
+  }
+  
+  .butf{
+  
+    --background: green;
+   
+  }
+  .butv{
+  
+    --background: green;
+   
+  }
+  .butp{
+  
+    --background: green;
+   
+  }
+
+  
+
+
+.displayedp{}
+
+.nonep{display:none;}
+
+
+.displayImgp{ opacity: 0.8; margin-right:50px ; color:green;}
+
+
+.noneImgp{display:none;}
+
+#upload-photop {
+    position: absolute;
+    opacity: 0;
+  }
+
+
+
+
+
+  .msgarea{
+
+    padding: 10px;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+  }

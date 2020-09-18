@@ -1,0 +1,178 @@
+
+  ion-content{
+    --background:  #fff url('../../../assets/img/bg3.jpg') no-repeat center center / cover;
+    background-color: transparent;
+  }
+
+.uppercase{
+
+    text-transform: uppercase;
+}
+
+.user-icon{
+  width: 20px;
+  height: 20px;
+  margin-right:20px;
+  float:right;
+}
+
+.input{
+color: red;
+
+}
+.input-msg{
+  background-color: black;
+  height:100%;
+}
+
+.flex{
+  display: flex;
+}
+
+.sec{
+  display: none;
+}
+
+
+
+
+.font-title{
+
+  font-size: 15px;
+  font-family: Exo;
+}
+
+.font-label{
+  font-size: 12px;
+  font-family: Exo;
+}
+
+ion-button{
+  font-family: Exo;
+  --background: #0f2546;
+}
+
+#upload-photof {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photov {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photop {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photoft {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photovt {
+  position: absolute;
+  opacity: 0;
+}
+
+#upload-photoc {
+  position: absolute;
+  opacity: 0;
+}
+
+.b{
+
+  z-index: 9999;
+}
+
+.butf{
+
+  --background: green;pointer-events: none;
+  cursor: default;
+ 
+}
+.butv{
+
+  --background: green;   pointer-events: none;
+  cursor: default;
+ 
+}
+.butp{
+
+  --background: green;pointer-events: none;
+  cursor: default;
+ 
+}
+
+
+
+
+
+.displayedf{}
+
+.nonef{display:none;}
+
+.displayedv{}
+
+.nonev{display:none;}
+
+
+.displayedp{}
+
+.nonep{display:none;}
+
+.displayedft{}
+
+.noneft{display:none;}
+
+.displayedvt{}
+
+.nonevt{display:none;}
+
+
+.displayedc{}
+
+.nonec{display:none;}
+
+
+.whitespace{
+  white-space: normal;
+}
+
+
+.displayImg{ opacity: 0.8; font-family: Exo; font-size: 12px; font-style: italic; margin-left: 10px; color:green; }
+
+.noneImg{display:none;}
+
+.displayImgv{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgv{display:none;}
+
+.displayImgp{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgp{display:none;}
+
+.nonept{display:none;}
+
+.displayImgft{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgft{display:none;}
+
+.displayImgvt{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgvt{display:none;}
+
+.displayImgc{ opacity: 0.8; margin-right:50px ; color:green;}
+
+.noneImgc{display:none;}
+
+.msgarea{
+
+  padding: 10px;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+}

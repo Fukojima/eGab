@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="close-outline" (click)="openHome()" class="user-icon"></ion-icon>
+    <ion-title class="font-title">Filiados em avaliação </ion-title>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+
+    <ion-item-sliding *ngFor="let user of users" >
+          <ion-item>
+            <img class="user-picture" src="data:image/jpeg;base64,{{user.perfil}}">
+
+            <ion-label class="font-label" (click)="openProfile(user.id_filiado)">{{user.nome}}</ion-label>
+            <a class='{{user.sn_whatsapp}}' href="https://api.whatsapp.com/send?phone=55{{user.telefone_filiado}}"><img src="../../../assets/icon/{{user.sn_whatsapp}}.png" alt="HTML tutorial" style="width:42px;height:42px;"></a>
+          </ion-item>
+         
+      
+    </ion-item-sliding>
+
+</ion-list>
+
+</ion-content>

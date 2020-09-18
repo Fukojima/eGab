@@ -1,0 +1,118 @@
+
+  <ion-toolbar>
+    <ion-icon name="arrow-back-outline" (click)="openHome()" class="user-icon"></ion-icon>
+    <ion-title class="font-title">Cadastro de filiador</ion-title>
+  </ion-toolbar>
+
+
+<ion-content  >
+  <div class="xc" text-center>
+    <h3></h3>
+  </div>
+  <ion-card class="cardLogin">
+
+    <ion-grid>
+      <ion-row color="primary" class="xc">
+        <ion-col  size-md="6" size-lg="5" size-xs="12" >
+
+          <div padding >
+            <ion-list >
+            <ion-item>
+              <ion-label class="font-label">CPF:</ion-label>
+              <ion-input  name="CPF/CNPJ" class="font-label" type="tel" mask="000.000.000-00" ngModel required  [(ngModel)]="cpf_cnpj_filiador" ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label">Nome:</ion-label>
+              <ion-input class="font-label uppercase" name="Nome" type="text" ngModel required [(ngModel)]="nome_filiador" ></ion-input>
+            </ion-item>
+       
+            <ion-item>
+              <ion-label class="font-label">Email:</ion-label>
+              <ion-input  name="Email" class="font-label" type="email"  ngModel required [(ngModel)]="email_filiador"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label">Telefone:</ion-label>
+             
+              <ion-input name="Telefone" class="font-label" type="tel" mask="(00)00000-0000"  ngModel required [(ngModel)]="telefone_filiador"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label">O número é de whatsapp?</ion-label>
+              <ion-select cancelText="Cancelar" [(ngModel)]="sn_whatsapp" name="Whatsapp">
+                <ion-select-option class="font-label" value="S"  name="S" ngDefaultControl>Sim</ion-select-option>
+                <ion-select-option class="font-label" value="N"  name="N" ngDefaultControl>Não</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label">Municipio:</ion-label>
+              <ion-select cancelText="Cancelar"  class="font-label"  [(ngModel)]="id_municipio" name="Municipio"  >
+                <ion-select-option class="font-label" value="1" name="Recife" ngDefaultControl>Recife</ion-select-option>
+                <ion-select-option class="font-label" value="2"  name="Olinda" ngDefaultControl>Olinda</ion-select-option>
+                <ion-select-option class="font-label" value="3"  name="Paulista" ngDefaultControl>Paulista</ion-select-option>
+                <ion-select-option class="font-label" value="4"  name="Camaragibe" ngDefaultControl>Camaragibe</ion-select-option>
+                <ion-select-option class="font-label" value="5"  name="Jaboatão" ngDefaultControl>Jaboatão</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-label class="font-label"> Imagem do perfil de usuário</ion-label>
+  
+            <ion-item >
+              <ion-button class=" b" (click)="perfilImg()" ><p >Selecionar</p></ion-button>
+              <p class="{{enviadof}} displayImg">Imagem enviada</p>
+        
+            </ion-item>
+                
+            <ion-item>
+              <ion-label class="font-label" >Para filiados.<br> Validar o cadastro?</ion-label>
+        <ion-select cancelText="Cancelar" class="font-label"  [(ngModel)]="sn_validar_cadastro" name="validar">
+          <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+          <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+        </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label" >Dados do título de eleitor obrigatórios?</ion-label>
+        <ion-select cancelText="Cancelar" class="font-label"  [(ngModel)]="sn_obriga_dados_titulos" name="validarTitulo">
+          <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+          <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+        </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label" >Validação do cpf obrigatória?</ion-label>
+        <ion-select cancelText="Cancelar" class="font-label"  [(ngModel)]="sn_obriga_cpf" name="validarCpf">
+          <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+          <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+        </ion-select>
+            </ion-item>
+            <div padding >
+              <ion-list>
+              <ion-item class="flex">
+                <ion-label class="font-label">Mensagem padrão para aniversário:<br> <i>(400 máx.)</i></ion-label>
+                
+                
+              </ion-item>
+        
+              <ion-label class='input-msg'><ion-textarea class="msgarea"  name="msg" type="text"  ngModel  [(ngModel)]="msg_padrao_aniversario" ></ion-textarea></ion-label>
+       
+             
+        
+    </ion-list>
+            </div>
+
+         
+      
+          
+         
+        
+            
+
+
+
+          </ion-list>
+          </div>
+          <div padding>
+            <ion-button  size="large" class="button-cad" (click)="tryRegister()" expand="block">Cadastrar</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+ 
+</ion-card>
+</ion-content>

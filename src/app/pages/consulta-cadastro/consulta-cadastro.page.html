@@ -1,0 +1,40 @@
+<style>
+  :root {
+    --ion-safe-area-top: 20px;
+    --ion-safe-area-bottom: 22px;
+  }
+</style>
+<ion-header>
+  <ion-toolbar >
+    <ion-icon name="arrow-back-outline" (click)="openHome()" class="user-icon"></ion-icon>
+    <ion-title class="font-title">Líderes</ion-title>  
+    
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  
+
+  <ion-list class='list-view'>
+
+    <ion-list-header class="font-label">Listagem por ordem alfabética</ion-list-header>
+
+ 
+
+      <ion-item-sliding *ngFor="let user of users" >
+            <ion-item>
+           
+              <img class="user-picture" src="data:image/jpeg;base64,{{user.documento_perfil}}">
+              <ion-label class="font-label" (click)="lidProfile(user.id_lideranca,user.nome)">{{user.nome}} </ion-label>
+
+              <a class='{{user.sn_whatsapp}}' href="https://api.whatsapp.com/send?phone=55{{user.telefone_lideranca}}"><img src="../../../assets/icon/{{user.sn_whatsapp}}.png" alt="HTML tutorial" style="width:42px;height:42px;"></a>
+            </ion-item>
+           
+        
+      </ion-item-sliding>
+
+  </ion-list>
+
+
+</ion-content>
+
+

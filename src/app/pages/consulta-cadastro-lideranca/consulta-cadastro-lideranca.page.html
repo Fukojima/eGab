@@ -1,0 +1,97 @@
+<style>
+  :root {
+    --ion-safe-area-top: 20px;
+    --ion-safe-area-bottom: 22px;
+  }
+</style>
+<ion-header>
+  <ion-toolbar >
+    <ion-icon name="close-outline" (click)="openHome()" class="user-icon"></ion-icon>
+    
+    <ion-title class="font-title">Filiados </ion-title>  
+    
+    
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  
+
+  <ion-list class='list-view'>
+    <div class="{{modal}} a">
+      <div class="o">
+      <ion-list-header class="font-label">Filtro de pesquisa</ion-list-header>
+      <ion-button class="h" (click)='clean()' ><ion-icon class='image-icon white' name="reload-outline"></ion-icon> Limpar</ion-button></div>
+      
+   
+           <ion-item class="q">
+            <ion-label class="font-label" > Liderança
+            </ion-label>
+   
+  
+        <ion-select class="font-label"  ngModel required [(ngModel)]="id_lideranca" cancelText="Cancelar" name="lideranca" >
+  
+        <ion-select-option value="{{lider.id_lideranca}} "  *ngFor="let lider of lideres"  name="zona-option" >{{lider.nome_lideranca}}</ion-select-option>
+       
+        </ion-select>
+
+      </ion-item>
+      
+    <ion-item >
+           
+      <ion-label class="font-label" > Zona</ion-label>
+      <ion-select class="font-label" ngModel required [(ngModel)]="id_zona" cancelText="Cancelar" name="zona" >
+
+      <ion-select-option [value]="{id_zona: zona.id_zona, nr_zona_filtro:zona.nr_zona} "  *ngFor="let zona of zonas"  name="zona-option" class="font-label"  >{{zona.nr_zona}}  </ion-select-option>
+     
+      </ion-select>
+      <ion-button class="k" (click)='loadSecao()' > Carregar<br> seções</ion-button>
+    </ion-item>
+   
+    <ion-item>
+             
+      <ion-label class="font-label" > Seção Eleitoral </ion-label>
+     
+      <ion-select class="font-label" cancelText="Cancelar" name="secao" ngModel required [(ngModel)]="id_secao">
+        
+      <ion-select-option [value]="{id_secao: secao.id_secao, nr_secao_filtro:secao.nr_secao}" *ngFor="let secao of secoes"  name="secao-option" class="font-label"  >{{secao.nr_secao}}  </ion-select-option>
+
+    </ion-select>
+
+  </ion-item>
+  <ion-item>
+  <ion-button  (click)='search()' ><ion-icon class='image-icon' name="search-outline"></ion-icon> Pesquisar</ion-button></ion-item>
+  <ion-item>
+  <ion-button  (click)='searchAll()' ><ion-icon class='image-icon' name="search-outline"></ion-icon> Pesquisar todos</ion-button></ion-item>
+</div>
+<div class={{list}}>
+  <div>
+
+  <ion-icon name="return-up-back-outline" (click)="backSearch()" class="user-icon"></ion-icon></div>
+  <ion-label  class="font-label"><b>Filtros Aplicados :</b><br>{{filtro1}}<br>{{filtro2}}<br>{{filtro3}}<br></ion-label>
+  <ion-label  class="font-label">Total :{{count}}</ion-label>
+    <ion-list-header class="font-label">Listagem por ordem alfabética</ion-list-header>
+    
+ 
+
+      <ion-item-sliding *ngFor="let user of users" >
+            <ion-item>
+           
+              <img class="user-picture" src="data:image/jpeg;base64,{{user.perfil}}">
+              <ion-label class="font-label " (click)="openFiliado(user.id_filiado)"><b>{{user.nome}} </b><br> <p class="{{ff}}">Liderança:{{user.nome_lideranca}} <br><p class="{{ff}} {{user.situacao_cadastro}}"><i>Aguardando aprovação</i></p>
+              
+              </ion-label>
+
+
+              <a class='{{user.sn_whatsapp}}' href="https://api.whatsapp.com/send?phone=55{{user.telefone_lideranca}}"><img src="../../../assets/icon/{{user.sn_whatsapp}}.png" alt="HTML tutorial" style="width:42px;height:42px;"></a>
+            </ion-item>
+           
+        
+      </ion-item-sliding>
+      <ion-button (click)="createPDF()"><ion-icon class='image-icon' name="document-text-outline"></ion-icon> Gerar PDF</ion-button>
+    </div>
+  </ion-list>
+
+
+</ion-content>
+
+

@@ -1,0 +1,35 @@
+<ion-header>
+
+    <ion-toolbar>
+    <div class="font-title">Esqueci minha senha
+    <ion-icon name="close-outline" (click)="backLogin()" class="user-icon"></ion-icon></div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div class="xc" text-center>
+    <h3></h3>
+  </div>
+  <ion-card class="cardLogin">
+
+    <ion-grid>
+      <ion-row color="primary" class="xc">
+        <ion-col  size-md="6" size-lg="5" size-xs="12" >
+
+          <div padding >
+            <ion-list>
+            <ion-item>
+              <ion-label class="font-label">Informe seu cpf:</ion-label>
+              <ion-input  name="cpf" type="text"  ngModel required  [(ngModel)]="cpf" ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label">Informe seu email:</ion-label>
+              <ion-input  name="email" type="text" ngModel required [(ngModel)]="email" ></ion-input>
+            </ion-item>
+            <div padding>
+              <ion-button  size="large"  (click)="tryChange()" expand="block">Redefinir senha</ion-button>
+            </div>
+
+        
+          
+          
