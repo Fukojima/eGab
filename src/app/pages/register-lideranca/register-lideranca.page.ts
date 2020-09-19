@@ -1,3 +1,4 @@
+
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -16,28 +17,28 @@ const { Camera, FileSystem} = Plugins;
   styleUrls: ['./register-lideranca.page.scss'],
 })
 export class RegisterLiderancaPage implements OnInit {
-   cpf_cnpj_lideranca : string=''
-   nome_lideranca : string =''
-   email_lideranca 	: string =''
-   telefone_lideranca 	: string=''
+   cpf_cnpj_lideranca : string
+   nome_lideranca : string
+   email_lideranca 	: string = null; 
+   telefone_lideranca 	: string
    id_filiador	: string
-   sn_whatsapp 	: string
+   sn_whatsapp 	: string ='N'
    datastorage : any
    disabledButton;
    i: any;
-   endereco : string =''	
+   endereco : string 	
    numero : string	
-   complemento : string	= ""
-   bairro: string =''	
-   cidade: string 	=''
-   uf 	: string=''
-   cep 	: string=''
-   nr_titulo : string	=''
-   id_zona : string	=''
-   id_secao : string=''
-   id_lideranca : string=''
-   sn_biometria: string
-   sn_acessa_aplicativo: string
+   complemento : string	 = ''
+   bairro: string 
+   cidade: string 
+   uf 	: string
+   cep 	: string
+   nr_titulo : string	
+   id_zona : string
+   id_secao : string
+   id_lideranca : string
+   sn_biometria: string ='N'
+   sn_acessa_aplicativo: string ='N'
    data_nascimento: string
   nr_zona: any;
   id_filiador_apoio: any;
@@ -110,7 +111,7 @@ export class RegisterLiderancaPage implements OnInit {
    enviarc :string ='displayedc'
    enviadoc:string = 'nonec'
   obs: any;
-  sn_enviar_mensagem: any;
+  sn_enviar_mensagem: any = 'N';
   sn_obriga_dados_titulo: any;
   id_grupo_usuario: any;
 
@@ -225,17 +226,35 @@ selectedFile(event,a){
     this.changeTextInput(a);}
  
   async tryRegister(){
+   if (this.sn_acessa_aplicativo !=null){
+    if(this.sn_acessa_aplicativo == 'N' && this.email_lideranca == null){
+      this.email_lideranca = '';
+    }
+    if(this.sn_acessa_aplicativo == 'N' && this.endereco == null){
+      this.endereco = '';
+    }
+    if(this.sn_acessa_aplicativo == 'N' && this.bairro == null){
+      this.bairro = '';
+    }
+    if(this.sn_acessa_aplicativo == 'N' && this.cidade== null){
+      this.cidade = '';
+    }
+    if(this.sn_acessa_aplicativo == 'N' && this.uf == null){
+      this.uf = '';
+    }
+    if(this.sn_acessa_aplicativo == 'N' && this.nome_mae == null){
+      this.uf = '';
+    }
+    if(this.sn_acessa_aplicativo == 'N' && this.complemento == null){
+      this.complemento = '';
+    }}
 
-    if(this.nome_lideranca ==null){
-        this.presentToast('O campo "nome" precisa ser preenchido');
-    }else if(this.cpf_cnpj_lideranca ==''){
+
+     if(this.nome_lideranca ==null){
+        this.presentToast('O campo "Nome" precisa ser preenchido');
+    } 
+    else if(this.cpf_cnpj_lideranca ==null){
         this.presentToast('O campo "CPF" precisa ser preenchido');
-    }else if(this.email_lideranca  ==''){
-        this.presentToast('O campo "Email" precisa ser preenchido');
-    }else if(this.telefone_lideranca ==''){
-        this.presentToast('O campo "Telefone" precisa ser preenchido');
-    }else if(this.sn_whatsapp ==null){
-        this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
     }else if(this.testaCPF(this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.','')) == false && this.sn_acessa_aplicativo == 'S'){ 
       this.presentToast('CPF inválido.');
   }else if(this.sn_obriga_dados_titulo == "S"){
@@ -244,10 +263,14 @@ selectedFile(event,a){
   }
     else if(this.validarTitulo(this.nr_titulo) == false && this.sn_acessa_aplicativo == 'S'){
     this.presentToast('Título inválido');
-}
-}else if(this.telefone_lideranca ==''){
-        this.presentToast('O campo "Telefone" precisa ser preenchido');
-    }else{
+}else if(this.telefone_lideranca == null){
+  this.presentToast('O campo "telefone" precisa ser informado');
+ }else if(this.id_zona == null){
+  this.presentToast('O campo "zona" precisa ser informado');
+ }else if(this.id_secao == null){
+  this.presentToast('O campo "seção" precisa ser informado');
+ }
+}else{
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
@@ -724,3 +747,5 @@ selectedFile(event,a){
         
   }
 }
+
+
