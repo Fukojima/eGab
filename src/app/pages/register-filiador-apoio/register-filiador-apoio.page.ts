@@ -148,9 +148,7 @@ export class RegisterFiliadorApoioPage implements OnInit {
        this.loadMunicipio();
        this.loadLider();
         this.sn_obriga_dados_titulo = this.datastorage.sn_obriga_dados_titulo_apoio
-        if(this.sn_obriga_cpf == 'N' && this.cpf_cnpj_filiado == null){
-          this.cpf_cnpj_filiado = '000.000.000-00'
-        }
+     
         
        if (this.datastorage.sn_validar_cadastro_apoio == "N"){
          this.situacao_cadastro = 'A';

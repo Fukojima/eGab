@@ -148,7 +148,7 @@ export class RegisterLiderancaPage implements OnInit {
        this.id_grupo_usuario = this.datastorage.id_grupo_usuario;
        this.loadZona();
        this.sn_obriga_dados_titulo = this.datastorage.obriga_dados_titulo;
-  
+   
       
     });
    }

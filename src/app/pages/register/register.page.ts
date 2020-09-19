@@ -146,9 +146,7 @@ export class RegisterPage implements OnInit {
       }
       this.sn_obriga_dados_titulo = this.datastorage.sn_obriga_dados_titulo_lideranca
       this.sn_obriga_cpf= this.datastorage.sn_obriga_cpf
-      if(this.sn_obriga_cpf == 'N' && this.cpf_cnpj_filiado == null){
-        this.cpf_cnpj_filiado = '000.000.000-00'
-      }
+  
       
        if (this.datastorage.sn_validar_cadastro_lideranca == "N"){
          this.situacao_cadastro = 'A';
