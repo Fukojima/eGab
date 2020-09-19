@@ -37,14 +37,14 @@ export class RegisterPage implements OnInit {
    id_zona : string	
    id_secao : string
    id_lideranca : string
-   sn_biometria: string
+   sn_biometria: string ='N'
    datastorage:any;	
    id_municipio: number
    nome_mae: string
    situacao_cadastro: string
    sn_aprovado_automatico: string
    us_aprovacao: string
-   sn_whatsapp: string
+   sn_whatsapp: string ='N'
    image: any
    caminho_documento: string
    b: any
@@ -61,7 +61,7 @@ export class RegisterPage implements OnInit {
    enviarf :string ='displayedf'
    enviadof:string = 'nonef'
    iv: string = ''
-
+   sn_valida_campos: string ='N'
    enviarv :string ='displayedv'
    enviadov:string = 'nonev'
    ip: string = ''
@@ -161,33 +161,57 @@ export class RegisterPage implements OnInit {
     });
    }
    async tryRegister(){
+    if (this.sn_valida_campos !=null){
+      if(this.sn_valida_campos == 'N' && this.email_filiado == null){
+        this.email_filiado = '';
+      }
+      if(this.sn_valida_campos == 'N' && this.endereco == null){
+        this.endereco = '';
+      }
+      if(this.sn_valida_campos== 'N' && this.bairro == null){
+        this.bairro = '';
+      }
+      if(this.sn_valida_campos== 'N' && this.cidade== null){
+        this.cidade = '';
+      }
+      if(this.sn_valida_campos == 'N' && this.uf == null){
+        this.uf = '';
+      }
+      if(this.sn_valida_campos == 'N' && this.nome_mae == null){
+        this.uf = '';
+      }
+      if(this.sn_valida_campos== 'N' && this.complemento == null){
+        this.complemento = '';
+      }}
  
     if(this.nome_filiado ==null){
         this.presentToast('O campo "nome" precisa ser preenchido');
     }
   
- else if(this.email_filiado  == null){
-        this.presentToast('O campo "Email" precisa ser preenchido');
-    }else if(this.nr_titulo == null && this.sn_obriga_dados_titulo=='S'){
+ else if(this.nr_titulo == null && this.sn_obriga_dados_titulo=='S' && this.sn_valida_campos == 'S'){
       this.presentToast('Campo de título não pode ficar nulo');
   }
-    else if(this.validarTitulo(this.nr_titulo ) == false && this.sn_obriga_dados_titulo=='S'){
+    else if(this.validarTitulo(this.nr_titulo) == false && this.sn_obriga_dados_titulo=='S'){
     this.presentToast('Título inválido');
 
-}else if(this.sn_obriga_cpf == 'S' && this.cpf_cnpj_filiado ==null){
+}else if(this.sn_obriga_cpf == 'S' && this.cpf_cnpj_filiado ==null ){
   
       this.presentToast('O campo "CPF" precisa ser preenchido');
   
 }
-  else if(this.testaCPF(this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.','')) == false && this.cpf_cnpj_filiado ==null){ 
+  else if(this.testaCPF(this.cpf_cnpj_filiado.replace('.','').replace('-','').replace('.','')) == false && this.cpf_cnpj_filiado ==null  && this.sn_valida_campos == 'S'){ 
   this.presentToast('CPF inválido.');
 }
-
-    
-    
-    else if(this.telefone_filiado ==null){
-        this.presentToast('O campo "Telefone" precisa ser preenchido');
-    }else{
+else if(this.telefone_filiado == null){
+  this.presentToast('O campo "telefone" precisa ser informado');
+ }else if(this.id_zona == null){
+  this.presentToast('O campo "zona" precisa ser informado');
+ }else if(this.id_secao == null){
+  this.presentToast('O campo "seção" precisa ser informado');
+ }else if(this.id_lideranca== null){
+  this.presentToast('Selecione uma liderança');
+ }
+  else{
       
        
       this.disabledButton = true;
@@ -226,7 +250,8 @@ export class RegisterPage implements OnInit {
         documento_comprovante: this.documento_comprovante,
         id_zona: this.id_zona,
         id_secao: this.id_secao,
-        obs: this.obs
+        obs: this.obs,
+        sn_valida_campos: this.sn_valida_campos
 
 
         
