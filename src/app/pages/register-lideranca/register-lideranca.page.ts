@@ -19,8 +19,8 @@ const { Camera, FileSystem} = Plugins;
 export class RegisterLiderancaPage implements OnInit {
    cpf_cnpj_lideranca : string
    nome_lideranca : string
-   email_lideranca 	: string = null; 
-   telefone_lideranca 	: string
+   email_lideranca 	: any 
+   telefone_lideranca 	: any
    id_filiador	: string
    sn_whatsapp 	: string ='N'
    datastorage : any
@@ -33,7 +33,7 @@ export class RegisterLiderancaPage implements OnInit {
    cidade: string 
    uf 	: string
    cep 	: string
-   nr_titulo : string	
+   nr_titulo : any =''
    id_zona : string
    id_secao : string
    id_lideranca : string
@@ -135,19 +135,24 @@ export class RegisterLiderancaPage implements OnInit {
   ionViewDidEnter(){
     this.storage.get('storage_xxx').then((res)=>{
        console.log('liderança',res);
+      
        this.datastorage = res;
+       this.id_grupo_usuario = this.datastorage.id_grupo_usuario;
        if (this.datastorage.id_grupo_usuario == 2){
        this.id_filiador = this.datastorage.id_filiador;
        this.id_municipio = this.datastorage.id_municipio_filiador;
+       this.sn_obriga_dados_titulo = this.datastorage.sn_obriga_dados_titulo;
       }else{
          this.id_filiador = this.datastorage.id_filiador_apoio;
          this.id_municipio = this.datastorage.id_municipio_filiador_apoio
-         ;
+         this.sn_obriga_dados_titulo = this.datastorage.sn_obriga_dados_titulo_apoio;
+         
        }
        
-       this.id_grupo_usuario = this.datastorage.id_grupo_usuario;
+  
        this.loadZona();
-       this.sn_obriga_dados_titulo = this.datastorage.obriga_dados_titulo;
+    
+
    
       
     });
@@ -226,7 +231,8 @@ selectedFile(event,a){
     this.changeTextInput(a);}
  
   async tryRegister(){
-   if (this.sn_acessa_aplicativo !=null){
+
+   if (this.sn_acessa_aplicativo != 'S'){
     if(this.sn_acessa_aplicativo == 'N' && this.email_lideranca == null){
       this.email_lideranca = '';
     }
@@ -243,45 +249,71 @@ selectedFile(event,a){
       this.uf = '';
     }
     if(this.sn_acessa_aplicativo == 'N' && this.nome_mae == null){
-      this.uf = '';
+      this.nome_mae = '';
     }
     if(this.sn_acessa_aplicativo == 'N' && this.complemento == null){
       this.complemento = '';
     }}
 
 
-     if(this.nome_lideranca ==null){
+   if(this.nome_lideranca ==null){
         this.presentToast('O campo "Nome" precisa ser preenchido');
     } 
     else if(this.cpf_cnpj_lideranca ==null){
         this.presentToast('O campo "CPF" precisa ser preenchido');
     }else if(this.testaCPF(this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.','')) == false && this.sn_acessa_aplicativo == 'S'){ 
       this.presentToast('CPF inválido.');
-  }else if(this.sn_obriga_dados_titulo == "S"){
-    if(this.validarTitulo(this.nr_titulo) == null){
-      this.presentToast('Campo de título não pode ficar nulo');
   }
-    else if(this.validarTitulo(this.nr_titulo) == false && this.sn_acessa_aplicativo == 'S'){
-    this.presentToast('Título inválido');
-}else if(this.telefone_lideranca == null){
+
+    else if(this.nr_titulo == null ){
+
+      this.presentToast('Campo de título não pode ficar nulo');}
+ 
+  else if( this.validarTitulo(this.nr_titulo) == false ){
+   
+    this.presentToast('Título inválido');}
+  
+ else if(this.telefone_lideranca == null || this.telefone_lideranca ==undefined){
+  this.presentToast('O campo "telefone" precisa ser informado');
+ }else if(this.id_zona == null || this.id_zona ==undefined){
+  this.presentToast('O campo "zona" precisa ser informado');
+ }else if(this.id_secao == null || this.id_secao ==undefined){
+  this.presentToast('O campo "seção" precisa ser informado');
+ }else if(this.endereco == null || this.endereco ==undefined){
+  this.presentToast('O campo "endereco" precisa ser informado');
+ }else if(this.bairro == null || this.bairro ==undefined){
+  this.presentToast('O campo "bairro" precisa ser informado');
+ }else if(this.cidade == null){
+  this.presentToast('O campo "cidade" precisa ser informado');
+ }else if(this.nome_mae == null){
+  this.presentToast('O campo "Nome da mãe" precisa ser informado');
+ }else if(this.uf == null){
+  this.presentToast('O campo "uf" precisa ser informado');
+ }else if(this.email_lideranca == null  || this.email_lideranca == undefined){
+  this.presentToast('O campo "email" precisa ser informado');
+ }else if(this.telefone_lideranca== null){
   this.presentToast('O campo "telefone" precisa ser informado');
  }else if(this.id_zona == null){
   this.presentToast('O campo "zona" precisa ser informado');
  }else if(this.id_secao == null){
   this.presentToast('O campo "seção" precisa ser informado');
- }
-}else{
+ }else{
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',
       })
       loader.present();
+      if(this.email_lideranca != null){
+        this.email_lideranca = this.email_lideranca.toLowerCase();
+        console.log('to aqui')
+      }
       return new Promise(resolve => {
+        
         let body={
         aksi: 'proses_register_lideranca',
         cpf_cnpj_lideranca : this.cpf_cnpj_lideranca.replace('.','').replace('-','').replace('.',''),
         nome_lideranca :  this.nome_lideranca.toUpperCase(),
-        email_lideranca 	: this.email_lideranca.toLowerCase(),
+        email_lideranca 	: this.email_lideranca,
         telefone_lideranca 	: this.telefone_lideranca.replace('(','').replace(')','').replace('-',''),
         endereco : this.endereco.toUpperCase(),
         numero : this.numero,
@@ -321,6 +353,8 @@ selectedFile(event,a){
              this.disabledButton = false;
              this.presentToast('Cadastro realizado com sucesso!');
              this.openHome();
+             
+             if(this.sn_acessa_aplicativo == 'S'){
              this.accsPrvdrs.postData(body,'proses_api_user.php').subscribe((res:any)=>{
               if(res.success == true){
                 loader.dismiss();
@@ -340,7 +374,7 @@ selectedFile(event,a){
            
            })
 
-        
+          }
            }else{
             loader.dismiss();
             this.disabledButton = false;
@@ -352,13 +386,13 @@ selectedFile(event,a){
           this.presentToast(err);
         
         })
-  
+      
 
       });
     }
     
 
-
+  
   }
 
   async pegaCep(){

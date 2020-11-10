@@ -64,7 +64,7 @@ export class HomeApoioPage implements OnInit {
 
        if (this.sn_enviar_mensagem == "N"){
        this.enviamsg = "none";
-       this.newwidth = "c";}
+      }
 
 
        
@@ -72,6 +72,12 @@ export class HomeApoioPage implements OnInit {
    }
 
  
+   openQrCode(){
+         
+    this.router.navigate(['/qrcode'])   
+         
+        
+  }
  
    openRegister(){
          
@@ -102,6 +108,18 @@ export class HomeApoioPage implements OnInit {
  cadastrarLid(){
          
   this.router.navigate(['/register-lideranca'])   
+          
+         
+}  
+consultaFiliado(){
+         
+  this.router.navigate(['/consulta-cadastro-lideranca'])   
+          
+         
+}  
+consultaLideranca(){
+         
+  this.router.navigate(['/consulta-cadastro'])   
           
          
 }  

@@ -47,36 +47,36 @@
             <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
           </ion-select>
               </ion-item>
-              <ion-item>
+              <ion-item class="temp">
                 <ion-label class="font-label ">CEP:</ion-label>
                 <ion-input class="font-label " name="CEP" type="tel" ngModel required [(ngModel)]="cep"></ion-input>
                 <ion-button (click)="pegaCep()"> Consultar CEP</ion-button>
               </ion-item>
             
-            <ion-item>
+            <ion-item class="temp">
               <ion-label class="font-label ">Endereço:</ion-label>
               <ion-input class="font-label uppercase" name="Endereço" type="text"  ngModel required  [(ngModel)]="endereco"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="temp">
               <ion-label class="font-label ">Número:</ion-label>
               <ion-input class="font-label" name="Número" type="tel"  ngModel required  [(ngModel)]="numero"></ion-input>
             </ion-item>
         
-            <ion-item>
+            <ion-item class="temp">
               <ion-label class="font-label ">Complemento:</ion-label>
               <ion-input class="font-label" name="Complemento" type="text"  ngModel required [(ngModel)]="complemento"></ion-input>
             </ion-item>
      
-            <ion-item>
-              <ion-label class="font-label">Cidade:</ion-label>
+            <ion-item class="temp">
+              <ion-label class="font-label ">Cidade:</ion-label>
               <ion-input class="font-label uppercase" name="Cidade" type="text"  ngModel required [(ngModel)]="cidade"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item class="temp">
               <ion-label class="font-label ">Bairro:</ion-label>
               <ion-input class="font-label uppercase" name="Bairro" type="text"  ngModel required [(ngModel)]="bairro"></ion-input>
             </ion-item>
           
-            <ion-item>
+            <ion-item class="temp">
               <ion-label class="font-label ">UF:</ion-label>
               <ion-input class="font-label uppercase" name="UF" type="text"  ngModel required [(ngModel)]="uf"></ion-input>
             </ion-item>
@@ -113,9 +113,20 @@
 
           </ion-select>
         </ion-item>
+        <ion-item>
+          <ion-label class="font-label">Número do caderno:</ion-label>
+          <ion-input class="font-label " name="caderno" type="tel"  ngModel required [(ngModel)]="nr_caderno"></ion-input>
+        </ion-item>
             <ion-item>
               <ion-label class="font-label" >Possui cadastro com biometria?</ion-label>
         <ion-select  class="font-label" [(ngModel)]="sn_biometria" name="validar">
+          <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
+          <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
+        </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label class="font-label" >Validar campos?</ion-label>
+        <ion-select  class="font-label" [(ngModel)]="sn_valida_campos" name="validar">
           <ion-select-option class="font-label" value="S" name="S">Sim</ion-select-option>
           <ion-select-option class="font-label" value="N" name="N">Não</ion-select-option>
         </ion-select>

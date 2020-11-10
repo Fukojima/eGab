@@ -21,7 +21,7 @@ export class RegisterApoioPage implements OnInit {
    nome_apoio: string	
    email_apoio 	: string
    telefone_apoio 	: string
-   sn_whatsapp 	: string
+   sn_whatsapp 	: string ='N'
    datastorage: any
    id_filiador	: string
    disabledButton;
@@ -39,11 +39,11 @@ export class RegisterApoioPage implements OnInit {
    cidade: string 	
    uf 	: string
    cep 	: string
-   nr_titulo : string	
+   nr_titulo : string	= ""
    id_zona : string	
    id_secao : string
    id_lideranca : string
-   sn_biometria: string
+   sn_biometria: string ='N'
   id_municipio: number
    nome_mae: string
    situacao_cadastro: string
@@ -114,7 +114,7 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
 
 
 
-  sn_enviar_mensagem;
+  sn_enviar_mensagem: any = 'N';
    data_nascimento: string
   nr_zona: any;
   sn_obriga_dados_titulo: any;
@@ -141,7 +141,7 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
        this.secoes = [];
        this.loadZona();
        this.id_municipio = this.datastorage.id_municipio_filiador;
-       this.sn_obriga_dados_titulo = this.datastorage.obriga_dados_titulo;
+       this.sn_obriga_dados_titulo = this.datastorage.sn_obriga_dados_titulo;
     });
    }
    
@@ -163,14 +163,28 @@ documento_verso: string = "iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAA3NCS
         this.presentToast('O campo "Telefone" precisa ser preenchido');
     }else if(this.sn_whatsapp ==null){
         this.presentToast('É nescessário informar se o número é referente ao whatsapp.');
-    }else if(this.sn_obriga_dados_titulo == "S"){
-      if(this.validarTitulo(this.nr_titulo) == null){
+    }else if(this.sn_obriga_dados_titulo == "S" && this.nr_titulo == ''){
+    
         this.presentToast('Campo de título não pode ficar nulo');
-    }
-      else if(this.validarTitulo(this.nr_titulo) == false){
-      this.presentToast('Título inválido');
-  }
-}else{
+    }else if(this.sn_obriga_dados_titulo == "S"&& this.validarTitulo(this.nr_titulo) == false){
+   
+       this.presentToast('Título inválido');}
+     else if(this.endereco == null){
+    this.presentToast('O campo "endereco" precisa ser informado');
+   }else if(this.bairro == null){
+    this.presentToast('O campo "bairro" precisa ser informado');
+   }else if(this.cidade == null){
+    this.presentToast('O campo "cidade" precisa ser informado');
+   }else if(this.nome_mae == null){
+    this.presentToast('O campo "Nome da mãe" precisa ser informado');
+   }else if(this.uf == null){
+    this.presentToast('O campo "uf" precisa ser informado');
+   }else if(this.id_zona == null){
+    this.presentToast('O campo "zona" precisa ser informado');
+   }else if(this.id_secao == null){
+    this.presentToast('O campo "seção" precisa ser informado');
+   }
+else{
       this.disabledButton = true;
       const loader = await this.loadingCtrl.create({
         message : 'Aguarde...',

@@ -25,11 +25,13 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
   public datastorage:any;
   myForm: FormGroup;
   users: any=[];
+  cadernos: any =[];
   pdfObj = null;
   logodata;
   limit: number=13;
   id_zona;
   id_secao;
+  filtro4;
   start: number = 0;
   id_filiador: number;
   count: number = 0;
@@ -49,6 +51,7 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
   ff: any = "ff";
   filtro1: string;
   filtro2: string;
+  filtro5;
   nr_zona_filtro: any;
   zona: any;
   ms: any;
@@ -58,6 +61,8 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
   dtAtual: string;
   teste: any;
   filtro3: string;
+  idgrupo;
+  nr_caderno;
   secao: any;
   constructor( private router : Router,
     private toastCtrl : ToastController,
@@ -83,9 +88,15 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
        this.datastorage = res;
        this.modal = '';
        this.list = 'N'
-       this.id_filiador = res.id_filiador;
+       if(res.id_grupo_usuario == 4){
+         this.idgrupo=4;
+        this.id_filiador = res.id_filiador_apoio;
+       }else{
+         this.idgrupo =2;
+       this.id_filiador = res.id_filiador;}
        this.loadZona();
        this.loadLider();
+    
        this.start =0;
        this.users = [];
       
@@ -136,7 +147,7 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
     
    const loader = await this.loadingCtrl.create({
       message : 'Aguarde...',
-      duration:1000
+      duration:5000
     })
     loader.present();
 
@@ -146,12 +157,24 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
         id_zona: this.zona,
         id_secao: this.secao,
         id_lideranca: this.id_lideranca,
+        nr_caderno: this.nr_caderno,
         start: this.start,
         limit: this.limit
         
  
 
         }
+        //sit 1 = todos os filtros ativos, 
+        //sit 2 = id_zona e id_secao, 
+        //sit 3 = só liderança
+        //sit 4 = só zona 
+        //sit 5 = só zona e liderança
+        //sit 6 = zona, secao e liderança
+        //sit 7 = zona, secao e caderno
+        //sit 8 = zona e caderno
+        // sit 9 = lideranca e caderno
+        //sit 10 = caderno
+        
         this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
           if(res.sucess == true){
            if(res.count == null){
@@ -159,16 +182,16 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
              }else{
             this.modal = 'N'
            this.list = ''
-           this.ff = 'A'
            if(res.sit == '3'){
-            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca; 
+            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca + '  Telefone: ' + res.lid[0].telefone_lideranca; 
 
            }
            if(res.sit == '1'){
-            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca; 
+            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca + '  Telefone: ' + res.lid[0].telefone_lideranca;  
             this.filtro2 = 'Zona: ' + this.id_zona.nr_zona_filtro;
             console.log('ds', this.filtro2)
             this.filtro3 = 'Seção: '+ this.id_secao.nr_secao_filtro;
+            this.filtro4 = 'Caderno: '+this.nr_caderno;
            } if(res.sit == '4'){
      
             this.filtro2 = 'Zona: ' + this.id_zona.nr_zona_filtro;
@@ -178,16 +201,47 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
            } 
            
            if(res.sit == '5'){
-            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca; 
+            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca + '  Telefone: ' + res.lid[0].telefone_lideranca;  
             this.filtro2 = 'Zona: ' + this.id_zona.nr_zona_filtro;
           
             console.log('ds', this.filtro2)
            
            }if(res.sit == '2'){
-            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca; 
+         
             this.filtro2 = 'Zona: ' + this.id_zona.nr_zona_filtro;
             this.filtro3 = 'Seção: '+ this.id_secao.nr_secao_filtro;
             console.log('ds', this.filtro2)
+           
+           }if(res.sit == '6'){
+            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca + '  Telefone: ' + res.lid[0].telefone_lideranca;  
+            this.filtro2 = 'Zona: ' + this.id_zona.nr_zona_filtro;
+            this.filtro3 = 'Seção: '+ this.id_secao.nr_secao_filtro;
+            console.log('ds', this.filtro2)
+           
+           }
+           if(res.sit == '7'){
+            this.filtro4 = 'Caderno: '+this.nr_caderno; 
+            this.filtro2 = 'Zona: ' + this.id_zona.nr_zona_filtro;
+            this.filtro3 = 'Seção: '+ this.id_secao.nr_secao_filtro;
+            console.log('ds', this.filtro2)
+           
+           }
+           if(res.sit == '8'){
+            this.filtro4 = 'Caderno: '+this.nr_caderno; 
+            this.filtro2 = 'Zona: ' + this.id_zona.nr_zona_filtro;
+        
+            console.log('ds', this.filtro2)
+           
+           }
+           if(res.sit == '9'){
+            this.filtro4 = 'Caderno: '+this.nr_caderno; 
+            this.filtro1 = 'Liderança: ' + res.lid[0].nome_lideranca + '  Telefone: ' + res.lid[0].telefone_lideranca; 
+        
+           
+           }
+           if(res.sit == '10'){
+            this.filtro4 = 'Caderno: '+this.nr_caderno; 
+     
            
            }
            this.count = res.count;
@@ -263,22 +317,23 @@ export class ConsultaCadastroLiderancaPage implements OnInit {
         nome.push({text: this.lista[i].nome, style: 'tableHeader'});
        
       }
-      var cpf = [];
+      var titulo = [];
       for(let i = 0; i < this.lista.length; i++){
-        cpf.push({text: this.lista[i].cpf, style: 'tableHeader'});
+        titulo.push({text: this.lista[i].nr_titulo, style: 'tableHeader'});
 
       }
-      var nomeMae = [];
+      var caderno = [];
       for(let i = 0; i < this.lista.length; i++){
-        nomeMae.push({text: this.lista[i].nome_mae, style: 'tableHeader'});
+        caderno.push({text: this.lista[i].nr_caderno, style: 'tableHeader'});
 
       }
       
-      var dtNascimento = [];
+      var telefone = [];
       for(let i = 0; i < this.lista.length; i++){
-        dtNascimento.push({text: moment(this.lista[i].dt_nascimento).format("DD/MM/YYYY"), style: 'tableHeader'});
+        telefone.push({text: this.lista[i].telefone_filiado, style: 'tableHeader'});
 
       }
+    
 
 // playground requires you to assign document definition to a variable called dd
 this.dt = new Date().getDate();
@@ -331,6 +386,7 @@ var pdf = {
       this.filtro1,
       this.filtro2,
       this.filtro3,
+      this.filtro4,
 
     {
     
@@ -338,7 +394,7 @@ var pdf = {
      
         headerRows: 1,
         body: [
-          ['Nome', "CPF", "Nome da mãe", "Data de nascimento"], [nome,cpf,nomeMae,dtNascimento]
+          ['Nome', "Título", "Caderno", "Telefone"], [nome,titulo,caderno,telefone]
         ]
       }
     },
@@ -385,7 +441,7 @@ this.pdfObj.download('ListaFiliados.pdf');
      }
     const loader = await this.loadingCtrl.create({
       message : 'Aguarde...',
-      duration:1000
+      duration:5000
     })
     loader.present();
 
@@ -473,7 +529,7 @@ this.pdfObj.download('ListaFiliados.pdf');
         
        const loader = await this.loadingCtrl.create({
           message : 'Aguarde...',
-          duration:1000
+          duration:5000
         })
         loader.present();
     
@@ -513,6 +569,86 @@ this.pdfObj.download('ListaFiliados.pdf');
           });
         
         }
+        async popupSearchName(){
+          const alert = await this.alertController.create({
+           
+           
+            message: 'Digit o nome do filiado:',
+            inputs:[{name:'nome', placeholder:'nome...'  }],
+            buttons: [
+              {
+                text: 'Cancelar',
+                role: 'cancel',
+                cssClass: 'secondary',
+                
+              }, {
+                text: 'Confirmar',
+                handler: (alertData) => {
+              
+                
+                this.searchName(alertData.nome);
+                }
+              }
+            ]
+          });
+      
+          await alert.present();
+        }
+
+        async searchName(name){
+          var splitname = name.split(" ");
+          if (splitname.length == 1){
+            this.filtro5 = 1
+          }else{
+            this.filtro5 = null;
+          }
+          console.log("split",splitname.length);
+  
+        
+          const loader = await this.loadingCtrl.create({
+             message : 'Aguarde...',
+             duration:5000
+           })
+           loader.present();
+       
+             return new Promise(resolve => {
+               let body={
+               aksi: 'proses_pesquisa_nome',
+               id_lideranca: this.id_lideranca,
+               nome_filiado: name.toUpperCase(),
+               filtro: this.filtro5,
+               id_filiador: this.id_filiador,
+               start: this.start,
+               limit: this.limit
+               
+        
+       
+               }
+               this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+                 if(res.sucess == true){
+                   this.modal = 'N'
+                  this.list = ''
+                  this.count = res.count;
+                  this.filtro1 = 'Nome: ' + name.toUpperCase();
+                  this.lista = res.result;
+                  for(let datas of res.result){
+                    this.users.push(datas);
+                    resolve(true);
+                  
+                    
+                  }
+                  
+                 }else if(res.sucess == false){
+                   this.emptyFiliados();
+                  }
+               },(err)=>{
+       
+               
+               })
+       
+             });
+           
+           }
 
     async loadZona(){
       while(this.zonas.length > 0) {
@@ -589,6 +725,39 @@ this.pdfObj.download('ListaFiliados.pdf');
           });
         }
 
+        async loadCaderno(){
+          while(this.cadernos.length > 0) {
+            this.cadernos.pop();
+           }
+          const loader = await this.loadingCtrl.create({
+            message : 'Aguarde...',
+            duration:1000
+          })
+          loader.present();
+      
+            return new Promise(resolve => {
+              let body={
+              aksi: 'proses_pre_consulta_caderno',
+             id_filiador: this.id_filiador
+              
+       
+      
+              }
+              this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+    
+                 for(let datas of res.result){
+                   this.cadernos.push(datas);
+      
+                 }
+                 resolve(true);
+              },(err)=>{
+      
+              
+              })
+      
+            });
+          }
+
   backSearch(){
 
     this.modal = ''
@@ -650,8 +819,11 @@ this.pdfObj.download('ListaFiliados.pdf');
   }
 
   openHome(){
-         
-    this.router.navigate(['/home-filiador'])   
+    console.log(this.idgrupo)
+         if(this.idgrupo==4){
+          this.router.navigate(['/home-apoio'])  
+         }else{
+    this.router.navigate(['/home-filiador']) }  
          
         
   }

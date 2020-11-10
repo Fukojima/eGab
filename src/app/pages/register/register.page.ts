@@ -22,7 +22,7 @@ export class RegisterPage implements OnInit {
    cpf_cnpj_filiado : string
    nome_filiado : string	
    i: number
-   email_filiado 	: string 
+   email_filiado 	: string =''
    telefone_filiado 	: string
    endereco : string 	
    numero : string	
@@ -33,7 +33,7 @@ export class RegisterPage implements OnInit {
    cidade: string 	
    uf 	: string
    cep 	: string
-   nr_titulo : string	
+   nr_titulo : string	= ''
    id_zona : string	
    id_secao : string
    id_lideranca : string
@@ -75,7 +75,7 @@ export class RegisterPage implements OnInit {
    enviarvt :string ='displayedvt'
    enviadovt:string = 'nonevt'
    obs;
-
+   nr_caderno;
    enviarpt :string ='displayedpt'
    enviadopt:string = 'nonept'
    zonas: any=[];
@@ -159,7 +159,7 @@ export class RegisterPage implements OnInit {
     });
    }
    async tryRegister(){
-    if (this.sn_valida_campos !=null){
+    if (this.sn_valida_campos !='S'){
       if(this.sn_valida_campos == 'N' && this.email_filiado == null){
         this.email_filiado = '';
       }
@@ -176,7 +176,7 @@ export class RegisterPage implements OnInit {
         this.uf = '';
       }
       if(this.sn_valida_campos == 'N' && this.nome_mae == null){
-        this.uf = '';
+        this.nome_mae= '';
       }
       if(this.sn_valida_campos== 'N' && this.complemento == null){
         this.complemento = '';
@@ -186,13 +186,13 @@ export class RegisterPage implements OnInit {
         this.presentToast('O campo "nome" precisa ser preenchido');
     }
   
- else if(this.nr_titulo == null && this.sn_obriga_dados_titulo=='S' && this.sn_valida_campos == 'S'){
-      this.presentToast('Campo de título não pode ficar nulo');
-  }
-    else if(this.validarTitulo(this.nr_titulo) == false && this.sn_obriga_dados_titulo=='S'){
-    this.presentToast('Título inválido');
+    else if(this.nr_titulo == null ){
 
-}else if(this.sn_obriga_cpf == 'S' && this.cpf_cnpj_filiado ==null ){
+      this.presentToast('Campo de título não pode ficar nulo');}
+ 
+  else if( this.validarTitulo(this.nr_titulo) == false ){
+   
+    this.presentToast('Título inválido');}else if(this.cpf_cnpj_filiado ==null ){
   
       this.presentToast('O campo "CPF" precisa ser preenchido');
   
@@ -208,6 +208,8 @@ else if(this.telefone_filiado == null){
   this.presentToast('O campo "seção" precisa ser informado');
  }else if(this.id_lideranca== null){
   this.presentToast('Selecione uma liderança');
+ }else if(this.nome_mae== null){
+  this.presentToast('Nome da mãe precisa ser informado');
  }
   else{
       
@@ -249,7 +251,8 @@ else if(this.telefone_filiado == null){
         id_zona: this.id_zona,
         id_secao: this.id_secao,
         obs: this.obs,
-        sn_valida_campos: this.sn_valida_campos
+        sn_valida_campos: this.sn_valida_campos,
+        nr_caderno: this.nr_caderno
 
 
         
@@ -273,7 +276,7 @@ else if(this.telefone_filiado == null){
            }
         },(err)=>{
           loader.dismiss();
-          this.presentToast(err);
+          this.presentToast('Erro no cadastro');
         
         })
 

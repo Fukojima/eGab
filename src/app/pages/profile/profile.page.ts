@@ -73,6 +73,7 @@ export class ProfilePage implements OnInit {
   dtAtual;
   dt_alteracao;
   wpp;
+  nr_caderno;
   ip: string = ''
   enviarp :string ='displayedp'
   enviadop:string = 'nonep'
@@ -87,8 +88,11 @@ export class ProfilePage implements OnInit {
   id_municipio: any;
   id_grupo_usuario: any;
   obs: any;
+  popup: string = 'popup';
   pdfObj: any;
   nome_lideranca: string;
+  lideres: any =[];
+  nova_id_lideranca: any;
 
 
   constructor(    private router : Router,
@@ -128,6 +132,11 @@ export class ProfilePage implements OnInit {
        this.us_alteracao = this.datastorage.nome;
        this.id_municipio = this.datastorage.id_municipio;
        this.id_grupo_usuario = this.datastorage.id_grupo_usuario;
+       if (this.datastorage.id_filiador == null){
+       this.id_filiador = this.datastorage.id_filiador_apoio}
+       else{
+         this.id_filiador = this.datastorage.id_filiador;
+       }
      
        console.log(this.x);
        this.start =0;
@@ -136,6 +145,7 @@ export class ProfilePage implements OnInit {
      
 
        this.loadUsers();
+       this.loadLider();
   
      
        
@@ -280,7 +290,8 @@ export class ProfilePage implements OnInit {
                  this.nr_titulo = res.result[0].nr_titulo;
                  this.obs = res.result[0].obs;
                  this.nome_lideranca = res.result[0].nome_lideranca;
-
+                 this.nr_caderno = res.result[0].nr_caderno;
+                 this.nome_lideranca = res.result[0].nome_lideranca;
                  
                  this.id_zona = res.result[0].id_zona;
                  this.id_secao = res.result[0].id_secao;
@@ -469,6 +480,51 @@ export class ProfilePage implements OnInit {
   
         });
       }
+
+      async editLideranca(){
+        if (this.nova_id_lideranca == null || this.nova_id_lideranca == undefined){
+          this.presentToast('Selecione uma liderança');
+        }else{
+        const loader = await this.loadingCtrl.create({
+          message : 'Aguarde...',
+        })
+        loader.present();
+        this.dt = new Date().getDate();
+        this.ms = new Date().getMonth()+1;
+        this.ano = new Date().getFullYear();
+        var hrs = new Date().getHours();
+        var min = new Date().getMinutes();
+        var sec = new Date().getSeconds();
+        //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+       this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+        return new Promise(resolve => {
+          let body={
+          aksi: 'proses_update_lideranca',
+          id_lideranca: this.nova_id_lideranca,   
+          us_alteracao: this.us_alteracao,
+          id_filiado: this.id_filiado,
+          data_atual: this.dtAtual
+     
+          }
+          this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+             if(res.success == true){
+               loader.dismiss();
+               this.presentToast('Atualizado com sucesso');
+               this.ionViewDidEnter();
+
+             }else{
+              loader.dismiss();
+              this.presentToast('Erro na atualização');
+           
+             }
+          },(err)=>{
+            loader.dismiss();
+            this.presentToast(err);
+          })
+  
+        });
+      }
+      }
   
       
   
@@ -512,7 +568,45 @@ export class ProfilePage implements OnInit {
         await alert.present();
       }
 
+      async loadLider(){
+        while(this.lideres.length > 0) {
+          this.lideres.pop();
+         }
 
+        const loader = await this.loadingCtrl.create({
+          message : 'Aguarde...',
+          duration:1000
+        })
+        loader.present();
+    
+          return new Promise(resolve => {
+            let body={
+            aksi: 'proses_consulta_lider',
+            id_filiador: this.id_filiador,
+            start: this.start,
+            limit: this.limit
+            
+     
+    
+            }
+            this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+
+               for(let datas of res.result){
+                 this.lideres.push(datas);
+    
+               }
+               resolve(true);
+            },(err)=>{
+    
+            
+            })
+    
+          });
+        }
+
+      async popupNovaLideranca(){
+        this.popup = '';
+      }
 
      async editNomeMaeFiliado(a){
         const loader = await this.loadingCtrl.create({
@@ -532,6 +626,75 @@ export class ProfilePage implements OnInit {
           let body={
           aksi: 'proses_update_nome_mae_filiado',
           novo_nome_mae_filiado : a.toUpperCase(),
+          us_alteracao: this.us_alteracao,
+          id_filiado: this.id_filiado,
+          data_atual: this.dtAtual
+
+          }
+          this.accsPrvdrs.postData(body,'proses_api.php').subscribe((res:any)=>{
+             if(res.success == true){
+               loader.dismiss();
+               this.presentToast('Atualizado com sucesso');
+               this.ionViewDidEnter();
+
+             }else{
+              loader.dismiss();
+              this.presentToast('Erro na atualização');
+           
+             }
+          },(err)=>{
+            loader.dismiss();
+            this.presentToast(err);
+          })
+  
+        });
+      }
+      async popupNovoCadernoFiliado(){
+        const alert = await this.alertController.create({
+         
+         
+          message: 'Editar número do caderno:',
+          inputs:[{name:'caderno', placeholder:'Digite o novo número..'  }],
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary',
+              
+            }, {
+              text: 'Confirmar',
+              handler: (alertData) => {
+            
+              
+              this.editCadernoFiliado(alertData.caderno);
+              }
+            }
+          ]
+        });
+    
+        await alert.present();
+      }
+
+
+
+     async editCadernoFiliado(a){
+        const loader = await this.loadingCtrl.create({
+          message : 'Aguarde...',
+        })
+        loader.present();
+        this.dt = new Date().getDate();
+        this.ms = new Date().getMonth()+1;
+        this.ano = new Date().getFullYear();
+        var hrs = new Date().getHours();
+        var min = new Date().getMinutes();
+        var sec = new Date().getSeconds();
+        //this.dtAtual = this.dt + '/'+ this.ms +'/'+ this.ano;
+       this.dtAtual = this.ano + '-' + this.ms + '-' + this.dt + ' ' + hrs+':'+ min+':' + sec;
+        console.log('data:', this.dtAtual);
+        return new Promise(resolve => {
+          let body={
+          aksi: 'proses_update_caderno_filiado',
+          nr_caderno : a,
           us_alteracao: this.us_alteracao,
           id_filiado: this.id_filiado,
           data_atual: this.dtAtual

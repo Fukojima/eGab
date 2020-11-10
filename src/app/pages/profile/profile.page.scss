@@ -99,6 +99,14 @@ ion-button{
   width:100%;
 }
 
+.change{
+  font-family: Exo;
+  --background: #0f2546;
+ 
+  width:30%;
+
+}
+
 
 .image-icon{
 
@@ -164,4 +172,8 @@ header{
 
 .fullbut{
   width:100%
+}
+
+.popup{
+  display:none;
 }

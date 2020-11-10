@@ -155,6 +155,13 @@ export class HomeFiliadorPage implements OnInit {
         
   }
 
+  openQrCode(){
+         
+    this.router.navigate(['/qrcode'])   
+         
+        
+  }
+
   openConsultaFiliado(){
          
     this.router.navigate(['/consulta-cadastro-lideranca'])   

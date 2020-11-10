@@ -15,11 +15,14 @@
       <div class="gallery" aria-label="gallery">
         
        
-        <ion-button color="light" (click)="cadastrar()" class="gallery__item "><div><div><ion-icon name="checkbox-outline" class="icon"></ion-icon></div><div class="text">Cadastrar Filiado</div></div></ion-button>
-        <ion-button color="light" (click)="cadastrarLid()" class="gallery__item "><div><div><ion-icon name="checkbox-outline" class="icon"></ion-icon></div><div class="text">Cadastrar Liderança</div></div></ion-button>
+        <ion-button color="light" (click)="cadastrar()" class="gallery__item "><div><div><ion-icon name="checkbox-outline" class="icon"></ion-icon></div><div class="text">Cadastrar <br>Filiado</div></div></ion-button>
+        <ion-button color="light" (click)="cadastrarLid()" class="gallery__item "><div><div><ion-icon name="checkbox-outline" class="icon"></ion-icon></div><div class="text">Cadastrar<br> Liderança</div></div></ion-button>
         <ion-button color="light" (click)="openPerfil()" class="gallery__item "><div><div><ion-icon name="person-outline" class="icon"></ion-icon></div><div class="text">Perfil</div></div></ion-button>
-        <ion-button color="light" (click)="openCadastroPendente()" class="gallery__item {{newwidth}}"><div><div><ion-icon name="checkbox-outline" class="icon"></ion-icon></div><div class="text">Validar Cadastro</div></div></ion-button>
+        <ion-button color="light" (click)="openCadastroPendente()" class="gallery__item {{newwidth}}"><div><div><ion-icon name="checkbox-outline" class="icon"></ion-icon></div><div class="text">Validar<br> Cadastro</div></div></ion-button>
         <ion-button color="light" (click)="sendMessage()" class="gallery__item {{enviamsg}}"><div><div><ion-icon name="logo-whatsapp" class="icon"></ion-icon></div><div class="text">Enviar<br> Mensagem</div></div></ion-button>
+        <ion-button color="light" (click)="consultaLideranca()" class="gallery__item "><div><div><ion-icon name="search-outline" class="icon"></ion-icon></div><div class="text">Consultar<br> Lideranca</div></div></ion-button>
+        <ion-button color="light" (click)="consultaFiliado()" class="gallery__item "><div><div><ion-icon name="search-outline" class="icon"></ion-icon></div><div class="text">Consultar<br> Filiado</div></div></ion-button>
+       <!-- <ion-button color="light" (click)="openQrCode()" class="gallery__item font-label "><div><div><ion-icon name="qr-code-outline" class="icon"></ion-icon></div><div class="text">Autenticar<br> Celular</div></div></ion-button> -->
       </div>
     </main>
 

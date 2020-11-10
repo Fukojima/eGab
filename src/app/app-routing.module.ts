@@ -116,6 +116,10 @@ const routes: Routes = [
     path: 'consulta-cadastro-lideranca',
     loadChildren: () => import('./pages/consulta-cadastro-lideranca/consulta-cadastro-lideranca.module').then( m => m.ConsultaCadastroLiderancaPageModule)
   },
+  {
+    path: 'qrcode',
+    loadChildren: () => import('./pages/qrcode/qrcode.module').then( m => m.QrcodePageModule)
+  },
 ];
 
 @NgModule({

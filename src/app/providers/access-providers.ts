@@ -25,4 +25,19 @@ export class AcessProviders {
       .timeout(59000) // 59sc timeout
       .map(res => res);
         }
+
+        getData(body, file){
+                let headers = new HttpHeaders({
+                        'Content-Type':'aplication/json; charset-UTF-8'
+                });
+                let options = {
+                    headers : headers
+                }
+       
+             
+       
+             return this.http.get(this.server + file)
+             .timeout(59000) // 59sc timeout
+             .map(res => res);
+               }
 }

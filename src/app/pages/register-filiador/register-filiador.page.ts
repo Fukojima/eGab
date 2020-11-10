@@ -20,10 +20,10 @@ export class RegisterFiliadorPage implements OnInit {
    email_filiador 	: string
    telefone_filiador 	: string	
    id_municipio 	: string
-   sn_whatsapp 	: string
-   sn_validar_cadastro : string
+   sn_whatsapp 	: string ='N'
+   sn_validar_cadastro : string='N'
    data_nascimento;
-   sn_obriga_cpf;
+   sn_obriga_cpf: any= 'N';
    disabledButton;
    i;
    enviadof:string = 'nonef'
